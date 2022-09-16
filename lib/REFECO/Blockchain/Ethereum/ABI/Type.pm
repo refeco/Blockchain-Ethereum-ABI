@@ -13,7 +13,6 @@ role Type {
     BUILD() {
         $value_type =~ /^([a-z]+)(?:\d+)?/;
         my $package = sprintf("%s::%s", __PACKAGE__, ucfirst $1);
-
     }
 
     method encode;

@@ -51,7 +51,7 @@ sub encode_parameter {
     if ($signature =~ /^address$/) {
         return Address->new->encode($signature, $value);
     } elsif ($signature =~ /^(u)?(int|bool)(\d+)?$/) {
-        return Int->new(signature => $signature)->encode($signature, $value);
+        return Int->new(value_type => $signature)->encode($signature, $value);
     } elsif ($signature =~ /^(?:bytes)(\d+)?$/) {
         return Bytes->new->encode($signature, $value);
     } elsif ($signature =~ /^string$/) {

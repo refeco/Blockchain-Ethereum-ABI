@@ -1,5 +1,6 @@
 !Build/
 .last_cover_stats
+.vscode
 /META.yml
 /META.json
 /MYMETA.*
