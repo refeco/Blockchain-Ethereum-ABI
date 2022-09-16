@@ -1,4 +1,4 @@
-package REFECO::Blockchain::Ethereum::ABI::Bytes;
+package REFECO::Blockchain::Ethereum::ABI::Type::Bytes;
 
 use v5.26;
 use strict;

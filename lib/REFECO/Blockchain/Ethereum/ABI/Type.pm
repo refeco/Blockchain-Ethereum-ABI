@@ -7,14 +7,6 @@ use warnings;
 use Object::Pad;
 
 role Type {
-    has $value_type :param;
-    has $type_class;
-
-    BUILD() {
-        $value_type =~ /^([a-z]+)(?:\d+)?/;
-        my $package = sprintf("%s::%s", __PACKAGE__, ucfirst $1);
-    }
-
     method encode;
     method decode;
 

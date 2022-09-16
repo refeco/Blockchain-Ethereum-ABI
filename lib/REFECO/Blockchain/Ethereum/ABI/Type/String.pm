@@ -1,4 +1,4 @@
-package REFECO::Blockchain::Ethereum::ABI::String;
+package REFECO::Blockchain::Ethereum::ABI::Type::String;
 
 use v5.26;
 use strict;

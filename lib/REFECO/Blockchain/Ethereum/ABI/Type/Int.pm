@@ -1,11 +1,11 @@
-## Please see file perltidy.ERR
-package REFECO::Blockchain::Ethereum::ABI::Int;
+package REFECO::Blockchain::Ethereum::ABI::Type::Int;
 
 use v5.26;
 use strict;
 use warnings;
 
 use Object::Pad;
+use Math::BigInt;
 use REFECO::Blockchain::Ethereum::ABI::Type;
 
 class Int :does(Type) {

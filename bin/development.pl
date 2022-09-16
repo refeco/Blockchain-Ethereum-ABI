@@ -7,17 +7,14 @@ no indirect;
 use Data::Dumper;
 use REFECO::Blockchain::Ethereum::ABI;
 
-my $abi = REFECO::Blockchain::Ethereum::ABI->new();
+my $abi = ABI->new();
 # print Dumper $abi->encode_function_signature(signature => 'myMethod(uint256,string)');
 # print Dumper $abi->encode_event_signature(signature => 'myEvent(uint256,bytes32)');
 # print Dumper $abi->encode_parameter(
 #     type  => 'bytes8',
 #     value => '0x123'
 # );
-print Dumper $abi->encode_parameter(
-    type  => 'int',
-    value => 10
-);
+print Dumper $abi->encode('bool', 1);
 # print Dumper $abi->encode_parameter(
 #     type  => 'string[2][2]',
 #     value => [["a", "b"], ["a", "b"]]);
