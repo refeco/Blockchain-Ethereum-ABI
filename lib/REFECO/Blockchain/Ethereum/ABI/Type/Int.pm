@@ -9,11 +9,14 @@ use Math::BigInt;
 use REFECO::Blockchain::Ethereum::ABI::Type;
 
 class Int :does(Type) {
-    method encode($signature, $value) {
-        return sprintf("%064s", Math::BigInt->new($value)->to_hex);
+    method encode() {
+        $self->encoded_value(sprintf("%064s", Math::BigInt->new($self->value)->to_hex));
     }
 
-    method decode($signature, $value) { }
+    method decode() { }
+    method is_dynamic() {
+        return 0;
+    }
 }
 
 1;

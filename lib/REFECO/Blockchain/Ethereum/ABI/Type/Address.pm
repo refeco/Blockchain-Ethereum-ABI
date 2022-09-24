@@ -8,7 +8,7 @@ use Object::Pad;
 use REFECO::Blockchain::Ethereum::ABI::Type;
 
 class Address :does(Type) {
-    method encode($signature, $value) {
+    method encode($value) {
         return sprintf("%064s", substr($value, 2));
     }
 
