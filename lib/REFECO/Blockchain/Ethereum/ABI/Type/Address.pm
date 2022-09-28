@@ -9,10 +9,12 @@ use REFECO::Blockchain::Ethereum::ABI::Type;
 
 class Address :does(Type) {
     method encode($value) {
-        return sprintf("%064s", substr($value, 2));
+        $self->encoded_value(sprintf("%064s", substr($value, 2)));
+        return $self;
     }
 
     method decode($signature, $value) { }
+    method is_dynamic() { }
 }
 
 1;

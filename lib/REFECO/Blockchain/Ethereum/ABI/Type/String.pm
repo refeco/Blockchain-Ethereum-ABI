@@ -9,14 +9,10 @@ use REFECO::Blockchain::Ethereum::ABI::Type;
 
 class String :does(Type) {
     method encode() {
-        my (@static, @dynamic);
-
         my $hex              = unpack("H*", $self->value);
         my $hex_padded_value = $hex . '0' x (64 - length($hex));
-        my $hex_string_size  = sprintf("%x", length($self->value));
 
-        $self->encoded_value($hex_padded_value);
-        $self->encoded_size(sprintf("%064s", $hex_string_size));
+        $self->encoded_value($self->encode_integer(length($self->value)) . $hex_padded_value);
         return $self;
     }
 

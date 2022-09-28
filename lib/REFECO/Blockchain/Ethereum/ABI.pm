@@ -6,41 +6,17 @@ use warnings;
 
 use Object::Pad;
 use Digest::Keccak qw(keccak_256_hex);
-
-my $_package = __PACKAGE__;
+use REFECO::Blockchain::Ethereum::ABI::Type;
 
 class ABI {
     field @function_params;
 
     method append(%param) {
         for my $type_signature (keys %param) {
-            push(@function_params, $self->get_type_instance($type_signature, $param{$type_signature}));
+            push(@function_params, Type->get_instance($type_signature, $param{$type_signature}));
         }
 
         return $self;
-    }
-
-    method get_type_instance($type_signature, $value) {
-        my $package;
-        if ($type_signature =~ /^address$/) {
-            $package = "Address";
-        } elsif ($type_signature =~ /^(u)?(int|bool)(\d+)?$/) {
-            $package = "Int";
-        } elsif ($type_signature =~ /^(?:bytes)(\d+)?$/) {
-            $package = "Bytes";
-        } elsif ($type_signature =~ /^string$/) {
-            $package = "String";
-        } elsif ($type_signature =~ /\[(\d+)?\]/gm) {
-        }
-
-        (my $path = $_package) =~ s|::|/|g;
-        my $package_file = sprintf("%s/Type/%s.pm", $path, $package);
-        require $package_file;
-        $package->import();
-        return $package->new(
-            signature => $type_signature,
-            value     => $value,
-        );
     }
 
     method encode() {
@@ -50,14 +26,14 @@ class ABI {
             $param->encode();
             if ($param->is_dynamic) {
                 push @static,  sprintf("%064s", sprintf("%x", $offset * 32));
-                push @dynamic, $param->encoded_size;
                 push @dynamic, $param->encoded_value;
-                $offset += 2;
+                $offset += length($param->encoded_value) / 64;
             } else {
                 push @static, $param->encoded_value;
             }
         }
-        return join('', @static, @dynamic);
+        my @data = (@static, @dynamic);
+        return join('', @data);
     }
 
     method get_initial_position() {
