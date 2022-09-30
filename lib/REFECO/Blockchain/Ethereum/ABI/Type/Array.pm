@@ -7,22 +7,16 @@ use warnings;
 use Object::Pad;
 use REFECO::Blockchain::Ethereum::ABI::Type;
 
-# [[1, 2], [3]]
-
 class Array :does(Type) {
-    use Scalar::Util qw(reftype);
     field @array_items;
     has $offset = 0;
 
     method encode() {
         my (@static, @dynamic);
-        push @static, $self->encode_integer(scalar $self->value->@*);
+        push @static, $self->encode_integer(scalar $self->value->@*) if $self->is_dynamic;
         $offset += scalar $self->value->@*;
         for my $item ($self->value->@*) {
-            my $item_reference = reftype($item);
-            my $base_signature = $item_reference && $item_reference eq 'ARRAY' ? $self->signature :$self->get_base_signature;
-
-            my $instance = Type->get_instance($base_signature, $item);
+            my $instance = Type->get_instance($self->remove_parent_array(), $item);
             if ($instance->is_dynamic) {
                 push @static, $self->encode_offset($offset);
             }
@@ -37,9 +31,20 @@ class Array :does(Type) {
         return $self;
     }
 
+    method remove_parent_array() {
+        my $new_signature = $self->get_base_signature;
+        my @matches       = $self->signature =~ /\[(\d+)?\]/gm;
+        shift @matches;
+
+        $new_signature .= sprintf("[%s]", $_ // '') for @matches;
+
+        return $new_signature;
+    }
+
     method decode() { }
     method is_dynamic {
-        return 1;
+        $self->signature =~ /\[(\d+)?\]/gm;
+        return $1 ? 0 :1;
     }
 }
 

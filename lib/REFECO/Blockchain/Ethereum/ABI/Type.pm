@@ -25,7 +25,7 @@ role Type {
     }
 
     method get_base_signature() {
-        $self->signature =~ /^([a-z]+)(\d+)?/;
+        $self->signature =~ /^([a-z]+(\d+)?)/;
         return $1;
     }
 
