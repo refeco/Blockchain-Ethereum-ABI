@@ -41,10 +41,15 @@ class Array :does(Type) {
         return $new_signature;
     }
 
+    method get_array_size_from_signature() {
+        $self->signature =~ /\[(\d+)?\]/gm;
+        return $1;
+    }
+
     method decode() { }
     method is_dynamic {
-        $self->signature =~ /\[(\d+)?\]/gm;
-        return $1 ? 0 :1;
+        $self->signature =~ /(\d+)?\[(\d+)?\]/gm;
+        return $1 && $2 ? 0 :1;
     }
 }
 

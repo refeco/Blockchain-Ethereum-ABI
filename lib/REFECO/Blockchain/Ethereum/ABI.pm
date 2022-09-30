@@ -56,10 +56,8 @@ class ABI {
     method get_initial_position() {
         my $offset = 0;
         for my $param (@function_params) {
-            $param->signature =~ /^([\w]+)([\d]+)?\[(\d+)?\]/;
-            my ($prefix_type, $size, $array_size) = ($1, $2, $3);
-            if ($size && $array_size || ($array_size && $prefix_type =~ /int|fixed/)) {
-                $offset += $array_size;
+            if (!$param->is_dynamic && $param->isa('Array')) {
+                $offset += $param->get_array_size_from_signature();
                 next;
             }
             $offset += 1;
