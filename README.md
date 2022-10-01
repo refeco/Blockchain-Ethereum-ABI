@@ -10,7 +10,7 @@ Solidity contracts ABI encoding utility
 - (u)?int(\d+)?
 - string
 
-Also arrays `((\[(\d+)?\])+)?` for the mentioned types.
+Also arrays `((\[(\d+)?\])+)?` for the above mentioned types.
 
 # Examples:
 
@@ -21,35 +21,41 @@ my $encoder = Encoder->new();
 $encoder->append(name => 'transfer')->append(address => $address)->append(uint256 => $value)->encode();
 ```
 
-INSTALLATION
+# Installation
 
-To install this module, run the following commands:
+## Via CPAN
 
-	perl Makefile.PL
-	make
-	make test
-	make install
+```
+cpanm REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder
+```
 
-SUPPORT AND DOCUMENTATION
+## Make
+
+```
+perl Makefile.PL
+make
+make test
+make install
+```
+
+# Support and Documentation
 
 After installing, you can find documentation for this module with the
 perldoc command.
 
-    perldoc REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder
+```
+perldoc REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder
+```
 
 You can also look for information at:
 
-    RT, CPAN's request tracker (report bugs here)
-        https://rt.cpan.org/NoAuth/Bugs.html?Dist=REFECO-Blockchain-SmartContracts-Solidity-ABI-Encoder
+- [RT, CPAN's request tracker (report bugs here)](https://rt.cpan.org/NoAuth/Bugs.html?Dist=REFECO-Blockchain-SmartContracts-Solidity-ABI-Encoder )
 
-    CPAN Ratings
-        https://cpanratings.perl.org/d/REFECO-Blockchain-SmartContracts-Solidity-ABI-Encoder
+- [CPAN Ratings](https://cpanratings.perl.org/d/REFECO-Blockchain-SmartContracts-Solidity-ABI-Encoder )
 
-    Search CPAN
-        https://metacpan.org/release/REFECO-Blockchain-SmartContracts-Solidity-ABI-Encoder
+- [Search CPAN](https://metacpan.org/release/REFECO-Blockchain-SmartContracts-Solidity-ABI-Encoder)
 
-
-LICENSE AND COPYRIGHT
+# License and Copyright
 
 This software is Copyright (c) 2022 by Reginaldo Costa.
 
