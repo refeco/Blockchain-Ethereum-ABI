@@ -1,16 +1,15 @@
-REFECO-Blockchain-SmartContracts-Solidity-ABI-Encoder
+# solidity-abi-encoder
 
-The README is used to introduce the module and provide instructions on
-how to install the module, any machine dependencies it may have (for
-example C compilers and installed libraries) and any other information
-that should be provided before the module is installed.
+The Contract Application Binary Interface (ABI) is the standard way to interact
+with contracts (Ethereum), this module aims to be an utility to encode the given
+data according ABI type specification.
 
-A README file is required for CPAN modules since CPAN extracts the README
-file from a module distribution so that people browsing the archive
-can use it to get an idea of the module's uses. It is usually a good idea
-to provide version information here so that people can decide whether
-fixes for the module are worth downloading.
+```perl
+use REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder;
 
+my $encoder = Encoder->new();
+$encoder->append(name => 'transfer')->append(address => $address)->append(uint256 => $value)->encode();
+```
 
 INSTALLATION
 
