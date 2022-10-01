@@ -23,7 +23,7 @@ $encoder->append(name => 'transfer')->append(address => $address)->append(uint25
 
 # Installation
 
-## Via CPAN
+## CPAN
 
 ```
 cpanm REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder
