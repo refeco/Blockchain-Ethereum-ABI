@@ -1,4 +1,4 @@
-package REFECO::Blockchain::Ethereum::ABI::Type::Int;
+package REFECO::Blockchain::SmartContracts::Solidity::ABI::Type::Int;
 
 use v5.26;
 use strict;
@@ -6,7 +6,7 @@ use warnings;
 
 use Object::Pad;
 use Math::BigInt;
-use REFECO::Blockchain::Ethereum::ABI::Type;
+use REFECO::Blockchain::SmartContracts::Solidity::ABI::Type;
 
 class Int :does(Type) {
     method encode() {

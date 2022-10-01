@@ -1,11 +1,11 @@
-package REFECO::Blockchain::Ethereum::ABI::Type::String;
+package REFECO::Blockchain::SmartContracts::Solidity::ABI::Type::String;
 
 use v5.26;
 use strict;
 use warnings;
 
 use Object::Pad;
-use REFECO::Blockchain::Ethereum::ABI::Type;
+use REFECO::Blockchain::SmartContracts::Solidity::ABI::Type;
 
 class String :does(Type) {
     method encode() {

@@ -1,11 +1,11 @@
-package REFECO::Blockchain::Ethereum::ABI::Type::Address;
+package REFECO::Blockchain::SmartContracts::Solidity::ABI::Type::Address;
 
 use v5.26;
 use strict;
 use warnings;
 
 use Object::Pad;
-use REFECO::Blockchain::Ethereum::ABI::Type;
+use REFECO::Blockchain::SmartContracts::Solidity::ABI::Type;
 
 class Address :does(Type) {
     method encode($value) {

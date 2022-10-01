@@ -1,4 +1,4 @@
-package REFECO::Blockchain::Ethereum::ABI::Type;
+package REFECO::Blockchain::SmartContracts::Solidity::ABI::Type;
 
 use v5.26;
 use strict;
