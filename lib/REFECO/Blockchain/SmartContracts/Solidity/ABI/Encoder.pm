@@ -6,7 +6,7 @@ use warnings;
 
 =head1 NAME
 
-REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder - The great new REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder!
+REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder - Contract Application Binary Interface Encoder
 
 =head1 VERSION
 
@@ -18,35 +18,15 @@ our $VERSION = '0.01';
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
-
-Perhaps a little code snippet.
+The Contract Application Binary Interface (ABI) is the standard way to interact
+with contracts (Ethereum), this module aims to be an utility to encode the given
+data according ABI type specification.
 
     use REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder;
 
-    my $foo = REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder->new();
+    my $encoder = Encoder->new();
+    $encoder->append(name => 'transfer')->append(address => $address)->append(uint256 => $value)->encode();
     ...
-
-=head1 EXPORT
-
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
-
-=head1 SUBROUTINES/METHODS
-
-=head2 function1
-
-=cut
-
-sub function1 {
-}
-
-=head2 function2
-
-=cut
-
-sub function2 {
-}
 
 =head1 AUTHOR
 
