@@ -1,15 +1,15 @@
-use 5.006;
+use v5.26;
 use strict;
 use warnings;
 use ExtUtils::MakeMaker;
 
 my %WriteMakefileArgs = (
-    NAME             => 'REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder',
-    AUTHOR           => q{Reginaldo Costa <reginaldo@refeco.dev>},
-    VERSION_FROM     => 'lib/REFECO/Blockchain/SmartContracts/Solidity/ABI/Encoder.pm',
-    ABSTRACT_FROM    => 'lib/REFECO/Blockchain/SmartContracts/Solidity/ABI/Encoder.pm',
-    LICENSE          => 'artistic_2',
-    MIN_PERL_VERSION => '5.006',
+    NAME               => 'REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder',
+    AUTHOR             => q{Reginaldo Costa <reginaldo@refeco.dev>},
+    VERSION_FROM       => 'lib/REFECO/Blockchain/SmartContracts/Solidity/ABI/Encoder.pm',
+    ABSTRACT_FROM      => 'lib/REFECO/Blockchain/SmartContracts/Solidity/ABI/Encoder.pm',
+    LICENSE            => 'artistic_2',
+    MIN_PERL_VERSION   => '5.006',
     CONFIGURE_REQUIRES => {
         'ExtUtils::MakeMaker' => '0',
     },
@@ -17,11 +17,14 @@ my %WriteMakefileArgs = (
         'Test::More' => '0',
     },
     PREREQ_PM => {
-        #'ABC'              => '1.6',
-        #'Foo::Bar::Module' => '5.0401',
+        'Object::Pad'    => '0.68',
+        'Digest::Keccak' => '0.05'
     },
-    dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
-    clean => { FILES => 'REFECO-Blockchain-SmartContracts-Solidity-ABI-Encoder-*' },
+    dist => {
+        COMPRESS => 'gzip -9f',
+        SUFFIX   => 'gz',
+    },
+    clean => {FILES => 'REFECO-Blockchain-SmartContracts-Solidity-ABI-Encoder-*'},
 );
 
 # Compatibility with old versions of ExtUtils::MakeMaker
