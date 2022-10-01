@@ -1,8 +1,18 @@
 # solidity-abi-encoder
 
-The Contract Application Binary Interface (ABI) is the standard way to interact
-with contracts (Ethereum), this module aims to be an utility to encode the given
-data according ABI type specification.
+Solidity contracts ABI encoding utility
+
+# Supports:
+
+- address
+- bool
+- bytes(\d+)?
+- (u)?int(\d+)?
+- string
+
+Also arrays `((\[(\d+)?\])+)?` for the mentioned types.
+
+# Examples:
 
 ```perl
 use REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder;
