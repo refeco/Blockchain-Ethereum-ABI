@@ -12,6 +12,10 @@ Solidity contracts ABI encoding utility
 
 Also arrays `((\[(\d+)?\])+)?` for the above mentioned types.
 
+# WIP:
+
+- (u)?fixed(\d+x\d+)?
+
 # Examples:
 
 ```perl
