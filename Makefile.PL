@@ -9,7 +9,7 @@ my %WriteMakefileArgs = (
     VERSION_FROM       => 'lib/REFECO/Blockchain/SmartContracts/Solidity/ABI/Encoder.pm',
     ABSTRACT_FROM      => 'lib/REFECO/Blockchain/SmartContracts/Solidity/ABI/Encoder.pm',
     LICENSE            => 'artistic_2',
-    MIN_PERL_VERSION   => '5.006',
+    MIN_PERL_VERSION   => 'v5.26',
     CONFIGURE_REQUIRES => {
         'ExtUtils::MakeMaker' => '0',
     },
@@ -18,7 +18,8 @@ my %WriteMakefileArgs = (
     },
     PREREQ_PM => {
         'Object::Pad'    => '0.68',
-        'Digest::Keccak' => '0.05'
+        'Digest::Keccak' => '0.05',
+        'Math::BigInt'   => '1.999837'
     },
     dist => {
         COMPRESS => 'gzip -9f',
