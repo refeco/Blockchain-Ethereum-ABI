@@ -18,7 +18,7 @@ Also arrays `((\[(\d+)?\])+)?` for the above mentioned types.
 use REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder;
 
 my $encoder = Encoder->new();
-$encoder->append(name => 'transfer')->append(address => $address)->append(uint256 => $value)->encode();
+$encoder->function('transfer')->append(address => $address)->append(uint256 => $value)->encode();
 ```
 
 # Installation
