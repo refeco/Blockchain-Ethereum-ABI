@@ -19,7 +19,8 @@ my %WriteMakefileArgs = (
     PREREQ_PM => {
         'Object::Pad'    => '0.68',
         'Digest::Keccak' => '0.05',
-        'Math::BigInt'   => '1.999837'
+        'Math::BigInt'   => '1.999837',
+        'Carp'           => '1.50'
     },
     dist => {
         COMPRESS => 'gzip -9f',
