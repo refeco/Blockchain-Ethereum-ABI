@@ -61,5 +61,5 @@ This software is Copyright (c) 2022 by Reginaldo Costa.
 
 This is free software, licensed under:
 
-  The Artistic License 2.0 (GPL Compatible)
+  [The Artistic License 2.0 (GPL Compatible)](https://www.perlfoundation.org/artistic-license-20.html)
 
