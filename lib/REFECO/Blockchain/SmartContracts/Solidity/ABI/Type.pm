@@ -6,6 +6,9 @@ use warnings;
 
 use Object::Pad;
 
+# inside the Object::Pad class the package is returned without the full name
+# so the full name is stored outside of it then we can use it to import the
+# type modules
 my $_package = __PACKAGE__;
 
 role Type {
@@ -105,6 +108,8 @@ Returns a L<REFECO::Blockchain::SmartContracts::Solidity::ABI::Type> based insta
 
 =cut
 
+    # this should be `:common (` instead of `:common :(` but it will break perltidy
+    # may need to change this in the future once tidy supports the Object::Pad syntax
     method get_instance :common :($signature, $value) {
         my $package;
         if ($signature =~ /\[(\d+)?\]/gm) {

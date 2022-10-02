@@ -9,6 +9,18 @@ use REFECO::Blockchain::SmartContracts::Solidity::ABI::Type;
 
 class Bytes :does(Type) {
 
+=head2 encode
+
+Encodes an hexadecimal encoded byte array
+
+=over 4
+
+=back
+
+Returns $self;
+
+=cut
+
     method encode() {
         $self->value =~ /^(?:0x|0X)?([a-fA-F0-9]+)$/;
         my $hex              = $1;
@@ -20,9 +32,21 @@ class Bytes :does(Type) {
         return $self;
     }
 
-    method decode() { }
+=head2 is_dynamic
+
+Checks if the bytes type is static or not, it will be dynamic when there is no
+size specified in the signature
+
+=over 4
+
+=back
+
+Returns 1 or 0
+
+=cut
+
     method is_dynamic() {
-        return !$self->get_fixed_size_from_signature();
+        return !$self->get_fixed_size_from_signature() ? 1 :0;
     }
 }
 
