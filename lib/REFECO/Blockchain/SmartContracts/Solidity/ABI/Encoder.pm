@@ -40,7 +40,7 @@ data according ABI type specification.
 
 =head1 AUTHOR
 
-Reginaldo Costa, C<< <reginaldo at cpan.org> >>
+Reginaldo Costa, C<< <refeco at cpan.org> >>
 
 =head1 BUGS
 
@@ -109,6 +109,20 @@ sub function_name {
     return $self->{function_name};
 }
 
+=head2 append
+
+Appends type signature and the respective values to the encoder
+
+=over 4
+
+=item * C<%param> key is the respective type signature followed by the value eg. uint256 => 10
+
+=back
+
+return same L<REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder> instance
+
+=cut
+
 sub append {
     my ($self, %param) = @_;
 
@@ -122,6 +136,21 @@ sub append {
 
     return $self;
 }
+
+=head2 function
+
+Appends the function name to the encoder, this is optional for when you want the
+function signature added to the converted string or only the name converted
+
+=over 4
+
+=item * C<function_name> solidity function name eg. for `transfer(address,uint256)` will be `transfer`
+
+=back
+
+return same L<REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder> instance
+
+=cut
 
 sub function {
     my ($self, $function_name) = @_;
@@ -138,10 +167,38 @@ sub generate_function_signature {
     return $signature . ')';
 }
 
+=head2 encode_function_signature
+
+Encode function signature, this function can be called directly but in most of
+cases you just want to let the module take care of it for you calling `function`
+instead
+
+=over 4
+
+=item C<signature> function signature, if not give method will try to use the one given by `function`
+
+=back
+
+encoded function signature string prefixed with 0x
+
+=cut
+
 sub encode_function_signature {
     my ($self, $signature) = @_;
     return sprintf("0x%.8s", keccak_256_hex($signature // $self->generate_function_signature));
 }
+
+=head2 encode
+
+Encodes all appended type signatures and the function name (if given)
+
+=over 4
+
+=back
+
+Encoded string, if function name given will be 0x prefixed
+
+=cut
 
 sub encode {
     my $self = shift;
@@ -183,6 +240,18 @@ sub get_initial_offset {
 
     return $offset;
 }
+
+=head2 clear
+
+Clear all the appended type signatures and the function name
+
+=over 4
+
+=back
+
+undef
+
+=cut
 
 sub clear {
     my $self = shift;
