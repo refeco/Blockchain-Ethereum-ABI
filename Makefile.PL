@@ -17,7 +17,6 @@ my %WriteMakefileArgs = (
         'Test::More' => '0',
     },
     PREREQ_PM => {
-        'Object::Pad'    => '0.68',
         'Digest::Keccak' => '0.05',
         'Math::BigInt'   => '1.999837',
         'Carp'           => '1.50'
