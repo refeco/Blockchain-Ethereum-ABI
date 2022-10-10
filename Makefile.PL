@@ -5,7 +5,7 @@ use ExtUtils::MakeMaker;
 
 my %WriteMakefileArgs = (
     NAME               => 'REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder',
-    AUTHOR             => q{Reginaldo Costa <reginaldo@refeco.dev>},
+    AUTHOR             => q{Reginaldo Costa <refeco@cpan.org>},
     VERSION_FROM       => 'lib/REFECO/Blockchain/SmartContracts/Solidity/ABI/Encoder.pm',
     ABSTRACT_FROM      => 'lib/REFECO/Blockchain/SmartContracts/Solidity/ABI/Encoder.pm',
     LICENSE            => 'artistic_2',

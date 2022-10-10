@@ -1,4 +1,4 @@
-package REFECO::Blockchain::SmartContracts::Solidity::ABI::Type::Array;
+package REFECO::Blockchain::SmartContracts::Solidity::ABI::Type::Tuple;
 
 use strict;
 use warnings;
@@ -15,32 +15,41 @@ sub instances {
 
 sub configure {
     my $self = shift;
-    for my $item ($self->data->@*) {
+
+    my @splited_signatures = $self->split_tuple_signature()->@*;
+
+    for (my $sig_index = 0; $sig_index < @splited_signatures; $sig_index++) {
         push $self->instances->@*,
             REFECO::Blockchain::SmartContracts::Solidity::ABI::Type::new_type(
-            signature => $self->remove_parent(),
-            data      => $item
-            );
+            signature => $splited_signatures[$sig_index],
+            data      => $self->data->[$sig_index]);
     }
+}
+
+sub split_tuple_signature {
+    my $self             = shift;
+    my $tuple_signatures = substr($self->signature, 1, length($self->signature) - 2);
+    $tuple_signatures =~ s/((\((?>[^)(]*(?2)?)*\))|[^,()]*)(*SKIP),/$1\n/g;
+    my @types = split('\n', $tuple_signatures);
+    return \@types;
 }
 
 sub encode {
     my $self = shift;
     return $self->encoded if $self->encoded;
 
-    # for dynamic length arrays the length must be included
-    $self->push_static($self->encode_length(scalar $self->data->@*))
-        unless $self->fixed_length;
-
-    my $offset = $self->get_initial_offset();
+    my $offset = $self->get_initial_offset;
 
     for my $instance ($self->instances->@*) {
+        $instance->encode;
         if ($instance->is_dynamic) {
             $self->push_static($self->encode_offset($offset));
+            $self->push_dynamic($instance->encoded);
+            $offset += scalar $instance->encoded->@*;
+            next;
         }
 
-        $self->push_dynamic($instance->encode);
-        $offset += scalar $instance->encode()->@*;
+        $self->push_static($instance->encoded);
     }
 
     return $self->encoded;
@@ -59,20 +68,6 @@ sub get_initial_offset {
     }
 
     return $offset;
-}
-
-sub remove_parent {
-    my $self = shift;
-    $self->signature =~ /(\[(\d+)?\]$)/;
-    return substr $self->signature, 0, length($self->signature) - length($1 // '');
-}
-
-sub fixed_length {
-    my $self = shift;
-    if ($self->signature =~ /\[(\d+)?\]$/) {
-        return $1;
-    }
-    return undef;
 }
 
 1;

@@ -1,53 +1,31 @@
 package REFECO::Blockchain::SmartContracts::Solidity::ABI::Type::Bytes;
 
-use v5.26;
 use strict;
 use warnings;
+no indirect;
 
-use Object::Pad;
-use REFECO::Blockchain::SmartContracts::Solidity::ABI::Type;
+our $VERSION = '0.001';
 
-class Bytes :does(Type) {
+use Carp;
+use parent qw(REFECO::Blockchain::SmartContracts::Solidity::ABI::Type);
 
-=head2 encode
+sub encode {
+    my $self = shift;
+    return $self->encoded if $self->encoded;
+    # remove 0x and validates the hexadecimal value
+    croak 'Invalid hexadecimal value ' . $self->data // 'undef'
+        unless $self->data =~ /^(?:0x|0X)?([a-fA-F0-9]+)$/;
+    my $hex = $1;
 
-Encodes an hexadecimal encoded byte array
-
-=over 4
-
-=back
-
-Returns $self;
-
-=cut
-
-    method encode() {
-        $self->value =~ /^(?:0x|0X)?([a-fA-F0-9]+)$/;
-        my $hex              = $1;
-        my $hex_padded_value = $hex . '0' x (64 - length($hex));
-        my $hex_bytes_size   = $self->is_dynamic ? $self->encode_integer(length(pack("H*", $hex))) :'';
-
-        $self->encoded_value($hex_bytes_size . $hex_padded_value);
-
-        return $self;
+    unless ($self->fixed_length) {
+        # for dynamic length basic types the length must be included
+        $self->push_dynamic($self->encode_length(length(pack("H*", $hex))));
+        $self->push_dynamic($self->pad_right($hex));
+    } else {
+        $self->push_static($self->pad_right($hex));
     }
 
-=head2 is_dynamic
-
-Checks if the bytes type is static or not, it will be dynamic when there is no
-size specified in the signature
-
-=over 4
-
-=back
-
-Returns 1 or 0
-
-=cut
-
-    method is_dynamic() {
-        return !$self->get_fixed_size_from_signature() ? 1 :0;
-    }
+    return $self->encoded;
 }
 
 1;

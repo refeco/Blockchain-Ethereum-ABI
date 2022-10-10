@@ -1,50 +1,30 @@
 package REFECO::Blockchain::SmartContracts::Solidity::ABI::Type::String;
 
-use v5.26;
 use strict;
 use warnings;
+no indirect;
 
-use Object::Pad;
-use REFECO::Blockchain::SmartContracts::Solidity::ABI::Type;
+our $VERSION = '0.001';
 
-class String :does(Type) {
+use Carp;
+use parent qw(REFECO::Blockchain::SmartContracts::Solidity::ABI::Type);
 
-=head2 encode
+sub encode {
+    my $self = shift;
+    return $self->encoded if $self->encoded;
 
-Encodes string
+    my $hex = unpack("H*", $self->data);
 
-=over 4
-
-=back
-
-Returns $self;
-
-=cut
-
-    method encode() {
-        my $hex              = unpack("H*", $self->value);
-        my $hex_padded_value = $hex . '0' x (64 - length($hex));
-
-        # add the string size and the string encoded
-        $self->encoded_value($self->encode_integer(length($self->value)) . $hex_padded_value);
-        return $self;
+    unless ($self->fixed_length) {
+        # for dynamic length basic types the length must be included
+        $self->push_dynamic($self->encode_length(length(pack("H*", $hex))));
+        $self->push_dynamic($self->pad_right($hex));
+    } else {
+        $self->push_static($self->pad_right($hex));
     }
 
-=head2 is_dynamic
-
-Strings are always dynamic
-
-=over 4
-
-=back
-
-Returns 1;
-
-=cut
-
-    method is_dynamic() {
-        return 1;
-    }
+    return $self->encoded;
 }
 
 1;
+

@@ -1,46 +1,21 @@
 package REFECO::Blockchain::SmartContracts::Solidity::ABI::Type::Address;
 
-use v5.26;
 use strict;
 use warnings;
+no indirect;
 
-use Object::Pad;
-use REFECO::Blockchain::SmartContracts::Solidity::ABI::Type;
+our $VERSION = '0.001';
 
-class Address :does(Type) {
+use Carp;
+use parent qw(REFECO::Blockchain::SmartContracts::Solidity::ABI::Type);
 
-=head2 encode
+sub encode {
+    my $self = shift;
+    return $self->encoded if $self->encoded;
+    $self->push_static($self->pad_left(substr($self->data, 2)));
 
-Encodes address
-
-=over 4
-
-=back
-
-Returns $self;
-
-=cut
-
-    method encode($value) {
-        $self->encoded_value(sprintf("%064s", substr($value, 2)));
-        return $self;
-    }
-
-=head2 is_dynamic
-
-Addresses will always be static
-
-=over 4
-
-=back
-
-Returns 0;
-
-=cut
-
-    method is_dynamic() {
-        return 0;
-    }
+    return $self->encoded;
 }
 
 1;
+
