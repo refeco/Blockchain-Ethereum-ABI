@@ -17,19 +17,19 @@ Also arrays `((\[(\d+)?\])+)?` for the above mentioned types.
 
 ```perl
 my $encoder = REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder->new();
-    my $encoded = $encoder->function('test')
-        # string
-        ->append(string => 'Hello, World!')
-        # bytes
-        ->append(bytes => unpack("H*", 'Hello, World!'))
-        # tuple
-        ->append('(uint256,address)' => [75000000000000, '0x0000000000000000000000000000000000000000'])
-        # arrays
-        ->append('bool[]', [1, 0, 1, 0])
-        # multidimensional arrays
-        ->append('uint256[][][2]', [[[1]], [[2]]])
-        # tuples arrays and tuples inside tuples
-        ->append('((int256)[2])' => [[[1], [2]]])->encode();
+$encoder->function('test')
+    # string
+    ->append(string => 'Hello, World!')
+    # bytes
+    ->append(bytes => unpack("H*", 'Hello, World!'))
+    # tuple
+    ->append('(uint256,address)' => [75000000000000, '0x0000000000000000000000000000000000000000'])
+    # arrays
+    ->append('bool[]', [1, 0, 1, 0])
+    # multidimensional arrays
+    ->append('uint256[][][2]', [[[1]], [[2]]])
+    # tuples arrays and tuples inside tuples
+    ->append('((int256)[2])' => [[[1], [2]]])->encode();
 ```
 
 # Installation
