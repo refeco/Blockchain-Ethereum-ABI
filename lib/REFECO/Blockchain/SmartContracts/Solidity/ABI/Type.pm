@@ -4,8 +4,6 @@ use strict;
 use warnings;
 no indirect;
 
-our $VERSION = '0.001';
-
 use Carp;
 use Module::Load;
 use constant NOT_IMPLEMENTED => 'Method not implemented';

@@ -4,7 +4,88 @@ use strict;
 use warnings;
 no indirect;
 
+=head1 NAME
+
+REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder - Contract Application Binary Interface Encoder
+
+=head1 VERSION
+
+Version 0.01
+
+=cut
+
 our $VERSION = '0.001';
+
+=head1 SYNOPSIS
+
+The Contract Application Binary Interface (ABI) is the standard way to interact
+with contracts (Ethereum), this module aims to be an utility to encode the given
+data according ABI type specification.
+
+    my $encoder = REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder->new();
+    $encoder->function('test')
+        # string
+        ->append(string => 'Hello, World!')
+        # bytes
+        ->append(bytes => unpack("H*", 'Hello, World!'))
+        # tuple
+        ->append('(uint256,address)' => [75000000000000, '0x0000000000000000000000000000000000000000'])
+        # arrays
+        ->append('bool[]', [1, 0, 1, 0])
+        # multidimensional arrays
+        ->append('uint256[][][2]', [[[1]], [[2]]])
+        # tuples arrays and tuples inside tuples
+        ->append('((int256)[2])' => [[[1], [2]]])->encode();
+    ...
+
+=head1 AUTHOR
+
+Reginaldo Costa, C<< <reginaldo at cpan.org> >>
+
+=head1 BUGS
+
+Please report any bugs or feature requests to C<bug-refeco-blockchain-smartcontracts-solidity-abi-encoder at rt.cpan.org>, or through
+the web interface at L<https://rt.cpan.org/NoAuth/ReportBug.html?Queue=REFECO-Blockchain-SmartContracts-Solidity-ABI-Encoder>.  I will be notified, and then you'll
+automatically be notified of progress on your bug as I make changes.
+
+=head1 SUPPORT
+
+You can find documentation for this module with the perldoc command.
+
+    perldoc REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder
+
+
+You can also look for information at:
+
+=over 4
+
+=item * RT: CPAN's request tracker (report bugs here)
+
+L<https://rt.cpan.org/NoAuth/Bugs.html?Dist=REFECO-Blockchain-SmartContracts-Solidity-ABI-Encoder>
+
+=item * CPAN Ratings
+
+L<https://cpanratings.perl.org/d/REFECO-Blockchain-SmartContracts-Solidity-ABI-Encoder>
+
+=item * Search CPAN
+
+L<https://metacpan.org/release/REFECO-Blockchain-SmartContracts-Solidity-ABI-Encoder>
+
+=back
+
+
+=head1 ACKNOWLEDGEMENTS
+
+
+=head1 LICENSE AND COPYRIGHT
+
+This software is Copyright (c) 2022 by Reginaldo Costa.
+
+This is free software, licensed under:
+
+  The Artistic License 2.0 (GPL Compatible)
+
+=cut
 
 use Carp;
 use Digest::Keccak qw(keccak_256_hex);

@@ -4,8 +4,6 @@ use strict;
 use warnings;
 no indirect;
 
-our $VERSION = '0.001';
-
 use Carp;
 use Math::BigInt;
 use parent qw(REFECO::Blockchain::SmartContracts::Solidity::ABI::Type);
