@@ -9,20 +9,27 @@ Solidity contracts ABI encoding utility
 - bytes(\d+)?
 - (u)?int(\d+)?
 - string
+- tuple
 
 Also arrays `((\[(\d+)?\])+)?` for the above mentioned types.
 
-# WIP:
-
-- (u)?fixed(\d+x\d+)?
-
-# Examples:
+# Usage:
 
 ```perl
-use REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder;
-
-my $encoder = Encoder->new();
-$encoder->function('transfer')->append(address => $address)->append(uint256 => $value)->encode();
+my $encoder = REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder->new();
+$encoder->function('test')
+    # string
+    ->append(string => 'Hello, World!')
+    # bytes
+    ->append(bytes => unpack("H*", 'Hello, World!'))
+    # tuple
+    ->append('(uint256,address)' => [75000000000000, '0x0000000000000000000000000000000000000000'])
+    # arrays
+    ->append('bool[]', [1, 0, 1, 0])
+    # multidimensional arrays
+    ->append('uint256[][][2]', [[[1]], [[2]]])
+    # tuples arrays and tuples inside tuples
+    ->append('((int256)[2])' => [[[1], [2]]])->encode();
 ```
 
 # Installation
