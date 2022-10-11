@@ -7,10 +7,6 @@ no indirect;
 use Carp;
 use parent qw(REFECO::Blockchain::SmartContracts::Solidity::ABI::Type);
 
-sub instances {
-    return shift->{instances} //= [];
-}
-
 sub configure {
     my $self = shift;
 
@@ -51,21 +47,6 @@ sub encode {
     }
 
     return $self->encoded;
-}
-
-sub get_initial_offset {
-    my $self   = shift;
-    my $offset = 0;
-    for my $param ($self->instances->@*) {
-        my $encoded = $param->encode();
-        if ($param->is_dynamic) {
-            $offset += 1;
-        } else {
-            $offset += scalar $param->encoded->@*;
-        }
-    }
-
-    return $offset;
 }
 
 1;

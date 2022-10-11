@@ -28,7 +28,7 @@ sub static {
 
 sub push_static {
     my ($self, $data) = @_;
-    push($self->static->@*, ref $data eq 'ARRAY' ? $data->@* :$data);
+    push($self->static->@*, ref $data eq 'ARRAY' ? $data->@* : $data);
 }
 
 sub dynamic {
@@ -37,7 +37,7 @@ sub dynamic {
 
 sub push_dynamic {
     my ($self, $data) = @_;
-    push($self->dynamic->@*, ref $data eq 'ARRAY' ? $data->@* :$data);
+    push($self->dynamic->@*, ref $data eq 'ARRAY' ? $data->@* : $data);
 }
 
 sub signature {
@@ -88,11 +88,11 @@ sub encode_offset {
 sub encoded {
     my $self = shift;
     my @data = ($self->static->@*, $self->dynamic->@*);
-    return scalar @data ? \@data :undef;
+    return scalar @data ? \@data : undef;
 }
 
 sub is_dynamic {
-    return shift->signature =~ /(bytes|string)(?!\d+)|(\[\])/ ? 1 :0;
+    return shift->signature =~ /(bytes|string)(?!\d+)|(\[\])/ ? 1 : 0;
 }
 
 sub new_type {
@@ -124,6 +124,25 @@ sub new_type {
     return $package->new(
         signature => $signature,
         data      => $params{data});
+}
+
+sub instances {
+    return shift->{instances} //= [];
+}
+
+sub get_initial_offset {
+    my $self   = shift;
+    my $offset = 0;
+    for my $param ($self->instances->@*) {
+        my $encoded = $param->encode();
+        if ($param->is_dynamic) {
+            $offset += 1;
+        } else {
+            $offset += scalar $param->encoded->@*;
+        }
+    }
+
+    return $offset;
 }
 
 1;
