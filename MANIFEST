@@ -1,3 +1,6 @@
+.perlcriticrc
+.perltidyrc
+.tidyallrc
 Changes
 cpanfile
 lib/REFECO/Blockchain/SmartContracts/Solidity/ABI/Encoder.pm
@@ -15,3 +18,5 @@ README.md
 t/complex.t
 t/readme.t
 t/solidity-docs.t
+xt/perl-critic.t
+xt/perl-tidy.t
