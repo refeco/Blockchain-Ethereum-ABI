@@ -34,13 +34,13 @@ $encoder->function('test')
 
 # Installation
 
-## CPAN
+## cpanminus
 
 ```
 cpanm REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder
 ```
 
-## Make
+## make
 
 ```
 perl Makefile.PL
