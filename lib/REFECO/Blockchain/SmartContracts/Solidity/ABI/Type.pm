@@ -15,6 +15,8 @@ sub new {
     $self->{signature} = $params{signature};
     $self->{data}      = $params{data};
 
+    croak "Type signature not given" unless $self->{signature};
+
     $self->configure();
 
     return $self;

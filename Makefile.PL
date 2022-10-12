@@ -14,12 +14,17 @@ my %WriteMakefileArgs = (
         'ExtUtils::MakeMaker' => '0',
     },
     TEST_REQUIRES => {
-        'Test::More' => '0',
+        'Test::More'          => '0.98',
+        'Test::Fatal'         => '0.16',
+        'Test::Perl::Critic'  => '1.04',
+        'Test::Code::TidyAll' => '0.82',
     },
     PREREQ_PM => {
         'Digest::Keccak' => '0.05',
         'Math::BigInt'   => '1.999837',
-        'Carp'           => '1.50'
+        'Carp'           => '1.50',
+        'Module::Load'   => '0.36',
+        'indirect'       => '0.39',
     },
     dist => {
         COMPRESS => 'gzip -9f',

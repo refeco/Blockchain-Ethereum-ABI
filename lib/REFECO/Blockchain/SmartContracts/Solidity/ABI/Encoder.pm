@@ -6,7 +6,7 @@ no indirect;
 
 =head1 NAME
 
-REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder - Contract Application Binary Interface Encoder
+REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder - Contract Application Binary Interface argument encoder
 
 =head1 VERSION
 
@@ -241,7 +241,7 @@ sub get_initial_offset {
     return $offset;
 }
 
-=head2 clear
+=head2 clean
 
 Clear all the appended type signatures and the function name
 
@@ -253,7 +253,7 @@ undef
 
 =cut
 
-sub clear {
+sub clean {
     my $self = shift;
     delete $self->{instances};
     undef $self->{function_name};

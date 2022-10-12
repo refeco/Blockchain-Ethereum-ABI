@@ -1,6 +1,6 @@
 # solidity-abi-encoder
 
-Solidity contracts ABI encoding utility
+Solidity contracts ABI argument encoding utility
 
 # Supports:
 
@@ -29,7 +29,7 @@ $encoder->function('test')
     # multidimensional arrays
     ->append('uint256[][][2]', [[[1]], [[2]]])
     # tuples arrays and tuples inside tuples
-    ->append('((int256)[2])' => [[[1], [2]]])->encode();
+    ->append('((int256)[2])' => [[[1], [2]]])->encode;
 ```
 
 # Installation

@@ -22,9 +22,13 @@ sub encode {
     my $self = shift;
     return $self->encoded if $self->encoded;
 
+    my $length = scalar $self->data->@*;
     # for dynamic length arrays the length must be included
-    $self->push_static($self->encode_length(scalar $self->data->@*))
+    $self->push_static($self->encode_length($length))
         unless $self->fixed_length;
+
+    croak "Invalid array size, signature @{[$self->fixed_length]}, data: $length"
+        if $self->fixed_length && $length > $self->fixed_length;
 
     my $offset = $self->get_initial_offset();
 

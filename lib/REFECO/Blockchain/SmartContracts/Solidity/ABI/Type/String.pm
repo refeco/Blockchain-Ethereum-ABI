@@ -4,7 +4,6 @@ use strict;
 use warnings;
 no indirect;
 
-use Carp;
 use parent qw(REFECO::Blockchain::SmartContracts::Solidity::ABI::Type);
 
 sub encode {
