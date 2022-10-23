@@ -9,10 +9,12 @@ use parent qw(REFECO::Blockchain::SmartContracts::Solidity::ABI::Type);
 
 sub configure {
     my $self = shift;
+    return unless $self->data;
+
     for my $item ($self->data->@*) {
         push $self->instances->@*,
             REFECO::Blockchain::SmartContracts::Solidity::ABI::Type::new_type(
-            signature => $self->remove_parent(),
+            signature => $self->remove_parent,
             data      => $item
             );
     }
@@ -33,15 +35,25 @@ sub encode {
     my $offset = $self->get_initial_offset();
 
     for my $instance ($self->instances->@*) {
-        if ($instance->is_dynamic) {
-            $self->push_static($self->encode_offset($offset));
-        }
+        $self->push_static($self->encode_offset($offset))
+            if $instance->is_dynamic;
 
         $self->push_dynamic($instance->encode);
         $offset += scalar $instance->encode()->@*;
     }
 
     return $self->encoded;
+}
+
+sub decode {
+    my $self = shift;
+    my @data = $self->data->@*;
+
+    my $size = $self->fixed_length // shift $self->data->@*;
+    push $self->instances->@*, REFECO::Blockchain::SmartContracts::Solidity::ABI::Type::new_type(signature => $self->remove_parent)
+        for 0 .. $size - 1;
+
+    return $self->read_stack_set_data;
 }
 
 sub remove_parent {
@@ -56,6 +68,20 @@ sub fixed_length {
         return $1;
     }
     return undef;
+}
+
+sub static_size {
+    my $self = shift;
+    return 1 if $self->is_dynamic;
+
+    my $size = $self->fixed_length;
+
+    my $instance_size = 1;
+    for my $instance ($self->instances->@*) {
+        $instance_size += $instance->static_size;
+    }
+
+    return $size * $instance_size;
 }
 
 1;

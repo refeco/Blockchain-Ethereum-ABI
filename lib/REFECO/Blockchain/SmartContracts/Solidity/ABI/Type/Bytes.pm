@@ -29,5 +29,23 @@ sub encode {
     return $self->encoded;
 }
 
+sub decode {
+    my $self = shift;
+    my @data = $self->data->@*;
+
+    my $hex_data;
+    my $size = $self->fixed_length;
+    unless ($self->fixed_length) {
+        $size = hex shift @data;
+
+        $hex_data = join('', @data);
+    } else {
+        $hex_data = $data[0];
+    }
+
+    my $bytes = substr(pack("H*", $hex_data), 0, $size);
+    return sprintf "0x%s", unpack("H*", $bytes);
+}
+
 1;
 

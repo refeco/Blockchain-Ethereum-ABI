@@ -8,6 +8,8 @@ use Carp;
 use Math::BigInt;
 use parent qw(REFECO::Blockchain::SmartContracts::Solidity::ABI::Type);
 
+use constant DEFAULT_INT_SIZE => 256;
+
 sub encode {
     my $self = shift;
     return $self->encoded if $self->encoded;
@@ -25,9 +27,22 @@ sub encode {
     croak "Invalid bool data it must be 1 or 0 but given @{[$self->data]}"
         if !$bdata->is_zero && !$bdata->is_one && $self->signature =~ /^bool/;
 
-    $self->push_static($self->pad_left(Math::BigInt->new($self->data)->to_hex));
+    $self->push_static($self->pad_left($bdata->to_hex));
 
     return $self->encoded;
+}
+
+sub decode {
+    my $self = shift;
+    return Math::BigInt->from_hex($self->data->[0]);
+}
+
+sub fixed_length {
+    my $self = shift;
+    if ($self->signature =~ /[a-z](\d+)/) {
+        return $1;
+    }
+    return DEFAULT_INT_SIZE;
 }
 
 1;
