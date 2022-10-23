@@ -204,7 +204,7 @@ Encoded string, if function name given will be 0x prefixed
 sub encode {
     my $self = shift;
 
-    my $tuple = REFECO::Blockchain::SmartContracts::Solidity::ABI::Type::Tuple->new();
+    my $tuple = REFECO::Blockchain::SmartContracts::Solidity::ABI::Type::Tuple->new;
     $tuple->{instances} = $self->instances;
     my @data = $tuple->encode->@*;
     unshift @data, $self->encode_function_signature if $self->function_name;

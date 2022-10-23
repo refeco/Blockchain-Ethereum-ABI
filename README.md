@@ -30,6 +30,12 @@ $encoder->function('test')
     ->append('uint256[][][2]', [[[1]], [[2]]])
     # tuples arrays and tuples inside tuples
     ->append('((int256)[2])' => [[[1], [2]]])->encode;
+
+my $decoder = REFECO::Blockchain::SmartContracts::Solidity::ABI::Decoder->new();
+$decoder
+    ->append('uint256')
+    ->append('bytes[]')
+    ->decode('0x...');
 ```
 
 # Installation
