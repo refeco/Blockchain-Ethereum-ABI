@@ -15,5 +15,10 @@ sub encode {
     return $self->encoded;
 }
 
+sub decode {
+    my $self = shift;
+    return '0x' . substr $self->data->[0], -40;
+}
+
 1;
 

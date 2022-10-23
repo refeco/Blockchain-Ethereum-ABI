@@ -15,14 +15,20 @@ sub new {
     $self->{signature} = $params{signature};
     $self->{data}      = $params{data};
 
-    croak "Type signature not given" unless $self->{signature};
-
     $self->configure();
 
     return $self;
 }
 
 sub configure { }
+
+sub encode {
+    croak NOT_IMPLEMENTED;
+}
+
+sub decode {
+    croak NOT_IMPLEMENTED;
+}
 
 sub static {
     return shift->{static} //= [];
@@ -136,7 +142,7 @@ sub get_initial_offset {
     my $self   = shift;
     my $offset = 0;
     for my $param ($self->instances->@*) {
-        my $encoded = $param->encode();
+        my $encoded = $param->encode;
         if ($param->is_dynamic) {
             $offset += 1;
         } else {
@@ -145,6 +151,66 @@ sub get_initial_offset {
     }
 
     return $offset;
+}
+
+sub static_size {
+    return 1;
+}
+
+sub read_stack_set_data {
+    my $self = shift;
+
+    my @data = $self->data->@*;
+    my @offsets;
+    my $current_offset = 0;
+
+    for my $instance ($self->instances->@*) {
+        if ($instance->is_dynamic) {
+            push @offsets, hex($data[$current_offset]) / 32;
+        }
+
+        my $size = 1;
+        $size = $instance->static_size unless $instance->is_dynamic;
+        $current_offset += $size;
+    }
+
+    $current_offset = 0;
+    my %response;
+    # Dynamic data must to be set first since the full_size method
+    # will need to use the data offset related to the size of the item
+    for (my $i = 0; $i < $self->instances->@*; $i++) {
+        my $instance = $self->instances->[$i];
+        next unless $instance->is_dynamic;
+        my $offset_start = shift @offsets;
+        my $offset_end   = $offsets[0] // scalar @data - 1;
+        my @range        = @data[$offset_start .. $offset_end];
+        $instance->{data} = \@range;
+        $current_offset += scalar @range;
+        $response{$i} = $instance->decode();
+    }
+
+    $current_offset = 0;
+
+    for (my $i = 0; $i < $self->instances->@*; $i++) {
+        my $instance = $self->instances->[$i];
+
+        if ($instance->is_dynamic) {
+            $current_offset++;
+            next;
+        }
+
+        my $size = 1;
+        $size = $instance->static_size unless $instance->is_dynamic;
+        my @range = @data[$current_offset .. $current_offset + $size - 1];
+        $instance->{data} = \@range;
+        $current_offset += $size;
+
+        $response{$i} = $instance->decode();
+    }
+
+    my @array_response;
+    push(@array_response, $response{$_}) for 0 .. scalar $self->instances->@* - 1;
+    return \@array_response;
 }
 
 1;

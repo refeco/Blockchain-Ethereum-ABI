@@ -90,6 +90,7 @@ This is free software, licensed under:
 use Carp;
 use Digest::Keccak qw(keccak_256_hex);
 use REFECO::Blockchain::SmartContracts::Solidity::ABI::Type;
+use REFECO::Blockchain::SmartContracts::Solidity::ABI::Type::Tuple;
 
 sub new {
     my ($class, %params) = @_;
@@ -202,43 +203,13 @@ Encoded string, if function name given will be 0x prefixed
 
 sub encode {
     my $self = shift;
-    my (@static, @dynamic);
 
-    push @static, $self->encode_function_signature()
-        if $self->function_name;
+    my $tuple = REFECO::Blockchain::SmartContracts::Solidity::ABI::Type::Tuple->new;
+    $tuple->{instances} = $self->instances;
+    my @data = $tuple->encode->@*;
+    unshift @data, $self->encode_function_signature if $self->function_name;
 
-    my $offset = $self->get_initial_offset();
-
-    for my $param ($self->instances->@*) {
-        my $encoded = join('', $param->encode->@*);
-        # for dynamic items the offset must be included
-        if ($param->is_dynamic) {
-            push @static,  sprintf("%064s", sprintf("%x", $offset * 32));
-            push @dynamic, $encoded;
-            $offset += scalar $param->encode->@*;
-        } else {
-            # static items require only the encoded value
-            push @static, $encoded;
-        }
-    }
-
-    my @data = (@static, @dynamic);
     return join('', @data);
-}
-
-sub get_initial_offset {
-    my $self   = shift;
-    my $offset = 0;
-    for my $param ($self->instances->@*) {
-        my $encoded = $param->encode();
-        if ($param->is_dynamic) {
-            $offset += 1;
-        } else {
-            $offset += scalar $param->encoded->@*;
-        }
-    }
-
-    return $offset;
 }
 
 =head2 clean

@@ -9,8 +9,9 @@ use parent qw(REFECO::Blockchain::SmartContracts::Solidity::ABI::Type);
 
 sub configure {
     my $self = shift;
+    return unless $self->data;
 
-    my @splited_signatures = $self->split_tuple_signature()->@*;
+    my @splited_signatures = $self->split_tuple_signature->@*;
 
     for (my $sig_index = 0; $sig_index < @splited_signatures; $sig_index++) {
         push $self->instances->@*,
@@ -18,6 +19,7 @@ sub configure {
             signature => $splited_signatures[$sig_index],
             data      => $self->data->[$sig_index]);
     }
+
 }
 
 sub split_tuple_signature {
@@ -47,6 +49,30 @@ sub encode {
     }
 
     return $self->encoded;
+}
+
+sub decode {
+    my $self = shift;
+
+    unless (scalar $self->instances->@* > 0) {
+        push $self->instances->@*, REFECO::Blockchain::SmartContracts::Solidity::ABI::Type::new_type(signature => $_)
+            for $self->split_tuple_signature->@*;
+    }
+
+    return $self->read_stack_set_data;
+}
+
+sub static_size {
+    my $self = shift;
+    return 1 if $self->is_dynamic;
+    my $size          = 1;
+    my $instance_size = 0;
+    for my $signature ($self->split_tuple_signature->@*) {
+        my $instance = REFECO::Blockchain::SmartContracts::Solidity::ABI::Type::new_type(signature => $signature);
+        $instance_size += $instance->static_size // 0;
+    }
+
+    return $size * $instance_size;
 }
 
 1;
