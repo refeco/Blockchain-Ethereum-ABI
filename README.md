@@ -16,7 +16,7 @@ Also arrays `((\[(\d+)?\])+)?` for the above mentioned types.
 # Usage:
 
 ```perl
-my $encoder = REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder->new();
+my $encoder = REFECO::Blockchain::Contract::Solidity::ABI::Encoder->new();
 $encoder->function('test')
     # string
     ->append(string => 'Hello, World!')
@@ -31,7 +31,7 @@ $encoder->function('test')
     # tuples arrays and tuples inside tuples
     ->append('((int256)[2])' => [[[1], [2]]])->encode;
 
-my $decoder = REFECO::Blockchain::SmartContracts::Solidity::ABI::Decoder->new();
+my $decoder = REFECO::Blockchain::Contract::Solidity::ABI::Decoder->new();
 $decoder
     ->append('uint256')
     ->append('bytes[]')
@@ -43,7 +43,7 @@ $decoder
 ## cpanminus
 
 ```
-cpanm REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder
+cpanm REFECO::Blockchain::Contract::Solidity::ABI::Encoder
 ```
 
 ## make
@@ -61,16 +61,16 @@ After installing, you can find documentation for this module with the
 perldoc command.
 
 ```
-perldoc REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder
+perldoc REFECO::Blockchain::Contract::Solidity::ABI::Encoder
 ```
 
 You can also look for information at:
 
-- [RT, CPAN's request tracker (report bugs here)](https://rt.cpan.org/NoAuth/Bugs.html?Dist=REFECO-Blockchain-SmartContracts-Solidity-ABI-Encoder )
+- [RT, CPAN's request tracker (report bugs here)](https://rt.cpan.org/NoAuth/Bugs.html?Dist=REFECO-Blockchain-Contract-Solidity-ABI-Encoder )
 
-- [CPAN Ratings](https://cpanratings.perl.org/d/REFECO-Blockchain-SmartContracts-Solidity-ABI-Encoder )
+- [CPAN Ratings](https://cpanratings.perl.org/d/REFECO-Blockchain-Contract-Solidity-ABI-Encoder )
 
-- [Search CPAN](https://metacpan.org/release/REFECO-Blockchain-SmartContracts-Solidity-ABI-Encoder)
+- [Search CPAN](https://metacpan.org/release/REFECO-Blockchain-Contract-Solidity-ABI-Encoder)
 
 # License and Copyright
 

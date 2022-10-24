@@ -1,4 +1,4 @@
-package REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder;
+package REFECO::Blockchain::Contract::Solidity::ABI::Encoder;
 
 use strict;
 use warnings;
@@ -6,7 +6,7 @@ no indirect;
 
 =head1 NAME
 
-REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder - Contract Application Binary Interface argument encoder
+REFECO::Blockchain::Contract::Solidity::ABI::Encoder - Contract Application Binary Interface argument encoder
 
 =head1 VERSION
 
@@ -22,7 +22,7 @@ The Contract Application Binary Interface (ABI) is the standard way to interact
 with contracts (Ethereum), this module aims to be an utility to encode the given
 data according ABI type specification.
 
-    my $encoder = REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder->new();
+    my $encoder = REFECO::Blockchain::Contract::Solidity::ABI::Encoder->new();
     $encoder->function('test')
         # string
         ->append(string => 'Hello, World!')
@@ -45,14 +45,14 @@ Reginaldo Costa, C<< <refeco at cpan.org> >>
 =head1 BUGS
 
 Please report any bugs or feature requests to C<bug-refeco-blockchain-smartcontracts-solidity-abi-encoder at rt.cpan.org>, or through
-the web interface at L<https://rt.cpan.org/NoAuth/ReportBug.html?Queue=REFECO-Blockchain-SmartContracts-Solidity-ABI-Encoder>.  I will be notified, and then you'll
+the web interface at L<https://rt.cpan.org/NoAuth/ReportBug.html?Queue=REFECO-Blockchain-Contract-Solidity-ABI-Encoder>.  I will be notified, and then you'll
 automatically be notified of progress on your bug as I make changes.
 
 =head1 SUPPORT
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder
+    perldoc REFECO::Blockchain::Contract::Solidity::ABI::Encoder
 
 
 You can also look for information at:
@@ -61,15 +61,15 @@ You can also look for information at:
 
 =item * RT: CPAN's request tracker (report bugs here)
 
-L<https://rt.cpan.org/NoAuth/Bugs.html?Dist=REFECO-Blockchain-SmartContracts-Solidity-ABI-Encoder>
+L<https://rt.cpan.org/NoAuth/Bugs.html?Dist=REFECO-Blockchain-Contract-Solidity-ABI-Encoder>
 
 =item * CPAN Ratings
 
-L<https://cpanratings.perl.org/d/REFECO-Blockchain-SmartContracts-Solidity-ABI-Encoder>
+L<https://cpanratings.perl.org/d/REFECO-Blockchain-Contract-Solidity-ABI-Encoder>
 
 =item * Search CPAN
 
-L<https://metacpan.org/release/REFECO-Blockchain-SmartContracts-Solidity-ABI-Encoder>
+L<https://metacpan.org/release/REFECO-Blockchain-Contract-Solidity-ABI-Encoder>
 
 =back
 
@@ -89,8 +89,8 @@ This is free software, licensed under:
 
 use Carp;
 use Digest::Keccak qw(keccak_256_hex);
-use REFECO::Blockchain::SmartContracts::Solidity::ABI::Type;
-use REFECO::Blockchain::SmartContracts::Solidity::ABI::Type::Tuple;
+use REFECO::Blockchain::Contract::Solidity::ABI::Type;
+use REFECO::Blockchain::Contract::Solidity::ABI::Type::Tuple;
 
 sub new {
     my ($class, %params) = @_;
@@ -116,11 +116,11 @@ Appends type signature and the respective values to the encoder
 
 =over 4
 
-=item * C<%param> key is the respective type signature followed by the value eg. uint256 => 10
+=item * C<%param> key is the respective type signature followed by the value e.g. uint256 => 10
 
 =back
 
-return same L<REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder> instance
+return same L<REFECO::Blockchain::Contract::Solidity::ABI::Encoder> instance
 
 =cut
 
@@ -130,7 +130,7 @@ sub append {
     for my $type_signature (keys %param) {
         push(
             $self->instances->@*,
-            REFECO::Blockchain::SmartContracts::Solidity::ABI::Type::new_type(
+            REFECO::Blockchain::Contract::Solidity::ABI::Type::new_type(
                 signature => $type_signature,
                 data      => $param{$type_signature}));
     }
@@ -145,11 +145,11 @@ function signature added to the converted string or only the name converted
 
 =over 4
 
-=item * C<function_name> solidity function name eg. for `transfer(address,uint256)` will be `transfer`
+=item * C<function_name> solidity function name e.g. for `transfer(address,uint256)` will be `transfer`
 
 =back
 
-return same L<REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder> instance
+return same L<REFECO::Blockchain::Contract::Solidity::ABI::Encoder> instance
 
 =cut
 
@@ -159,9 +159,22 @@ sub function {
     return $self;
 }
 
+=head2 generate_function_signature
+
+Based on the given function name and type signatures create the full function
+signature
+
+=over 4
+
+=back
+
+string function signature
+
+=cut
+
 sub generate_function_signature {
     my $self = shift;
-    croak "Missing function name eg. ->function('name')" unless $self->function_name;
+    croak "Missing function name e.g. ->function('name')" unless $self->function_name;
     my $signature = $self->function_name . '(';
     $signature .= sprintf("%s,", $_->signature) for $self->instances->@*;
     chop $signature;
@@ -204,7 +217,7 @@ Encoded string, if function name given will be 0x prefixed
 sub encode {
     my $self = shift;
 
-    my $tuple = REFECO::Blockchain::SmartContracts::Solidity::ABI::Type::Tuple->new;
+    my $tuple = REFECO::Blockchain::Contract::Solidity::ABI::Type::Tuple->new;
     $tuple->{instances} = $self->instances;
     my @data = $tuple->encode->@*;
     unshift @data, $self->encode_function_signature if $self->function_name;
@@ -214,7 +227,7 @@ sub encode {
 
 =head2 clean
 
-Clear all the appended type signatures and the function name
+Clean all the appended type signatures and the function name
 
 =over 4
 

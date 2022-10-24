@@ -1,10 +1,10 @@
-package REFECO::Blockchain::SmartContracts::Solidity::ABI::Type::String;
+package REFECO::Blockchain::Contract::Solidity::ABI::Type::String;
 
 use strict;
 use warnings;
 no indirect;
 
-use parent qw(REFECO::Blockchain::SmartContracts::Solidity::ABI::Type);
+use parent qw(REFECO::Blockchain::Contract::Solidity::ABI::Type);
 
 sub encode {
     my $self = shift;
