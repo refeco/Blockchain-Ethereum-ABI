@@ -1,4 +1,4 @@
-package REFECO::Blockchain::SmartContracts::Solidity::ABI::Type::Int;
+package REFECO::Blockchain::Contract::Solidity::ABI::Type::Int;
 
 use strict;
 use warnings;
@@ -6,7 +6,7 @@ no indirect;
 
 use Carp;
 use Math::BigInt;
-use parent qw(REFECO::Blockchain::SmartContracts::Solidity::ABI::Type);
+use parent qw(REFECO::Blockchain::Contract::Solidity::ABI::Type);
 
 use constant DEFAULT_INT_SIZE => 256;
 

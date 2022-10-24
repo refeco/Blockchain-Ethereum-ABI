@@ -4,10 +4,10 @@ use warnings;
 use ExtUtils::MakeMaker;
 
 my %WriteMakefileArgs = (
-    NAME               => 'REFECO::Blockchain::SmartContracts::Solidity::ABI::Encoder',
+    NAME               => 'REFECO::Blockchain::Contract::Solidity::ABI::Encoder',
     AUTHOR             => q{Reginaldo Costa <refeco@cpan.org>},
-    VERSION_FROM       => 'lib/REFECO/Blockchain/SmartContracts/Solidity/ABI/Encoder.pm',
-    ABSTRACT_FROM      => 'lib/REFECO/Blockchain/SmartContracts/Solidity/ABI/Encoder.pm',
+    VERSION_FROM       => 'lib/REFECO/Blockchain/Contract/Solidity/ABI/Encoder.pm',
+    ABSTRACT_FROM      => 'lib/REFECO/Blockchain/Contract/Solidity/ABI/Encoder.pm',
     LICENSE            => 'artistic_2',
     MIN_PERL_VERSION   => 'v5.26',
     CONFIGURE_REQUIRES => {
@@ -15,7 +15,7 @@ my %WriteMakefileArgs = (
     },
     TEST_REQUIRES => {
         'Test::More'          => '0.98',
-        'Test::Fatal'         => '0.16',
+        'Test::Fatal'         => '0.016',
         'Test::Perl::Critic'  => '1.04',
         'Test::Code::TidyAll' => '0.82',
     },
@@ -30,7 +30,7 @@ my %WriteMakefileArgs = (
         COMPRESS => 'gzip -9f',
         SUFFIX   => 'gz',
     },
-    clean => {FILES => 'REFECO-Blockchain-SmartContracts-Solidity-ABI-Encoder-*'},
+    clean => {FILES => 'REFECO-Blockchain-Contract-Solidity-ABI-Encoder-*'},
 );
 
 # Compatibility with old versions of ExtUtils::MakeMaker

@@ -1,11 +1,11 @@
-package REFECO::Blockchain::SmartContracts::Solidity::ABI::Type::Tuple;
+package REFECO::Blockchain::Contract::Solidity::ABI::Type::Tuple;
 
 use strict;
 use warnings;
 no indirect;
 
 use Carp;
-use parent qw(REFECO::Blockchain::SmartContracts::Solidity::ABI::Type);
+use parent qw(REFECO::Blockchain::Contract::Solidity::ABI::Type);
 
 sub configure {
     my $self = shift;
@@ -15,7 +15,7 @@ sub configure {
 
     for (my $sig_index = 0; $sig_index < @splited_signatures; $sig_index++) {
         push $self->instances->@*,
-            REFECO::Blockchain::SmartContracts::Solidity::ABI::Type::new_type(
+            REFECO::Blockchain::Contract::Solidity::ABI::Type::new_type(
             signature => $splited_signatures[$sig_index],
             data      => $self->data->[$sig_index]);
     }
@@ -55,7 +55,7 @@ sub decode {
     my $self = shift;
 
     unless (scalar $self->instances->@* > 0) {
-        push $self->instances->@*, REFECO::Blockchain::SmartContracts::Solidity::ABI::Type::new_type(signature => $_)
+        push $self->instances->@*, REFECO::Blockchain::Contract::Solidity::ABI::Type::new_type(signature => $_)
             for $self->split_tuple_signature->@*;
     }
 
@@ -68,7 +68,7 @@ sub static_size {
     my $size          = 1;
     my $instance_size = 0;
     for my $signature ($self->split_tuple_signature->@*) {
-        my $instance = REFECO::Blockchain::SmartContracts::Solidity::ABI::Type::new_type(signature => $signature);
+        my $instance = REFECO::Blockchain::Contract::Solidity::ABI::Type::new_type(signature => $signature);
         $instance_size += $instance->static_size // 0;
     }
 

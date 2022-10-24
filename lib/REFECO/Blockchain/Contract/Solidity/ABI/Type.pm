@@ -1,4 +1,4 @@
-package REFECO::Blockchain::SmartContracts::Solidity::ABI::Type;
+package REFECO::Blockchain::Contract::Solidity::ABI::Type;
 
 use strict;
 use warnings;
@@ -56,6 +56,18 @@ sub data {
     return shift->{data};
 }
 
+=head2 fixed_length
+
+No documentation for perl function 'Get' found
+
+=over4
+
+=back
+
+Return the int length or undef
+
+=cut
+
 sub fixed_length {
     my $self = shift;
     if ($self->signature =~ /[a-z](\d+)/) {
@@ -63,6 +75,21 @@ sub fixed_length {
     }
     return undef;
 }
+
+=head2 pad_right
+
+Pad data with right zeros, if the length is bigger than 32 bytes will break
+the data in chunks of 32 bytes and pad the last chunk
+
+=over4
+
+=item * C<$data> value to be padded
+
+=back
+
+Array ref
+
+=cut
 
 sub pad_right {
     my ($self, $data) = @_;
@@ -72,6 +99,21 @@ sub pad_right {
 
     return \@chunks;
 }
+
+=head2 pad_right
+
+Pad data with left zeros, if the length is bigger than 32 bytes will break
+the data in chunks of 32 bytes and pad the first chunk
+
+=over4
+
+=item * C<$data> value to be padded
+
+=back
+
+Array ref
+
+=cut
 
 sub pad_left {
     my ($self, $data) = @_;
@@ -83,15 +125,59 @@ sub pad_left {
 
 }
 
+=head2 encode_length
+
+Encodes integer length to hex and pad it with left zeros
+
+=over4
+
+=item * C<$length> value to be encoded
+
+=back
+
+Encoded hex string
+
+=cut
+
 sub encode_length {
     my ($self, $length) = @_;
     return sprintf("%064s", sprintf("%x", $length));
 }
 
+=head2 encode_length
+
+Encodes integer offset to hex and pad it with left zeros
+
+This expects to receive the non stack offset number e.g. 1,2 instead of 32,64
+the value will be multiplied by 32, if you need the same without the multiplication
+use encode_length instead
+
+=over4
+
+=item * C<$offset> value to be encoded
+
+=back
+
+Encoded hex string
+
+=cut
+
 sub encode_offset {
     my ($self, $offset) = @_;
     return sprintf("%064s", sprintf("%x", $offset * 32));
 }
+
+=head2 encoded
+
+Join the static and dynamic values
+
+=over 4
+
+=back
+
+Array ref or undef
+
+=cut
 
 sub encoded {
     my $self = shift;
@@ -99,9 +185,35 @@ sub encoded {
     return scalar @data ? \@data : undef;
 }
 
+=head2 encoded
+
+Check if the current type and his instances are dynamic or static
+
+=over 4
+
+=back
+
+1 or 0
+
+=cut
+
 sub is_dynamic {
     return shift->signature =~ /(bytes|string)(?!\d+)|(\[\])/ ? 1 : 0;
 }
+
+=head2 new_type
+
+Check if the current type and his instances are dynamic or static
+
+=over 4
+
+=item * C<%params> type signature as key and data as value
+
+=back
+
+1 or 0
+
+=cut
 
 sub new_type {
     my (%params) = @_;
@@ -138,6 +250,19 @@ sub instances {
     return shift->{instances} //= [];
 }
 
+=head2 get_initial_offset
+
+Based in the static items and the offsets in the header gets the first position
+in the stack for the dynamic values
+
+=over 4
+
+=back
+
+Integer offset
+
+=cut
+
 sub get_initial_offset {
     my $self   = shift;
     my $offset = 0;
@@ -157,6 +282,19 @@ sub static_size {
     return 1;
 }
 
+=head2 read_stack_set_data
+
+Based in the given signatures and data separate the string data into chunks
+of instances and decode them
+
+=over 4
+
+=back
+
+Array ref containing the decoded data values
+
+=cut
+
 sub read_stack_set_data {
     my $self = shift;
 
@@ -164,6 +302,9 @@ sub read_stack_set_data {
     my @offsets;
     my $current_offset = 0;
 
+    # Since at this point we don't information about the chunks of data it is_dynamic
+    # needed to get all the offsets in the static header, so the dynamic values can
+    # be retrieved based in between the current and the next offsets
     for my $instance ($self->instances->@*) {
         if ($instance->is_dynamic) {
             push @offsets, hex($data[$current_offset]) / 32;
@@ -209,6 +350,7 @@ sub read_stack_set_data {
     }
 
     my @array_response;
+    # the given order of type signatures needs to be strict followed
     push(@array_response, $response{$_}) for 0 .. scalar $self->instances->@* - 1;
     return \@array_response;
 }
