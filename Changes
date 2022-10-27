@@ -1,6 +1,11 @@
 Revision history for REFECO-Blockchain-Contract-Solidity-ABI-Encoder
 
-0.001 2022-10-23
+0.002
+    [Bug Fixes]
+    - Set cpanfile Test::Fatal correct version
+    [Improvements]
+    - README.md
 
-Initial release
+0.001 2022-10-23
+    - Initial release
 
