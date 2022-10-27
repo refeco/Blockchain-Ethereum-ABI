@@ -2,6 +2,14 @@
 
 Solidity contracts ABI argument encoding utility
 
+# Table of contents
+
+- [Supported types](#supports)
+- [Usage](#usage)
+- [Installation](#installation)
+- [Support and Documentation](#support-and-documentation)
+- [License and Copyright](#license-and-copyright)
+
 # Supports:
 
 - address
@@ -37,6 +45,8 @@ $decoder
     ->append('bytes[]')
     ->decode('0x...');
 ```
+
+For more information check this [post](https://www.refeco.dev/solidity/2022/10/24/solidity-abi-encoder.html)
 
 # Installation
 
