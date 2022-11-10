@@ -50,8 +50,7 @@ sub decode {
     my @data = $self->data->@*;
 
     my $size = $self->fixed_length // shift $self->data->@*;
-    push $self->instances->@*, REFECO::Blockchain::Contract::Solidity::ABI::Type::new_type(signature => $self->remove_parent)
-        for 0 .. $size - 1;
+    push $self->instances->@*, REFECO::Blockchain::Contract::Solidity::ABI::Type::new_type(signature => $self->remove_parent) for 0 .. $size - 1;
 
     return $self->read_stack_set_data;
 }

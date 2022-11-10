@@ -1,11 +1,12 @@
-Revision history for REFECO-Blockchain-Contract-Solidity-ABI-Encoder
+Revision history for REFECO-Blockchain-Contract-Solidity-ABI
 
 0.002
     [Bug Fixes]
-    - Set cpanfile Test::Fatal correct version
+    - set cpanfile Test::Fatal correct version
     [Improvements]
-    - README.md
+    - added clean for encode/decode functions
+    - project main structure moved to ABI instead of sub-modules
 
 0.001 2022-10-23
-    - Initial release
+    - initial release
 

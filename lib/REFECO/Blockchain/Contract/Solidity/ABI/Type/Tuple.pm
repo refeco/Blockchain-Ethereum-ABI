@@ -55,8 +55,7 @@ sub decode {
     my $self = shift;
 
     unless (scalar $self->instances->@* > 0) {
-        push $self->instances->@*, REFECO::Blockchain::Contract::Solidity::ABI::Type::new_type(signature => $_)
-            for $self->split_tuple_signature->@*;
+        push $self->instances->@*, REFECO::Blockchain::Contract::Solidity::ABI::Type::new_type(signature => $_) for $self->split_tuple_signature->@*;
     }
 
     return $self->read_stack_set_data;
