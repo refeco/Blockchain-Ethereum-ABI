@@ -70,7 +70,7 @@ sub encode {
     my @data = $tuple->encode->@*;
     unshift @data, $self->encode_function_signature if $self->function_name;
 
-    $self->clean;
+    $self->_clean;
 
     return join('', @data);
 }
