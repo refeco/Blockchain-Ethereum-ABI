@@ -3,6 +3,7 @@
 .tidyallrc
 Changes
 cpanfile
+lib/REFECO/Blockchain/Contract/Solidity/ABI.pm
 lib/REFECO/Blockchain/Contract/Solidity/ABI/Decoder.pm
 lib/REFECO/Blockchain/Contract/Solidity/ABI/Encoder.pm
 lib/REFECO/Blockchain/Contract/Solidity/ABI/Type.pm
