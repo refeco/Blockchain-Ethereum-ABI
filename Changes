@@ -1,5 +1,8 @@
 Revision history for REFECO-Blockchain-Contract-Solidity-ABI
 
+0.003
+    [Bug Fixes]
+    - set version to encoder/decoder modules to avoid upload conflict after structure change
 0.002
     [Bug Fixes]
     - set cpanfile Test::Fatal correct version

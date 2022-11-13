@@ -235,6 +235,7 @@ REFECO::Blockchain::Contract::Solidity::ABI::Type role for solidity variable typ
 In most cases you don't want to use this directly, instead use:
 
 =item * B<Encoder>: L<REFECO::Blockchain::Contract::Solidity::ABI::Encoder>
+
 =item * B<Decoder>: L<REFECO::Blockchain::Contract::Solidity::ABI::Decoder>
 
 

@@ -5,6 +5,8 @@ use strict;
 use warnings;
 no indirect;
 
+our $VERSION = '0.003';
+
 use Carp;
 use Digest::Keccak qw(keccak_256_hex);
 
