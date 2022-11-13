@@ -76,10 +76,6 @@ perldoc REFECO::Blockchain::Contract::Solidity::ABI
 
 You can also look for information at:
 
-- [RT, CPAN's request tracker (report bugs here)](https://rt.cpan.org/NoAuth/Bugs.html?Dist=REFECO-Blockchain-Contract-Solidity-ABI )
-
-- [CPAN Ratings](https://cpanratings.perl.org/d/REFECO-Blockchain-Contract-Solidity-ABI )
-
 - [Search CPAN](https://metacpan.org/release/REFECO-Blockchain-Contract-Solidity-ABI)
 
 # License and Copyright
