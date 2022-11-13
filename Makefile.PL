@@ -4,12 +4,22 @@ use warnings;
 use ExtUtils::MakeMaker;
 
 my %WriteMakefileArgs = (
-    NAME               => 'REFECO::Blockchain::Contract::Solidity::ABI::Encoder',
-    AUTHOR             => q{Reginaldo Costa <refeco@cpan.org>},
-    VERSION_FROM       => 'lib/REFECO/Blockchain/Contract/Solidity/ABI/Encoder.pm',
-    ABSTRACT_FROM      => 'lib/REFECO/Blockchain/Contract/Solidity/ABI/Encoder.pm',
-    LICENSE            => 'artistic_2',
-    MIN_PERL_VERSION   => 'v5.26',
+    NAME             => 'REFECO::Blockchain::Contract::Solidity::ABI',
+    AUTHOR           => q{Reginaldo Costa <refeco@cpan.org>},
+    VERSION_FROM     => 'lib/REFECO/Blockchain/Contract/Solidity/ABI.pm',
+    ABSTRACT_FROM    => 'lib/REFECO/Blockchain/Contract/Solidity/ABI.pm',
+    LICENSE          => 'artistic_2',
+    MIN_PERL_VERSION => 'v5.26',
+    META_MERGE       => {
+        'meta-spec' => {version => 2},
+        resources   => {
+            repository => {
+                type => 'git',
+                url  => 'https://github.com/refeco/perl-ABI.git',
+                web  => 'https://github.com/refeco/perl-ABI',
+            },
+        },
+    },
     CONFIGURE_REQUIRES => {
         'ExtUtils::MakeMaker' => '0',
     },
@@ -30,7 +40,7 @@ my %WriteMakefileArgs = (
         COMPRESS => 'gzip -9f',
         SUFFIX   => 'gz',
     },
-    clean => {FILES => 'REFECO-Blockchain-Contract-Solidity-ABI-Encoder-*'},
+    clean => {FILES => 'REFECO-Blockchain-Contract-Solidity-ABI-*'},
 );
 
 # Compatibility with old versions of ExtUtils::MakeMaker

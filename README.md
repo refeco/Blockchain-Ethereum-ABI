@@ -1,6 +1,6 @@
-# solidity-abi-encoder
+# perl ABI
 
-Solidity contracts ABI argument encoding utility
+Application Binary Interface (ABI) utility for encoding and decoding solidity smart contract arguments
 
 # Table of contents
 
@@ -46,14 +46,14 @@ $decoder
     ->decode('0x...');
 ```
 
-For more information check this [post](https://www.refeco.dev/solidity/2022/10/24/solidity-abi-encoder.html)
+For more information check this [post](https://www.refeco.dev/solidity/2022/10/24/perl-abi-introduction.html)
 
 # Installation
 
 ## cpanminus
 
 ```
-cpanm REFECO::Blockchain::Contract::Solidity::ABI::Encoder
+cpanm REFECO::Blockchain::Contract::Solidity::ABI
 ```
 
 ## make
@@ -71,16 +71,12 @@ After installing, you can find documentation for this module with the
 perldoc command.
 
 ```
-perldoc REFECO::Blockchain::Contract::Solidity::ABI::Encoder
+perldoc REFECO::Blockchain::Contract::Solidity::ABI
 ```
 
 You can also look for information at:
 
-- [RT, CPAN's request tracker (report bugs here)](https://rt.cpan.org/NoAuth/Bugs.html?Dist=REFECO-Blockchain-Contract-Solidity-ABI-Encoder )
-
-- [CPAN Ratings](https://cpanratings.perl.org/d/REFECO-Blockchain-Contract-Solidity-ABI-Encoder )
-
-- [Search CPAN](https://metacpan.org/release/REFECO-Blockchain-Contract-Solidity-ABI-Encoder)
+- [Search CPAN](https://metacpan.org/release/REFECO-Blockchain-Contract-Solidity-ABI)
 
 # License and Copyright
 

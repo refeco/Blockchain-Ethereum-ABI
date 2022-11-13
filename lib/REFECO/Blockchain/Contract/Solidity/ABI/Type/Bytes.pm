@@ -1,5 +1,6 @@
 package REFECO::Blockchain::Contract::Solidity::ABI::Type::Bytes;
 
+use v5.26;
 use strict;
 use warnings;
 no indirect;
