@@ -85,6 +85,7 @@ Allows you to decode contract ABI response
 Appends type signature to the decoder.
 
 Usage:
+
     append(signature) -> L<REFECO::Blockchain::Contract::Solidity::ABI::Encoder>
 
 =over 4
@@ -107,7 +108,7 @@ Usage:
 
 =back
 
-Returns array reference containing all decoded values
+Returns an array reference containing all decoded values
 
 =head1 AUTHOR
 
