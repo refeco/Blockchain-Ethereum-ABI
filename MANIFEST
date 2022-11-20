@@ -23,4 +23,5 @@ t/decode.t
 t/readme.t
 t/solidity-docs.t
 xt/perl-critic.t
+xt/perl-pod.t
 xt/perl-tidy.t
