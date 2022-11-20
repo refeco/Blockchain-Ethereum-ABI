@@ -5,7 +5,7 @@ use strict;
 use warnings;
 no indirect;
 
-our $VERSION = '0.003';
+our $VERSION = '0.004';
 
 use Carp;
 
