@@ -1,4 +1,4 @@
-package REFECO::Blockchain::Contract::Solidity::ABI::Type::Address;
+package Blockchain::Contract::Solidity::ABI::Type::Address;
 
 use v5.26;
 use strict;
@@ -6,7 +6,7 @@ use warnings;
 no indirect;
 
 use Carp;
-use parent qw(REFECO::Blockchain::Contract::Solidity::ABI::Type);
+use parent qw(Blockchain::Contract::Solidity::ABI::Type);
 
 sub encode {
     my $self = shift;

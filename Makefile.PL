@@ -4,10 +4,10 @@ use warnings;
 use ExtUtils::MakeMaker;
 
 my %WriteMakefileArgs = (
-    NAME             => 'REFECO::Blockchain::Contract::Solidity::ABI',
+    NAME             => 'Blockchain::Contract::Solidity::ABI',
     AUTHOR           => q{Reginaldo Costa <refeco@cpan.org>},
-    VERSION_FROM     => 'lib/REFECO/Blockchain/Contract/Solidity/ABI.pm',
-    ABSTRACT_FROM    => 'lib/REFECO/Blockchain/Contract/Solidity/ABI.pm',
+    VERSION_FROM     => 'lib/Blockchain/Contract/Solidity/ABI.pm',
+    ABSTRACT_FROM    => 'lib/Blockchain/Contract/Solidity/ABI.pm',
     LICENSE          => 'artistic_2',
     MIN_PERL_VERSION => 'v5.26',
     META_MERGE       => {
@@ -41,7 +41,7 @@ my %WriteMakefileArgs = (
         COMPRESS => 'gzip -9f',
         SUFFIX   => 'gz',
     },
-    clean => {FILES => 'REFECO-Blockchain-Contract-Solidity-ABI-*'},
+    clean => {FILES => 'Blockchain-Contract-Solidity-ABI-*'},
 );
 
 # Compatibility with old versions of ExtUtils::MakeMaker

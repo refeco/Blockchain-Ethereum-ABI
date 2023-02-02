@@ -24,7 +24,7 @@ Also arrays `((\[(\d+)?\])+)?` for the above mentioned types.
 # Usage
 
 ```perl
-my $encoder = REFECO::Blockchain::Contract::Solidity::ABI::Encoder->new();
+my $encoder = Blockchain::Contract::Solidity::ABI::Encoder->new();
 $encoder->function('test')
     # string
     ->append(string => 'Hello, World!')
@@ -39,7 +39,7 @@ $encoder->function('test')
     # tuples arrays and tuples inside tuples
     ->append('((int256)[2])' => [[[1], [2]]])->encode;
 
-my $decoder = REFECO::Blockchain::Contract::Solidity::ABI::Decoder->new();
+my $decoder = Blockchain::Contract::Solidity::ABI::Decoder->new();
 $decoder
     ->append('uint256')
     ->append('bytes[]')
@@ -53,7 +53,7 @@ For more information check this [post](https://www.refeco.dev/solidity/2022/10/2
 ## cpanminus
 
 ```
-cpanm REFECO::Blockchain::Contract::Solidity::ABI
+cpanm Blockchain::Contract::Solidity::ABI
 ```
 
 ## make
@@ -71,12 +71,12 @@ After installing, you can find documentation for this module with the
 perldoc command.
 
 ```
-perldoc REFECO::Blockchain::Contract::Solidity::ABI
+perldoc Blockchain::Contract::Solidity::ABI
 ```
 
 You can also look for information at:
 
-- [Search CPAN](https://metacpan.org/release/REFECO-Blockchain-Contract-Solidity-ABI)
+- [Search CPAN](https://metacpan.org/release/Blockchain-Contract-Solidity-ABI)
 
 # License and Copyright
 

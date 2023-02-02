@@ -4,9 +4,9 @@ use strict;
 use warnings;
 
 use Test::More;
-use REFECO::Blockchain::Contract::Solidity::ABI::Decoder;
+use Blockchain::Contract::Solidity::ABI::Decoder;
 
-my $decoder = REFECO::Blockchain::Contract::Solidity::ABI::Decoder->new();
+my $decoder = Blockchain::Contract::Solidity::ABI::Decoder->new();
 
 subtest "Int" => sub {
     my $data    = "0x0000000000000000000000000000000000000000000000000858898f93629000";
