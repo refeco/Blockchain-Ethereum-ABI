@@ -4,10 +4,10 @@ use strict;
 use warnings;
 
 use Test::More;
-use REFECO::Blockchain::Contract::Solidity::ABI::Encoder;
+use Blockchain::Contract::Solidity::ABI::Encoder;
 
 subtest "readme.md example" => sub {
-    my $encoder = REFECO::Blockchain::Contract::Solidity::ABI::Encoder->new();
+    my $encoder = Blockchain::Contract::Solidity::ABI::Encoder->new();
     my $encoded = $encoder->function('test')
         # string
         ->append(string => 'Hello, World!')

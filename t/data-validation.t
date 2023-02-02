@@ -6,9 +6,9 @@ use warnings;
 use Test::More;
 use Test::Fatal;
 
-use REFECO::Blockchain::Contract::Solidity::ABI::Encoder;
+use Blockchain::Contract::Solidity::ABI::Encoder;
 
-my $encoder = REFECO::Blockchain::Contract::Solidity::ABI::Encoder->new();
+my $encoder = Blockchain::Contract::Solidity::ABI::Encoder->new();
 
 subtest "Array" => sub {
     like(

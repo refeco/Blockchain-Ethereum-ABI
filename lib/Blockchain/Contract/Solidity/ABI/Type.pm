@@ -1,4 +1,4 @@
-package REFECO::Blockchain::Contract::Solidity::ABI::Type;
+package Blockchain::Contract::Solidity::ABI::Type;
 
 use v5.26;
 use strict;
@@ -228,15 +228,13 @@ __END__
 
 =head1 NAME
 
-REFECO::Blockchain::Contract::Solidity::ABI::Type role for solidity variable types
+Blockchain::Contract::Solidity::ABI::Type - Interface for solidity variable types
 
 =head1 SYNOPSIS
 
-In most cases you don't want to use this directly, use L<REFECO::Blockchain::Contract::Solidity::ABI::Encoder> or L<REFECO::Blockchain::Contract::Solidity::ABI::Decoder> instead.
-
 Allows you to define and instantiate a solidity variable type:
 
-    my $type = REFECO::Blockchain::Contract::Solidity::ABI::Type::new_type(
+    my $type = Blockchain::Contract::Solidity::ABI::Type::new_type(
         signature => $signature,
         data      => $value
     );
@@ -244,16 +242,26 @@ Allows you to define and instantiate a solidity variable type:
     $type->encode();
     ...
 
+In most cases you don't want to use this directly, use instead:
+
+=over 4
+
+=item * B<Encoder>: L<Blockchain::Contract::Solidity::ABI::Encoder>
+
+=item * B<Decoder>: L<Blockchain::Contract::Solidity::ABI::Decoder>
+
+=back
+
 =head1 METHODS
 
 =head2 new_type
 
-Create a new L<REFECO::Blockchain::Contract::Solidity::ABI::Type> instance based
+Create a new L<Blockchain::Contract::Solidity::ABI::Type> instance based
 in the given signature.
 
 Usage:
 
-    new_type(signature => signature, data => value) -> L<REFECO::Blockchain::Contract::Solidity::ABI::Type::*>
+    new_type(signature => signature, data => value) -> L<Blockchain::Contract::Solidity::ABI::Type::*>
 
 =over 4
 
@@ -261,7 +269,7 @@ Usage:
 
 =back
 
-Returns an new instance of one of the sub modules for L<REFECO::Blockchain::Contract::Solidity::ABI::Type>
+Returns an new instance of one of the sub modules for L<Blockchain::Contract::Solidity::ABI::Type>
 
 =head1 AUTHOR
 
@@ -275,7 +283,7 @@ Please report any bugs or feature requests to L<https://github.com/refeco/perl-A
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc REFECO::Blockchain::Contract::Solidity::ABI::Type
+    perldoc Blockchain::Contract::Solidity::ABI::Type
 
 =head1 LICENSE AND COPYRIGHT
 

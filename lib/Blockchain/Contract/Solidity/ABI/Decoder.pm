@@ -1,16 +1,14 @@
-package REFECO::Blockchain::Contract::Solidity::ABI::Decoder;
+package Blockchain::Contract::Solidity::ABI::Decoder;
 
 use v5.26;
 use strict;
 use warnings;
 no indirect;
 
-our $VERSION = '0.004';
-
 use Carp;
 
-use REFECO::Blockchain::Contract::Solidity::ABI::Type;
-use REFECO::Blockchain::Contract::Solidity::ABI::Type::Tuple;
+use Blockchain::Contract::Solidity::ABI::Type;
+use Blockchain::Contract::Solidity::ABI::Type::Tuple;
 
 sub new {
     my ($class, %params) = @_;
@@ -28,7 +26,7 @@ sub _instances {
 sub append {
     my ($self, $param) = @_;
 
-    push $self->_instances->@*, REFECO::Blockchain::Contract::Solidity::ABI::Type::new_type(signature => $param);
+    push $self->_instances->@*, Blockchain::Contract::Solidity::ABI::Type::new_type(signature => $param);
     return $self;
 }
 
@@ -41,7 +39,7 @@ sub decode {
     my $hex  = $1;
     my @data = unpack("(A64)*", $hex);
 
-    my $tuple = REFECO::Blockchain::Contract::Solidity::ABI::Type::Tuple->new;
+    my $tuple = Blockchain::Contract::Solidity::ABI::Type::Tuple->new;
     $tuple->{instances} = $self->_instances;
     $tuple->{data}      = \@data;
     my $data = $tuple->decode;
@@ -65,13 +63,13 @@ __END__
 
 =head1 NAME
 
-REFECO::Blockchain::Contract::Solidity::ABI::Decoder - Contract ABI response decoder
+Blockchain::Contract::Solidity::ABI::Decoder - Contract ABI response decoder
 
 =head1 SYNOPSIS
 
 Allows you to decode contract ABI response
 
-    my $decoder = REFECO::Blockchain::Contract::Solidity::ABI::Decoder->new();
+    my $decoder = Blockchain::Contract::Solidity::ABI::Decoder->new();
     $decoder
         ->append('uint256')
         ->append('bytes[]')
@@ -86,7 +84,7 @@ Appends type signature to the decoder.
 
 Usage:
 
-    append(signature) -> L<REFECO::Blockchain::Contract::Solidity::ABI::Encoder>
+    append(signature) -> L<Blockchain::Contract::Solidity::ABI::Encoder>
 
 =over 4
 
@@ -122,7 +120,7 @@ Please report any bugs or feature requests to L<https://github.com/refeco/perl-A
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc REFECO::Blockchain::Contract::Solidity::ABI::Encoder
+    perldoc Blockchain::Contract::Solidity::ABI::Encoder
 
 =head1 LICENSE AND COPYRIGHT
 

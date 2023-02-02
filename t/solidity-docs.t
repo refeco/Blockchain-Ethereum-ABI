@@ -4,9 +4,9 @@ use strict;
 use warnings;
 
 use Test::More;
-use REFECO::Blockchain::Contract::Solidity::ABI::Encoder;
+use Blockchain::Contract::Solidity::ABI::Encoder;
 
-my $encoder = REFECO::Blockchain::Contract::Solidity::ABI::Encoder->new();
+my $encoder = Blockchain::Contract::Solidity::ABI::Encoder->new();
 
 subtest "example baz" => sub {
     $encoder->function('baz')->append(uint32 => 69)->append(bool => 1);

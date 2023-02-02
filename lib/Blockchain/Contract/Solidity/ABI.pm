@@ -1,4 +1,4 @@
-package REFECO::Blockchain::Contract::Solidity::ABI;
+package Blockchain::Contract::Solidity::ABI;
 
 use v5.26;
 use strict;
@@ -6,15 +6,15 @@ use warnings;
 
 =head1 NAME
 
-REFECO::Blockchain::Contract::Solidity::ABI - Contract ABI utilities
+Blockchain::Contract::Solidity::ABI - Contract ABI utilities
 
 =head1 VERSION
 
-Version 0.004
+Version 0.005
 
 =cut
 
-our $VERSION = '0.004';
+our $VERSION = '0.005';
 
 =head1 SYNOPSIS
 
@@ -24,9 +24,9 @@ data according ABI type specification.
 
 =over 4
 
-=item * B<Encoder>: L<REFECO::Blockchain::Contract::Solidity::ABI::Encoder>
+=item * B<Encoder>: L<Blockchain::Contract::Solidity::ABI::Encoder>
 
-=item * B<Decoder>: L<REFECO::Blockchain::Contract::Solidity::ABI::Decoder>
+=item * B<Decoder>: L<Blockchain::Contract::Solidity::ABI::Decoder>
 
 =back
 
@@ -42,7 +42,7 @@ Please report any bugs or feature requests to L<https://github.com/refeco/perl-A
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc REFECO::Blockchain::Contract::Solidity::ABI
+    perldoc Blockchain::Contract::Solidity::ABI
 
 
 You can also look for information at:

@@ -1,4 +1,4 @@
-package REFECO::Blockchain::Contract::Solidity::ABI::Type::Array;
+package Blockchain::Contract::Solidity::ABI::Type::Array;
 
 use v5.26;
 use strict;
@@ -6,7 +6,7 @@ use warnings;
 no indirect;
 
 use Carp;
-use parent qw(REFECO::Blockchain::Contract::Solidity::ABI::Type);
+use parent qw(Blockchain::Contract::Solidity::ABI::Type);
 
 sub configure {
     my $self = shift;
@@ -14,7 +14,7 @@ sub configure {
 
     for my $item ($self->data->@*) {
         push $self->instances->@*,
-            REFECO::Blockchain::Contract::Solidity::ABI::Type::new_type(
+            Blockchain::Contract::Solidity::ABI::Type::new_type(
             signature => $self->remove_parent,
             data      => $item
             );
@@ -51,7 +51,7 @@ sub decode {
     my @data = $self->data->@*;
 
     my $size = $self->fixed_length // shift $self->data->@*;
-    push $self->instances->@*, REFECO::Blockchain::Contract::Solidity::ABI::Type::new_type(signature => $self->remove_parent) for 0 .. $size - 1;
+    push $self->instances->@*, Blockchain::Contract::Solidity::ABI::Type::new_type(signature => $self->remove_parent) for 0 .. $size - 1;
 
     return $self->read_stack_set_data;
 }

@@ -1,17 +1,15 @@
-package REFECO::Blockchain::Contract::Solidity::ABI::Encoder;
+package Blockchain::Contract::Solidity::ABI::Encoder;
 
 use v5.26;
 use strict;
 use warnings;
 no indirect;
 
-our $VERSION = '0.004';
-
 use Carp;
 use Digest::Keccak qw(keccak_256_hex);
 
-use REFECO::Blockchain::Contract::Solidity::ABI::Type;
-use REFECO::Blockchain::Contract::Solidity::ABI::Type::Tuple;
+use Blockchain::Contract::Solidity::ABI::Type;
+use Blockchain::Contract::Solidity::ABI::Type::Tuple;
 
 sub new {
     my ($class, %params) = @_;
@@ -37,7 +35,7 @@ sub append {
     for my $type_signature (keys %param) {
         push(
             $self->_instances->@*,
-            REFECO::Blockchain::Contract::Solidity::ABI::Type::new_type(
+            Blockchain::Contract::Solidity::ABI::Type::new_type(
                 signature => $type_signature,
                 data      => $param{$type_signature}));
     }
@@ -68,7 +66,7 @@ sub encode_function_signature {
 sub encode {
     my $self = shift;
 
-    my $tuple = REFECO::Blockchain::Contract::Solidity::ABI::Type::Tuple->new;
+    my $tuple = Blockchain::Contract::Solidity::ABI::Type::Tuple->new;
     $tuple->{instances} = $self->_instances;
     my @data = $tuple->encode->@*;
     unshift @data, $self->encode_function_signature if $self->function_name;
@@ -94,13 +92,13 @@ __END__
 
 =head1 NAME
 
-REFECO::Blockchain::Contract::Solidity::ABI::Encoder - Contract ABI argument encoder
+Blockchain::Contract::Solidity::ABI::Encoder - Contract ABI argument encoder
 
 =head1 SYNOPSIS
 
 Allows you to encode contract ABI arguments
 
-    my $encoder = REFECO::Blockchain::Contract::Solidity::ABI::Encoder->new();
+    my $encoder = Blockchain::Contract::Solidity::ABI::Encoder->new();
     $encoder->function('test')
         # string
         ->append(string => 'Hello, World!')
@@ -124,7 +122,7 @@ Appends type signature and the respective values to the encoder.
 
 Usage:
 
-    append(signature => value) -> L<REFECO::Blockchain::Contract::Solidity::ABI::Encoder>
+    append(signature => value) -> L<Blockchain::Contract::Solidity::ABI::Encoder>
 
 =over 4
 
@@ -141,7 +139,7 @@ function signature added to the encoded string or only the function name encoded
 
 Usage:
 
-    function(string) -> L<REFECO::Blockchain::Contract::Solidity::ABI::Encoder>
+    function(string) -> L<Blockchain::Contract::Solidity::ABI::Encoder>
 
 =over 4
 
@@ -208,7 +206,7 @@ Please report any bugs or feature requests to L<https://github.com/refeco/perl-A
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc REFECO::Blockchain::Contract::Solidity::ABI::Encoder
+    perldoc Blockchain::Contract::Solidity::ABI::Encoder
 
 =head1 LICENSE AND COPYRIGHT
 
