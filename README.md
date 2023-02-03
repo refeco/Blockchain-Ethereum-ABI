@@ -46,8 +46,6 @@ $decoder
     ->decode('0x...');
 ```
 
-For more information check this [post](https://www.refeco.dev/solidity/2022/10/24/perl-abi-introduction.html)
-
 # Installation
 
 ## cpanminus
