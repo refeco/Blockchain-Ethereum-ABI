@@ -8,7 +8,7 @@ my %WriteMakefileArgs = (
     AUTHOR           => q{Reginaldo Costa <refeco@cpan.org>},
     VERSION_FROM     => 'lib/Blockchain/Contract/Solidity/ABI.pm',
     ABSTRACT_FROM    => 'lib/Blockchain/Contract/Solidity/ABI.pm',
-    LICENSE          => 'artistic_2',
+    LICENSE          => 'mit',
     MIN_PERL_VERSION => 'v5.26',
     META_MERGE       => {
         'meta-spec' => {version => 2},
