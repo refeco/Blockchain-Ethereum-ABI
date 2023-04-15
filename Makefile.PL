@@ -24,11 +24,8 @@ my %WriteMakefileArgs = (
         'ExtUtils::MakeMaker' => '0',
     },
     TEST_REQUIRES => {
-        'Test::More'          => '0.98',
-        'Test::Fatal'         => '0.016',
-        'Test::Perl::Critic'  => '1.04',
-        'Test::Code::TidyAll' => '0.82',
-        'Test::Pod'           => '1.52',
+        'Test::More'  => '0.98',
+        'Test::Fatal' => '0.016',
     },
     PREREQ_PM => {
         'Digest::Keccak' => '0.05',
