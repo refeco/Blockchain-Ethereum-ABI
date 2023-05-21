@@ -1,4 +1,4 @@
-requires 'Digest::Keccak', '=> '0.05';
+requires 'Digest::Keccak', '=> 0.05';
 requires 'Math::BigInt',   '=> 1.999837';
 requires 'Carp', '=> 1.50';
 requires 'Module::Load', '=> 0.36';
