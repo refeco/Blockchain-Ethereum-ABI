@@ -3,7 +3,6 @@ package Blockchain::Contract::Solidity::ABI::Decoder;
 use v5.26;
 use strict;
 use warnings;
-no indirect;
 
 use Carp;
 

@@ -3,7 +3,6 @@ package Blockchain::Contract::Solidity::ABI::Encoder;
 use v5.26;
 use strict;
 use warnings;
-no indirect;
 
 use Carp;
 use Digest::Keccak qw(keccak_256_hex);
