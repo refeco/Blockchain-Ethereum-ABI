@@ -2,8 +2,6 @@
 
 Application Binary Interface (ABI) utility for encoding and decoding solidity smart contract arguments
 
-This is an Transpilation from the python code (with some small changes) at [ethereum.org](https://ethereum.org/en/developers/docs/data-structures-and-encoding/rlp/) to Perl.
-
 # Table of contents
 
 - [Supported types](#supports)
