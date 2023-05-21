@@ -32,7 +32,6 @@ my %WriteMakefileArgs = (
         'Math::BigInt'   => '1.999837',
         'Carp'           => '1.50',
         'Module::Load'   => '0.36',
-        'indirect'       => '0.39',
     },
     dist => {
         COMPRESS => 'gzip -9f',
