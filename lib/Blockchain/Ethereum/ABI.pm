@@ -6,7 +6,7 @@ use warnings;
 
 =head1 NAME
 
-Blockchain::Contract::Solidity::ABI - Contract ABI utilities
+Blockchain::Ethereum::ABI - Contract ABI utilities
 
 =head1 VERSION
 

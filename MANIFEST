@@ -3,16 +3,16 @@
 .tidyallrc
 Changes
 cpanfile
-lib/Blockchain/Contract/Solidity/ABI.pm
-lib/Blockchain/Contract/Solidity/ABI/Decoder.pm
-lib/Blockchain/Contract/Solidity/ABI/Encoder.pm
-lib/Blockchain/Contract/Solidity/ABI/Type.pm
-lib/Blockchain/Contract/Solidity/ABI/Type/Address.pm
-lib/Blockchain/Contract/Solidity/ABI/Type/Array.pm
-lib/Blockchain/Contract/Solidity/ABI/Type/Bytes.pm
-lib/Blockchain/Contract/Solidity/ABI/Type/Int.pm
-lib/Blockchain/Contract/Solidity/ABI/Type/String.pm
-lib/Blockchain/Contract/Solidity/ABI/Type/Tuple.pm
+lib/Blockchain/Ethereum/ABI.pm
+lib/Blockchain/Ethereum/ABI/Decoder.pm
+lib/Blockchain/Ethereum/ABI/Encoder.pm
+lib/Blockchain/Ethereum/ABI/Type.pm
+lib/Blockchain/Ethereum/ABI/Type/Address.pm
+lib/Blockchain/Ethereum/ABI/Type/Array.pm
+lib/Blockchain/Ethereum/ABI/Type/Bytes.pm
+lib/Blockchain/Ethereum/ABI/Type/Int.pm
+lib/Blockchain/Ethereum/ABI/Type/String.pm
+lib/Blockchain/Ethereum/ABI/Type/Tuple.pm
 LICENSE
 Makefile.PL
 MANIFEST			This list of files

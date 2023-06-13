@@ -51,7 +51,7 @@ $decoder
 ## cpanminus
 
 ```
-cpanm Blockchain::Contract::Solidity::ABI
+cpanm Blockchain::Ethereum::ABI
 ```
 
 ## make
@@ -69,7 +69,7 @@ After installing, you can find documentation for this module with the
 perldoc command.
 
 ```
-perldoc Blockchain::Contract::Solidity::ABI
+perldoc Blockchain::Ethereum::ABI
 ```
 
 You can also look for information at:
