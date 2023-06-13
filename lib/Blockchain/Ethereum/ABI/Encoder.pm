@@ -1,4 +1,4 @@
-package Blockchain::Contract::Solidity::ABI::Encoder;
+package Blockchain::Ethereum::ABI::Encoder;
 
 use v5.26;
 use strict;
@@ -7,15 +7,11 @@ use warnings;
 use Carp;
 use Digest::Keccak qw(keccak_256_hex);
 
-use Blockchain::Contract::Solidity::ABI::Type;
-use Blockchain::Contract::Solidity::ABI::Type::Tuple;
+use Blockchain::Ethereum::ABI::Type;
+use Blockchain::Ethereum::ABI::Type::Tuple;
 
 sub new {
-    my ($class, %params) = @_;
-
-    my $self = {};
-    bless $self, $class;
-    return $self;
+    return bless {}, shift;
 }
 
 sub _instances {
@@ -34,7 +30,7 @@ sub append {
     for my $type_signature (keys %param) {
         push(
             $self->_instances->@*,
-            Blockchain::Contract::Solidity::ABI::Type::new_type(
+            Blockchain::Ethereum::ABI::Type::new_type(
                 signature => $type_signature,
                 data      => $param{$type_signature}));
     }
@@ -52,7 +48,7 @@ sub generate_function_signature {
     my $self = shift;
     croak "Missing function name e.g. ->function('name')" unless $self->function_name;
     my $signature = $self->function_name . '(';
-    $signature .= sprintf("%s,", $_->signature) for $self->_instances->@*;
+    $signature .= sprintf("%s,", $_->_signature) for $self->_instances->@*;
     chop $signature;
     return $signature . ')';
 }
@@ -65,7 +61,7 @@ sub encode_function_signature {
 sub encode {
     my $self = shift;
 
-    my $tuple = Blockchain::Contract::Solidity::ABI::Type::Tuple->new;
+    my $tuple = Blockchain::Ethereum::ABI::Type::Tuple->new;
     $tuple->{instances} = $self->_instances;
     my @data = $tuple->encode->@*;
     unshift @data, $self->encode_function_signature if $self->function_name;
@@ -91,13 +87,13 @@ __END__
 
 =head1 NAME
 
-Blockchain::Contract::Solidity::ABI::Encoder - Contract ABI argument encoder
+Blockchain::Ethereum::ABI::Encoder - Contract ABI argument encoder
 
 =head1 SYNOPSIS
 
 Allows you to encode contract ABI arguments
 
-    my $encoder = Blockchain::Contract::Solidity::ABI::Encoder->new();
+    my $encoder = Blockchain::Ethereum::ABI::Encoder->new();
     $encoder->function('test')
         # string
         ->append(string => 'Hello, World!')
@@ -121,7 +117,7 @@ Appends type signature and the respective values to the encoder.
 
 Usage:
 
-    append(signature => value) -> L<Blockchain::Contract::Solidity::ABI::Encoder>
+    append(signature => value) -> L<Blockchain::Ethereum::ABI::Encoder>
 
 =over 4
 
@@ -138,7 +134,7 @@ function signature added to the encoded string or only the function name encoded
 
 Usage:
 
-    function(string) -> L<Blockchain::Contract::Solidity::ABI::Encoder>
+    function(string) -> L<Blockchain::Ethereum::ABI::Encoder>
 
 =over 4
 
@@ -205,7 +201,7 @@ Please report any bugs or feature requests to L<https://github.com/refeco/perl-A
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc Blockchain::Contract::Solidity::ABI::Encoder
+    perldoc Blockchain::Ethereum::ABI::Encoder
 
 =head1 LICENSE AND COPYRIGHT
 

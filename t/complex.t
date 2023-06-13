@@ -4,9 +4,9 @@ use strict;
 use warnings;
 
 use Test::More;
-use Blockchain::Contract::Solidity::ABI::Encoder;
+use Blockchain::Ethereum::ABI::Encoder;
 
-my $encoder = Blockchain::Contract::Solidity::ABI::Encoder->new();
+my $encoder = Blockchain::Ethereum::ABI::Encoder->new();
 
 subtest 'Tuples, Sub tuples, tuples arrays' => sub {
     $encoder->function('fulfillBasicOrder')->append(

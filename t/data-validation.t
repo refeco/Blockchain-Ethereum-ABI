@@ -6,9 +6,9 @@ use warnings;
 use Test::More;
 use Test::Fatal;
 
-use Blockchain::Contract::Solidity::ABI::Encoder;
+use Blockchain::Ethereum::ABI::Encoder;
 
-my $encoder = Blockchain::Contract::Solidity::ABI::Encoder->new();
+my $encoder = Blockchain::Ethereum::ABI::Encoder->new();
 
 subtest "Array" => sub {
     like(

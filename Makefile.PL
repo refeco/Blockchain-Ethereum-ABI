@@ -37,7 +37,7 @@ my %WriteMakefileArgs = (
         COMPRESS => 'gzip -9f',
         SUFFIX   => 'gz',
     },
-    clean => {FILES => 'Blockchain-Contract-Solidity-ABI-*'},
+    clean => {FILES => 'Blockchain-Ethereum-ABI-*'},
 );
 
 # Compatibility with old versions of ExtUtils::MakeMaker
