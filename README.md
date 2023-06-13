@@ -24,7 +24,7 @@ Also arrays `((\[(\d+)?\])+)?` for the above mentioned types.
 # Usage
 
 ```perl
-my $encoder = Blockchain::Contract::Solidity::ABI::Encoder->new();
+my $encoder = Blockchain::Ethereum::ABI::Encoder->new();
 $encoder->function('test')
     # string
     ->append(string => 'Hello, World!')
@@ -39,7 +39,7 @@ $encoder->function('test')
     # tuples arrays and tuples inside tuples
     ->append('((int256)[2])' => [[[1], [2]]])->encode;
 
-my $decoder = Blockchain::Contract::Solidity::ABI::Decoder->new();
+my $decoder = Blockchain::Ethereum::ABI::Decoder->new();
 $decoder
     ->append('uint256')
     ->append('bytes[]')
@@ -74,7 +74,7 @@ perldoc Blockchain::Contract::Solidity::ABI
 
 You can also look for information at:
 
-- [Search CPAN](https://metacpan.org/release/Blockchain-Contract-Solidity-ABI)
+- [Search CPAN](https://metacpan.org/release/Blockchain-Ethereum-ABI)
 
 # License and Copyright
 

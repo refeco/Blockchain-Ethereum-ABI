@@ -1,4 +1,4 @@
-package Blockchain::Contract::Solidity::ABI;
+package Blockchain::Ethereum::ABI;
 
 use v5.26;
 use strict;
@@ -10,11 +10,11 @@ Blockchain::Contract::Solidity::ABI - Contract ABI utilities
 
 =head1 VERSION
 
-Version 0.007
+Version 0.008
 
 =cut
 
-our $VERSION = '0.007';
+our $VERSION = '0.008';
 
 =head1 SYNOPSIS
 
@@ -24,9 +24,9 @@ data according ABI type specification.
 
 =over 4
 
-=item * B<Encoder>: L<Blockchain::Contract::Solidity::ABI::Encoder>
+=item * B<Encoder>: L<Blockchain::Ethereum::ABI::Encoder>
 
-=item * B<Decoder>: L<Blockchain::Contract::Solidity::ABI::Decoder>
+=item * B<Decoder>: L<Blockchain::Ethereum::ABI::Decoder>
 
 =back
 
@@ -42,7 +42,7 @@ Please report any bugs or feature requests to L<https://github.com/refeco/perl-A
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc Blockchain::Contract::Solidity::ABI
+    perldoc Blockchain::Ethereum::ABI
 
 
 You can also look for information at:
@@ -51,15 +51,15 @@ You can also look for information at:
 
 =item * RT: CPAN's request tracker (report bugs here)
 
-L<https://rt.cpan.org/NoAuth/Bugs.html?Dist=REFECO-Blockchain-Contract-Solidity-ABI>
+L<https://rt.cpan.org/NoAuth/Bugs.html?Dist=REFECO-Blockchain-Ethereum-ABI>
 
 =item * CPAN Ratings
 
-L<https://cpanratings.perl.org/d/REFECO-Blockchain-Contract-Solidity-ABI>
+L<https://cpanratings.perl.org/d/REFECO-Blockchain-Ethereum-ABI>
 
 =item * Search CPAN
 
-L<https://metacpan.org/release/REFECO-Blockchain-Contract-Solidity-ABI>
+L<https://metacpan.org/release/REFECO-Blockchain-Ethereum-ABI>
 
 =back
 
