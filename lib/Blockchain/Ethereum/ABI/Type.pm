@@ -15,11 +15,12 @@ sub new {
     $self->{signature} = $params{signature};
     $self->{data}      = $params{data};
 
-    $self->_configure();
+    $self->_configure;
 
     return $self;
 }
 
+# to be implemented by the child classes that need it
 sub _configure { }
 
 sub encode {
@@ -104,7 +105,7 @@ sub is_dynamic {
 }
 
 sub new_type {
-    my (%params) = @_;
+    my ($self, %params) = @_;
 
     my $signature = $params{signature};
 
@@ -236,7 +237,8 @@ Blockchain::Ethereum::ABI::Type - Interface for solidity variable types
 
 Allows you to define and instantiate a solidity variable type:
 
-    my $type = Blockchain::Ethereum::ABI::Type::new_type(
+    my $type = Blockchain::Ethereum::ABI::Type->new;
+    $type->new_type(
         signature => $signature,
         data      => $value
     );

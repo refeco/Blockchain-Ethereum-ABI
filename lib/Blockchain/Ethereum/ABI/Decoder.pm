@@ -21,7 +21,9 @@ sub _instances {
 sub append {
     my ($self, $param) = @_;
 
-    push $self->_instances->@*, Blockchain::Ethereum::ABI::Type::new_type(signature => $param);
+    state $type = Blockchain::Ethereum::ABI::Type->new;
+
+    push $self->_instances->@*, $type->new_type(signature => $param);
     return $self;
 }
 

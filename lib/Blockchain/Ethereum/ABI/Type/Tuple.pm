@@ -15,7 +15,7 @@ sub _configure {
 
     for (my $sig_index = 0; $sig_index < @splited_signatures; $sig_index++) {
         push $self->_instances->@*,
-            Blockchain::Ethereum::ABI::Type::new_type(
+            $self->new_type(
             signature => $splited_signatures[$sig_index],
             data      => $self->_data->[$sig_index]);
     }
@@ -23,8 +23,15 @@ sub _configure {
 }
 
 sub _split_tuple_signature {
-    my $self             = shift;
-    my $tuple_signatures = substr($self->_signature, 1, length($self->_signature) - 2);
+    my $self = shift;
+    # remove the parentheses from tuple signature
+    $self->_signature =~ /^\((.*)\)$/;
+    my $tuple_signatures = $1;
+
+    croak "Invalid tuple signature" unless $tuple_signatures;
+
+    # this looks through tuple signature recursively and break it into lines
+    # this is to help splitting tuples inside tuples that also contains comma
     $tuple_signatures =~ s/((\((?>[^)(]*(?2)?)*\))|[^,()]*)(*SKIP),/$1\n/g;
     my @types = split('\n', $tuple_signatures);
     return \@types;
@@ -55,7 +62,7 @@ sub decode {
     my $self = shift;
 
     unless (scalar $self->_instances->@* > 0) {
-        push $self->_instances->@*, Blockchain::Ethereum::ABI::Type::new_type(signature => $_) for $self->_split_tuple_signature->@*;
+        push $self->_instances->@*, $self->new_type(signature => $_) for $self->_split_tuple_signature->@*;
     }
 
     return $self->_read_stack_set_data;
@@ -67,7 +74,7 @@ sub _static_size {
     my $size          = 1;
     my $instance_size = 0;
     for my $signature ($self->_split_tuple_signature->@*) {
-        my $instance = Blockchain::Ethereum::ABI::Type::new_type(signature => $signature);
+        my $instance = $self->new_type(signature => $signature);
         $instance_size += $instance->_static_size // 0;
     }
 
