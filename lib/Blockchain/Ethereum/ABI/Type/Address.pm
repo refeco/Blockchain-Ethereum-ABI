@@ -20,10 +20,6 @@ sub decode {
     return '0x' . substr $self->_data->[0], -40;
 }
 
-1;
-
-__END__
-
 =pod
 
 =encoding UTF-8
@@ -105,3 +101,5 @@ This is free software, licensed under:
   The MIT License
 
 =cut
+
+1;

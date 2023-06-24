@@ -221,10 +221,6 @@ sub _read_stack_set_data {
     return \@array_response;
 }
 
-1;
-
-__END__
-
 =pod
 
 =encoding UTF-8
@@ -370,3 +366,5 @@ This is free software, licensed under:
   The MIT License
 
 =cut
+
+1;

@@ -83,10 +83,6 @@ sub _static_size {
     return $size * $instance_size;
 }
 
-1;
-
-__END__
-
 =pod
 
 =encoding UTF-8
@@ -168,3 +164,5 @@ This is free software, licensed under:
   The MIT License
 
 =cut
+
+1;

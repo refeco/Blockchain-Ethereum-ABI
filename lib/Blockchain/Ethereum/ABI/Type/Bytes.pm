@@ -47,10 +47,6 @@ sub decode {
     return sprintf "0x%s", unpack("H*", $bytes);
 }
 
-1;
-
-__END__
-
 =pod
 
 =encoding UTF-8
@@ -132,3 +128,5 @@ This is free software, licensed under:
   The MIT License
 
 =cut
+
+1;
