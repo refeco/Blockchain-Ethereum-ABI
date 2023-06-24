@@ -47,8 +47,6 @@ sub fixed_length {
 
 1;
 
-__END__
-
 =pod
 
 =encoding UTF-8

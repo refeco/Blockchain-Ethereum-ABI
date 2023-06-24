@@ -27,10 +27,12 @@ sub function_name {
 sub append {
     my ($self, %param) = @_;
 
+    state $type = Blockchain::Ethereum::ABI::Type->new;
+
     for my $type_signature (keys %param) {
         push(
             $self->_instances->@*,
-            Blockchain::Ethereum::ABI::Type::new_type(
+            $type->new_type(
                 signature => $type_signature,
                 data      => $param{$type_signature}));
     }
@@ -76,10 +78,6 @@ sub _clean {
     delete $self->{instances};
     undef $self->{function_name};
 }
-
-1;
-
-__END__
 
 =pod
 
@@ -212,3 +210,5 @@ This is free software, licensed under:
   The MIT License
 
 =cut
+
+1;

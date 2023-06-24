@@ -2,7 +2,6 @@
 .perltidyrc
 .tidyallrc
 Changes
-cpanfile
 lib/Blockchain/Ethereum/ABI.pm
 lib/Blockchain/Ethereum/ABI/Decoder.pm
 lib/Blockchain/Ethereum/ABI/Encoder.pm

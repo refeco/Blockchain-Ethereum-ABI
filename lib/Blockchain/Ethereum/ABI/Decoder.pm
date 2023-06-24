@@ -21,7 +21,9 @@ sub _instances {
 sub append {
     my ($self, $param) = @_;
 
-    push $self->_instances->@*, Blockchain::Ethereum::ABI::Type::new_type(signature => $param);
+    state $type = Blockchain::Ethereum::ABI::Type->new;
+
+    push $self->_instances->@*, $type->new_type(signature => $param);
     return $self;
 }
 
@@ -47,10 +49,6 @@ sub _clean {
     my $self = shift;
     delete $self->{instances};
 }
-
-1;
-
-__END__
 
 =pod
 
@@ -126,3 +124,5 @@ This is free software, licensed under:
   The MIT License
 
 =cut
+
+1;

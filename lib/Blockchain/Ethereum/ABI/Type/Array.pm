@@ -13,7 +13,7 @@ sub _configure {
 
     for my $item ($self->_data->@*) {
         push $self->_instances->@*,
-            Blockchain::Ethereum::ABI::Type::new_type(
+            $self->new_type(
             signature => $self->_remove_parent,
             data      => $item
             );
@@ -50,7 +50,7 @@ sub decode {
     my @data = $self->_data->@*;
 
     my $size = $self->fixed_length // shift $self->_data->@*;
-    push $self->_instances->@*, Blockchain::Ethereum::ABI::Type::new_type(signature => $self->_remove_parent) for 0 .. $size - 1;
+    push $self->_instances->@*, $self->new_type(signature => $self->_remove_parent) for 0 .. $size - 1;
 
     return $self->_read_stack_set_data;
 }
@@ -82,10 +82,6 @@ sub _static_size {
 
     return $size * $instance_size;
 }
-
-1;
-
-__END__
 
 =pod
 
@@ -168,3 +164,5 @@ This is free software, licensed under:
   The MIT License
 
 =cut
+
+1;

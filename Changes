@@ -1,4 +1,8 @@
 Revision history for Blockchain-Ethereum-ABI
+0.009
+    - fix minor documentation bugs
+    - tuple signature check
+    - remove tidy backup and cache
 0.008
     - private methods, correct package name
 0.007
