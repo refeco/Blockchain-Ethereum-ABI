@@ -3,20 +3,22 @@ package Blockchain::Ethereum::ABI::Type::Address;
 use v5.26;
 use strict;
 use warnings;
+use feature 'signatures';
+no indirect ':fatal';
 
 use Carp;
 use parent qw(Blockchain::Ethereum::ABI::Type);
 
-sub encode {
-    my $self = shift;
+sub encode ($self) {
+
     return $self->_encoded if $self->_encoded;
     $self->_push_static($self->pad_left(substr($self->_data, 2)));
 
     return $self->_encoded;
 }
 
-sub decode {
-    my $self = shift;
+sub decode ($self) {
+
     return '0x' . substr $self->_data->[0], -40;
 }
 

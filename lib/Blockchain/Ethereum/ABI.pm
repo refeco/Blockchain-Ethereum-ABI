@@ -10,11 +10,11 @@ Blockchain::Ethereum::ABI - Contract ABI utilities
 
 =head1 VERSION
 
-Version 0.009
+Version 0.010
 
 =cut
 
-our $VERSION = '0.009';
+our $VERSION = '0.010';
 
 =head1 SYNOPSIS
 
@@ -43,7 +43,6 @@ Please report any bugs or feature requests to L<https://github.com/refeco/perl-A
 You can find documentation for this module with the perldoc command.
 
     perldoc Blockchain::Ethereum::ABI
-
 
 You can also look for information at:
 

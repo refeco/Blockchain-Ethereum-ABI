@@ -3,12 +3,14 @@ package Blockchain::Ethereum::ABI::Type::Bytes;
 use v5.26;
 use strict;
 use warnings;
+use feature 'signatures';
+no indirect ':fatal';
 
 use Carp;
 use parent qw(Blockchain::Ethereum::ABI::Type);
 
-sub encode {
-    my $self = shift;
+sub encode ($self) {
+
     return $self->_encoded if $self->_encoded;
     # remove 0x and validates the hexadecimal value
     croak 'Invalid hexadecimal value ' . $self->_data // 'undef'
@@ -29,8 +31,8 @@ sub encode {
     return $self->_encoded;
 }
 
-sub decode {
-    my $self = shift;
+sub decode ($self) {
+
     my @data = $self->_data->@*;
 
     my $hex_data;

@@ -3,6 +3,8 @@ package Blockchain::Ethereum::ABI::Encoder;
 use v5.26;
 use strict;
 use warnings;
+use feature 'signatures';
+no indirect ':fatal';
 
 use Carp;
 use Digest::Keccak qw(keccak_256_hex);
@@ -10,22 +12,22 @@ use Digest::Keccak qw(keccak_256_hex);
 use Blockchain::Ethereum::ABI::Type;
 use Blockchain::Ethereum::ABI::Type::Tuple;
 
-sub new {
-    return bless {}, shift;
+sub new ($class) {
+
+    return bless {}, $class;
 }
 
-sub _instances {
-    my $self = shift;
+sub _instances ($self) {
+
     return $self->{instances} //= [];
 }
 
-sub function_name {
-    my $self = shift;
+sub function_name ($self) {
+
     return $self->{function_name};
 }
 
-sub append {
-    my ($self, %param) = @_;
+sub append ($self, %param) {
 
     state $type = Blockchain::Ethereum::ABI::Type->new;
 
@@ -40,14 +42,14 @@ sub append {
     return $self;
 }
 
-sub function {
-    my ($self, $function_name) = @_;
+sub function ($self, $function_name) {
+
     $self->{function_name} = $function_name;
     return $self;
 }
 
-sub generate_function_signature {
-    my $self = shift;
+sub generate_function_signature ($self) {
+
     croak "Missing function name e.g. ->function('name')" unless $self->function_name;
     my $signature = $self->function_name . '(';
     $signature .= sprintf("%s,", $_->_signature) for $self->_instances->@*;
@@ -55,26 +57,25 @@ sub generate_function_signature {
     return $signature . ')';
 }
 
-sub encode_function_signature {
-    my ($self, $signature) = @_;
+sub encode_function_signature ($self, $signature) {
+
     return sprintf("0x%.8s", keccak_256_hex($signature // $self->generate_function_signature));
 }
 
-sub encode {
-    my $self = shift;
+sub encode ($self) {
 
     my $tuple = Blockchain::Ethereum::ABI::Type::Tuple->new;
     $tuple->{instances} = $self->_instances;
     my @data = $tuple->encode->@*;
-    unshift @data, $self->encode_function_signature if $self->function_name;
+    unshift @data, $self->encode_function_signature(undef) if $self->function_name;
 
     $self->_clean;
 
     return join('', @data);
 }
 
-sub _clean {
-    my $self = shift;
+sub _clean ($self) {
+
     delete $self->{instances};
     undef $self->{function_name};
 }
@@ -189,7 +190,7 @@ Returns the encoded string, if function name was given will be 0x prefixed
 
 =head1 AUTHOR
 
-Reginaldo Costa, C<< <refeco at cpan.org> >>
+REFECO, C<< <refeco at cpan.org> >>
 
 =head1 BUGS
 

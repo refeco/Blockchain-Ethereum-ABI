@@ -3,12 +3,14 @@ package Blockchain::Ethereum::ABI::Type::Array;
 use v5.26;
 use strict;
 use warnings;
+use feature 'signatures';
+no indirect ':fatal';
 
 use Carp;
 use parent qw(Blockchain::Ethereum::ABI::Type);
 
-sub _configure {
-    my $self = shift;
+sub _configure ($self) {
+
     return unless $self->_data;
 
     for my $item ($self->_data->@*) {
@@ -20,8 +22,8 @@ sub _configure {
     }
 }
 
-sub encode {
-    my $self = shift;
+sub encode ($self) {
+
     return $self->_encoded if $self->_encoded;
 
     my $length = scalar $self->_data->@*;
@@ -45,8 +47,8 @@ sub encode {
     return $self->_encoded;
 }
 
-sub decode {
-    my $self = shift;
+sub decode ($self) {
+
     my @data = $self->_data->@*;
 
     my $size = $self->fixed_length // shift $self->_data->@*;
@@ -55,22 +57,22 @@ sub decode {
     return $self->_read_stack_set_data;
 }
 
-sub _remove_parent {
-    my $self = shift;
+sub _remove_parent ($self) {
+
     $self->_signature =~ /(\[(\d+)?\]$)/;
     return substr $self->_signature, 0, length($self->_signature) - length($1 // '');
 }
 
-sub fixed_length {
-    my $self = shift;
+sub fixed_length ($self) {
+
     if ($self->_signature =~ /\[(\d+)?\]$/) {
         return $1;
     }
     return undef;
 }
 
-sub _static_size {
-    my $self = shift;
+sub _static_size ($self) {
+
     return 1 if $self->is_dynamic;
 
     my $size = $self->fixed_length;

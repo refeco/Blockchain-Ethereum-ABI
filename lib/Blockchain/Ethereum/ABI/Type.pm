@@ -3,13 +3,14 @@ package Blockchain::Ethereum::ABI::Type;
 use v5.26;
 use strict;
 use warnings;
+use feature 'signatures';
+no indirect ':fatal';
 
 use Carp;
 use Module::Load;
 use constant NOT_IMPLEMENTED => 'Method not implemented';
 
-sub new {
-    my ($class, %params) = @_;
+sub new ($class, %params) {
 
     my $self = bless {}, $class;
     $self->{signature} = $params{signature};
@@ -24,49 +25,54 @@ sub new {
 sub _configure { }
 
 sub encode {
+
     croak NOT_IMPLEMENTED;
 }
 
 sub decode {
+
     croak NOT_IMPLEMENTED;
 }
 
-sub _static {
-    return shift->{static} //= [];
+sub _static ($self) {
+
+    return $self->{static} //= [];
 }
 
-sub _push_static {
-    my ($self, $data) = @_;
+sub _push_static ($self, $data) {
+
     push($self->_static->@*, ref $data eq 'ARRAY' ? $data->@* : $data);
 }
 
-sub _dynamic {
-    return shift->{dynamic} //= [];
+sub _dynamic ($self) {
+
+    return $self->{dynamic} //= [];
 }
 
-sub _push_dynamic {
-    my ($self, $data) = @_;
+sub _push_dynamic ($self, $data) {
+
     push($self->_dynamic->@*, ref $data eq 'ARRAY' ? $data->@* : $data);
 }
 
-sub _signature {
-    return shift->{signature};
+sub _signature ($self) {
+
+    return $self->{signature};
 }
 
-sub _data {
-    return shift->{data};
+sub _data ($self) {
+
+    return $self->{data};
 }
 
-sub fixed_length {
-    my $self = shift;
+sub fixed_length ($self) {
+
     if ($self->_signature =~ /[a-z](\d+)/) {
         return $1;
     }
     return undef;
 }
 
-sub pad_right {
-    my ($self, $data) = @_;
+sub pad_right ($self, $data) {
 
     my @chunks;
     push(@chunks, $_ . '0' x (64 - length $_)) for unpack("(A64)*", $data);
@@ -74,8 +80,7 @@ sub pad_right {
     return \@chunks;
 }
 
-sub pad_left {
-    my ($self, $data) = @_;
+sub pad_left ($self, $data) {
 
     my @chunks;
     push(@chunks, sprintf("%064s", $_)) for unpack("(A64)*", $data);
@@ -84,28 +89,28 @@ sub pad_left {
 
 }
 
-sub _encode_length {
-    my ($self, $length) = @_;
+sub _encode_length ($self, $length) {
+
     return sprintf("%064s", sprintf("%x", $length));
 }
 
-sub _encode_offset {
-    my ($self, $offset) = @_;
+sub _encode_offset ($self, $offset) {
+
     return sprintf("%064s", sprintf("%x", $offset * 32));
 }
 
-sub _encoded {
-    my $self = shift;
+sub _encoded ($self) {
+
     my @data = ($self->_static->@*, $self->_dynamic->@*);
     return scalar @data ? \@data : undef;
 }
 
-sub is_dynamic {
-    return shift->_signature =~ /(bytes|string)(?!\d+)|(\[\])/ ? 1 : 0;
+sub is_dynamic ($self) {
+
+    return $self->_signature =~ /(bytes|string)(?!\d+)|(\[\])/ ? 1 : 0;
 }
 
-sub new_type {
-    my ($self, %params) = @_;
+sub new_type ($self, %params) {
 
     my $signature = $params{signature};
 
@@ -135,14 +140,15 @@ sub new_type {
         data      => $params{data});
 }
 
-sub _instances {
-    return shift->{instances} //= [];
+sub _instances ($self) {
+
+    return $self->{instances} //= [];
 }
 
 # get the first index where data is set to the encoded value
 # skipping the prefixed indexes
-sub _get_initial_offset {
-    my $self   = shift;
+sub _get_initial_offset ($self) {
+
     my $offset = 0;
     for my $param ($self->_instances->@*) {
         my $encoded = $param->encode;
@@ -157,12 +163,12 @@ sub _get_initial_offset {
 }
 
 sub _static_size {
+
     return 1;
 }
 
 # read the data at the encoded stack
-sub _read_stack_set_data {
-    my $self = shift;
+sub _read_stack_set_data ($self) {
 
     my @data = $self->_data->@*;
     my @offsets;

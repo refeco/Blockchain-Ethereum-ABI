@@ -3,11 +3,13 @@ package Blockchain::Ethereum::ABI::Type::String;
 use v5.26;
 use strict;
 use warnings;
+use feature 'signatures';
+no indirect ':fatal';
 
 use parent qw(Blockchain::Ethereum::ABI::Type);
 
-sub encode {
-    my $self = shift;
+sub encode ($self) {
+
     return $self->_encoded if $self->_encoded;
 
     my $hex = unpack("H*", $self->_data);
@@ -19,8 +21,8 @@ sub encode {
     return $self->_encoded;
 }
 
-sub decode {
-    my $self = shift;
+sub decode ($self) {
+
     my @data = $self->_data->@*;
 
     my $size          = hex shift @data;

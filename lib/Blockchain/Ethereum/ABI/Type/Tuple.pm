@@ -3,12 +3,14 @@ package Blockchain::Ethereum::ABI::Type::Tuple;
 use v5.26;
 use strict;
 use warnings;
+use feature 'signatures';
+no indirect ':fatal';
 
 use Carp;
 use parent qw(Blockchain::Ethereum::ABI::Type);
 
-sub _configure {
-    my $self = shift;
+sub _configure ($self) {
+
     return unless $self->_data;
 
     my @splited_signatures = $self->_split_tuple_signature->@*;
@@ -22,8 +24,8 @@ sub _configure {
 
 }
 
-sub _split_tuple_signature {
-    my $self = shift;
+sub _split_tuple_signature ($self) {
+
     # remove the parentheses from tuple signature
     $self->_signature =~ /^\((.*)\)$/;
     my $tuple_signatures = $1;
@@ -37,8 +39,8 @@ sub _split_tuple_signature {
     return \@types;
 }
 
-sub encode {
-    my $self = shift;
+sub encode ($self) {
+
     return $self->_encoded if $self->_encoded;
 
     my $offset = $self->_get_initial_offset;
@@ -58,8 +60,7 @@ sub encode {
     return $self->_encoded;
 }
 
-sub decode {
-    my $self = shift;
+sub decode ($self) {
 
     unless (scalar $self->_instances->@* > 0) {
         push $self->_instances->@*, $self->new_type(signature => $_) for $self->_split_tuple_signature->@*;
@@ -68,8 +69,8 @@ sub decode {
     return $self->_read_stack_set_data;
 }
 
-sub _static_size {
-    my $self = shift;
+sub _static_size ($self) {
+
     return 1 if $self->is_dynamic;
     my $size          = 1;
     my $instance_size = 0;

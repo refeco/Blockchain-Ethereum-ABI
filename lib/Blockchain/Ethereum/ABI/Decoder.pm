@@ -3,23 +3,25 @@ package Blockchain::Ethereum::ABI::Decoder;
 use v5.26;
 use strict;
 use warnings;
+use feature 'signatures';
+no indirect ':fatal';
 
 use Carp;
 
 use Blockchain::Ethereum::ABI::Type;
 use Blockchain::Ethereum::ABI::Type::Tuple;
 
-sub new {
-    return bless {}, shift;
+sub new ($class) {
+
+    return bless {}, $class;
 }
 
-sub _instances {
-    my $self = shift;
+sub _instances ($self) {
+
     return $self->{instances} //= [];
 }
 
-sub append {
-    my ($self, $param) = @_;
+sub append ($self, $param) {
 
     state $type = Blockchain::Ethereum::ABI::Type->new;
 
@@ -27,8 +29,7 @@ sub append {
     return $self;
 }
 
-sub decode {
-    my ($self, $hex_data) = @_;
+sub decode ($self, $hex_data) {
 
     croak 'Invalid hexadecimal value ' . $hex_data // 'undef'
         unless $hex_data =~ /^(?:0x|0X)?([a-fA-F0-9]+)$/;
@@ -45,8 +46,8 @@ sub decode {
     return $data;
 }
 
-sub _clean {
-    my $self = shift;
+sub _clean ($self) {
+
     delete $self->{instances};
 }
 

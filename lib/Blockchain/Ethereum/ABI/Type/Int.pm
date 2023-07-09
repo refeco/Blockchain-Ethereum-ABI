@@ -3,6 +3,8 @@ package Blockchain::Ethereum::ABI::Type::Int;
 use v5.26;
 use strict;
 use warnings;
+use feature 'signatures';
+no indirect ':fatal';
 
 use Carp;
 use Math::BigInt;
@@ -10,8 +12,8 @@ use parent qw(Blockchain::Ethereum::ABI::Type);
 
 use constant DEFAULT_INT_SIZE => 256;
 
-sub encode {
-    my $self = shift;
+sub encode ($self) {
+
     return $self->_encoded if $self->_encoded;
 
     my $bdata = Math::BigInt->new($self->_data);
@@ -32,13 +34,13 @@ sub encode {
     return $self->_encoded;
 }
 
-sub decode {
-    my $self = shift;
+sub decode ($self) {
+
     return Math::BigInt->from_hex($self->_data->[0]);
 }
 
-sub fixed_length {
-    my $self = shift;
+sub fixed_length ($self) {
+
     if ($self->_signature =~ /[a-z](\d+)/) {
         return $1;
     }
