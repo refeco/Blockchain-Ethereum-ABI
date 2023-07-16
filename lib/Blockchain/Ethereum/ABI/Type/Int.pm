@@ -1,51 +1,53 @@
-package Blockchain::Ethereum::ABI::Type::Int;
-
 use v5.26;
-use strict;
-use warnings;
-use feature 'signatures';
-no indirect ':fatal';
+use Object::Pad;
 
-use Carp;
-use Math::BigInt;
-use parent qw(Blockchain::Ethereum::ABI::Type);
+use Blockchain::Ethereum::ABI::Type;
+use Blockchain::Ethereum::ABI::TypeRole;
 
-use constant DEFAULT_INT_SIZE => 256;
+class Blockchain::Ethereum::ABI::Type::Int :isa(Blockchain::Ethereum::ABI::Type) :does(Blockchain::Ethereum::ABI::TypeRole) {
+    use Carp;
+    use Math::BigInt;
 
-sub encode ($self) {
+    use constant DEFAULT_INT_SIZE => 256;
 
-    return $self->_encoded if $self->_encoded;
+    method _configure { return }
 
-    my $bdata = Math::BigInt->new($self->_data);
+    method encode {
 
-    croak "Invalid numeric data @{[$self->_data]}" if $bdata->is_nan;
+        return $self->_encoded if $self->_encoded;
 
-    croak "Invalid data length, signature: @{[$self->fixed_length]}, data length: @{[$bdata->length]}"
-        if $self->fixed_length && $bdata->length > $self->fixed_length;
+        my $bdata = Math::BigInt->new($self->data);
 
-    croak "Invalid negative numeric data @{[$self->_data]}"
-        if $bdata->is_neg && $self->_signature =~ /^uint|bool/;
+        croak "Invalid numeric data @{[$self->data]}" if $bdata->is_nan;
 
-    croak "Invalid bool data it must be 1 or 0 but given @{[$self->_data]}"
-        if !$bdata->is_zero && !$bdata->is_one && $self->_signature =~ /^bool/;
+        croak "Invalid data length, signature: @{[$self->fixed_length]}, data length: @{[$bdata->length]}"
+            if $self->fixed_length && $bdata->length > $self->fixed_length;
 
-    $self->_push_static($self->pad_left($bdata->to_hex));
+        croak "Invalid negative numeric data @{[$self->data]}"
+            if $bdata->is_neg && $self->signature =~ /^uint|bool/;
 
-    return $self->_encoded;
-}
+        croak "Invalid bool data it must be 1 or 0 but given @{[$self->data]}"
+            if !$bdata->is_zero && !$bdata->is_one && $self->signature =~ /^bool/;
 
-sub decode ($self) {
+        $self->_push_static($self->pad_left($bdata->to_hex));
 
-    return Math::BigInt->from_hex($self->_data->[0]);
-}
-
-sub fixed_length ($self) {
-
-    if ($self->_signature =~ /[a-z](\d+)/) {
-        return $1;
+        return $self->_encoded;
     }
-    return DEFAULT_INT_SIZE;
-}
+
+    method decode {
+
+        return Math::BigInt->from_hex($self->data->[0]);
+    }
+
+    method fixed_length :override {
+
+        if ($self->signature =~ /[a-z](\d+)/) {
+            return $1;
+        }
+        return DEFAULT_INT_SIZE;
+    }
+
+};
 
 1;
 

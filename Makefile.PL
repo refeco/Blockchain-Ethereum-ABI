@@ -24,14 +24,10 @@ my %WriteMakefileArgs = (
         'ExtUtils::MakeMaker' => '7.70',
     },
     TEST_REQUIRES => {
-        'Test::More'  => '1.302192',
         'Test::Fatal' => '0.016',
     },
     PREREQ_PM => {
         'Digest::Keccak' => '0.05',
-        'Math::BigInt'   => '1.999837',
-        'Carp'           => '1.50',
-        'Module::Load'   => '0.36',
     },
     dist => {
         COMPRESS => 'gzip -9f',

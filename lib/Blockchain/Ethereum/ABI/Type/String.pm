@@ -1,35 +1,34 @@
-package Blockchain::Ethereum::ABI::Type::String;
-
 use v5.26;
-use strict;
-use warnings;
-use feature 'signatures';
-no indirect ':fatal';
+use Object::Pad;
 
-use parent qw(Blockchain::Ethereum::ABI::Type);
+class Blockchain::Ethereum::ABI::Type::String :isa(Blockchain::Ethereum::ABI::Type) :does(Blockchain::Ethereum::ABI::TypeRole) {
 
-sub encode ($self) {
+    method _configure { return }
 
-    return $self->_encoded if $self->_encoded;
+    method encode {
 
-    my $hex = unpack("H*", $self->_data);
+        return $self->_encoded if $self->_encoded;
 
-    # for dynamic length basic types the length must be included
-    $self->_push_dynamic($self->_encode_length(length(pack("H*", $hex))));
-    $self->_push_dynamic($self->pad_right($hex));
+        my $hex = unpack("H*", $self->data);
 
-    return $self->_encoded;
-}
+        # for dynamic length basic types the length must be included
+        $self->_push_dynamic($self->_encode_length(length(pack("H*", $hex))));
+        $self->_push_dynamic($self->pad_right($hex));
 
-sub decode ($self) {
+        return $self->_encoded;
+    }
 
-    my @data = $self->_data->@*;
+    method decode {
 
-    my $size          = hex shift @data;
-    my $string_data   = join('', @data);
-    my $packed_string = pack("H*", $string_data);
-    return substr($packed_string, 0, $size);
-}
+        my @data = $self->data->@*;
+
+        my $size          = hex shift @data;
+        my $string_data   = join('', @data);
+        my $packed_string = pack("H*", $string_data);
+        return substr($packed_string, 0, $size);
+    }
+
+};
 
 1;
 

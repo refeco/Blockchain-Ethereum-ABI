@@ -1,89 +1,89 @@
-package Blockchain::Ethereum::ABI::Type::Array;
-
 use v5.26;
-use strict;
-use warnings;
-use feature 'signatures';
-no indirect ':fatal';
+use Object::Pad;
 
-use Carp;
-use parent qw(Blockchain::Ethereum::ABI::Type);
+use Blockchain::Ethereum::ABI::Type;
+use Blockchain::Ethereum::ABI::TypeRole;
 
-sub _configure ($self) {
+class Blockchain::Ethereum::ABI::Type::Array :isa(Blockchain::Ethereum::ABI::Type) :does(Blockchain::Ethereum::ABI::TypeRole) {
+    use Carp;
 
-    return unless $self->_data;
+    method _configure {
 
-    for my $item ($self->_data->@*) {
-        push $self->_instances->@*,
-            $self->new_type(
-            signature => $self->_remove_parent,
-            data      => $item
-            );
-    }
-}
+        return unless $self->data;
 
-sub encode ($self) {
-
-    return $self->_encoded if $self->_encoded;
-
-    my $length = scalar $self->_data->@*;
-    # for dynamic length arrays the length must be included
-    $self->_push_static($self->_encode_length($length))
-        unless $self->fixed_length;
-
-    croak "Invalid array size, signature @{[$self->fixed_length]}, data: $length"
-        if $self->fixed_length && $length > $self->fixed_length;
-
-    my $offset = $self->_get_initial_offset;
-
-    for my $instance ($self->_instances->@*) {
-        $self->_push_static($self->_encode_offset($offset))
-            if $instance->is_dynamic;
-
-        $self->_push_dynamic($instance->encode);
-        $offset += scalar $instance->encode()->@*;
+        for my $item ($self->data->@*) {
+            push $self->_instances->@*,
+                Blockchain::Ethereum::ABI::Type->new(
+                signature => $self->_remove_parent,
+                data      => $item
+                );
+        }
     }
 
-    return $self->_encoded;
-}
+    method encode {
 
-sub decode ($self) {
+        return $self->_encoded if $self->_encoded;
 
-    my @data = $self->_data->@*;
+        my $length = scalar $self->data->@*;
+        # for dynamic length arrays the length must be included
+        $self->_push_static($self->_encode_length($length))
+            unless $self->fixed_length;
 
-    my $size = $self->fixed_length // shift $self->_data->@*;
-    push $self->_instances->@*, $self->new_type(signature => $self->_remove_parent) for 0 .. $size - 1;
+        croak "Invalid array size, signature @{[$self->fixed_length]}, data: $length"
+            if $self->fixed_length && $length > $self->fixed_length;
 
-    return $self->_read_stack_set_data;
-}
+        my $offset = $self->_get_initial_offset;
 
-sub _remove_parent ($self) {
+        for my $instance ($self->_instances->@*) {
+            $self->_push_static($self->_encode_offset($offset))
+                if $instance->is_dynamic;
 
-    $self->_signature =~ /(\[(\d+)?\]$)/;
-    return substr $self->_signature, 0, length($self->_signature) - length($1 // '');
-}
+            $self->_push_dynamic($instance->encode);
+            $offset += scalar $instance->encode()->@*;
+        }
 
-sub fixed_length ($self) {
-
-    if ($self->_signature =~ /\[(\d+)?\]$/) {
-        return $1;
-    }
-    return undef;
-}
-
-sub _static_size ($self) {
-
-    return 1 if $self->is_dynamic;
-
-    my $size = $self->fixed_length;
-
-    my $instance_size = 1;
-    for my $instance ($self->_instances->@*) {
-        $instance_size += $instance->_static_size;
+        return $self->_encoded;
     }
 
-    return $size * $instance_size;
-}
+    method decode {
+
+        my @data = $self->data->@*;
+
+        my $size = $self->fixed_length // shift $self->data->@*;
+        push $self->_instances->@*, Blockchain::Ethereum::ABI::Type->new(signature => $self->_remove_parent) for 0 .. $size - 1;
+
+        return $self->_read_stack_set_data;
+    }
+
+    method _remove_parent {
+
+        $self->signature =~ /(\[(\d+)?\]$)/;
+        return substr $self->signature, 0, length($self->signature) - length($1 // '');
+    }
+
+    method fixed_length :override {
+
+        if ($self->signature =~ /\[(\d+)?\]$/) {
+            return $1;
+        }
+        return undef;
+    }
+
+    method _static_size :override {
+
+        return 1 if $self->is_dynamic;
+
+        my $size = $self->fixed_length;
+
+        my $instance_size = 1;
+        for my $instance ($self->_instances->@*) {
+            $instance_size += $instance->_static_size;
+        }
+
+        return $size * $instance_size;
+    }
+
+};
 
 =pod
 

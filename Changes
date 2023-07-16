@@ -1,9 +1,8 @@
 Revision history for Blockchain-Ethereum-ABI
 0.010
-    - Signatures
-    - Modules upgrades
-    - Refactoring
-    - Clean up
+    [Improvements]
+    - object::Pad
+    - upgrade modules
 0.009
     - fix minor documentation bugs
     - tuple signature check
