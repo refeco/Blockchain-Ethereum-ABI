@@ -174,7 +174,7 @@ Returns the encoded string, if function name was given will be 0x prefixed
 
 =head1 AUTHOR
 
-REFECO, C<< <refeco at cpan.org> >>
+Reginaldo Costa, C<< <refeco at cpan.org> >>
 
 =head1 BUGS
 

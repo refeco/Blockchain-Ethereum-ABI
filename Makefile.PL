@@ -5,7 +5,7 @@ use ExtUtils::MakeMaker;
 
 my %WriteMakefileArgs = (
     NAME             => 'Blockchain::Ethereum::ABI',
-    AUTHOR           => q{REFECO <refeco@cpan.org>},
+    AUTHOR           => q{Reginaldo Costa <refeco@cpan.org>},
     VERSION_FROM     => 'lib/Blockchain/Ethereum/ABI.pm',
     ABSTRACT_FROM    => 'lib/Blockchain/Ethereum/ABI.pm',
     LICENSE          => 'mit',
@@ -27,6 +27,7 @@ my %WriteMakefileArgs = (
         'Test::Fatal' => '0.016',
     },
     PREREQ_PM => {
+        'Object::Pad'    => '0.79',
         'Digest::Keccak' => '0.05',
     },
     dist => {

@@ -1,8 +1,7 @@
-package Blockchain::Ethereum::ABI;
-
 use v5.26;
-use strict;
-use warnings;
+use Object::Pad;
+
+class Blockchain::Ethereum::ABI;
 
 =head1 NAME
 
@@ -43,24 +42,6 @@ Please report any bugs or feature requests to L<https://github.com/refeco/perl-A
 You can find documentation for this module with the perldoc command.
 
     perldoc Blockchain::Ethereum::ABI
-
-You can also look for information at:
-
-=over 4
-
-=item * RT: CPAN's request tracker (report bugs here)
-
-L<https://rt.cpan.org/NoAuth/Bugs.html?Dist=REFECO-Blockchain-Ethereum-ABI>
-
-=item * CPAN Ratings
-
-L<https://cpanratings.perl.org/d/REFECO-Blockchain-Ethereum-ABI>
-
-=item * Search CPAN
-
-L<https://metacpan.org/release/REFECO-Blockchain-Ethereum-ABI>
-
-=back
 
 =head1 LICENSE AND COPYRIGHT
 
