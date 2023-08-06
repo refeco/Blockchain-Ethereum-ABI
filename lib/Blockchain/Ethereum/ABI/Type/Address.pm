@@ -1,24 +1,23 @@
-package Blockchain::Ethereum::ABI::Type::Address;
-
 use v5.26;
-use strict;
-use warnings;
+use Object::Pad;
 
-use Carp;
-use parent qw(Blockchain::Ethereum::ABI::Type);
+class Blockchain::Ethereum::ABI::Type::Address :isa(Blockchain::Ethereum::ABI::Type) :does(Blockchain::Ethereum::ABI::TypeRole) {
 
-sub encode {
-    my $self = shift;
-    return $self->_encoded if $self->_encoded;
-    $self->_push_static($self->pad_left(substr($self->_data, 2)));
+    method _configure { return }
 
-    return $self->_encoded;
-}
+    method encode {
 
-sub decode {
-    my $self = shift;
-    return '0x' . substr $self->_data->[0], -40;
-}
+        return $self->_encoded if $self->_encoded;
+        $self->_push_static($self->pad_left(substr($self->data, 2)));
+
+        return $self->_encoded;
+    }
+
+    method decode {
+
+        return '0x' . substr $self->data->[0], -40;
+    }
+};
 
 =pod
 

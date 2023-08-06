@@ -1,83 +1,68 @@
-package Blockchain::Ethereum::ABI::Encoder;
-
 use v5.26;
-use strict;
-use warnings;
+use Object::Pad ':experimental(init_expr)';
 
-use Carp;
-use Digest::Keccak qw(keccak_256_hex);
+class Blockchain::Ethereum::ABI::Encoder {
+    use Carp;
+    use Digest::Keccak qw(keccak_256_hex);
 
-use Blockchain::Ethereum::ABI::Type;
-use Blockchain::Ethereum::ABI::Type::Tuple;
+    use Blockchain::Ethereum::ABI::Type;
+    use Blockchain::Ethereum::ABI::Type::Tuple;
 
-sub new {
-    return bless {}, shift;
-}
+    field $_instances :reader(_instances) :writer(set_instances) = [];
+    field $_function_name :reader(_function_name) :writer(set_function_name);
 
-sub _instances {
-    my $self = shift;
-    return $self->{instances} //= [];
-}
+    method append (%param) {
 
-sub function_name {
-    my $self = shift;
-    return $self->{function_name};
-}
+        for my $type_signature (keys %param) {
+            push(
+                $self->_instances->@*,
+                Blockchain::Ethereum::ABI::Type->new(
+                    signature => $type_signature,
+                    data      => $param{$type_signature}));
+        }
 
-sub append {
-    my ($self, %param) = @_;
-
-    state $type = Blockchain::Ethereum::ABI::Type->new;
-
-    for my $type_signature (keys %param) {
-        push(
-            $self->_instances->@*,
-            $type->new_type(
-                signature => $type_signature,
-                data      => $param{$type_signature}));
+        return $self;
     }
 
-    return $self;
-}
+    method function ($function_name) {
 
-sub function {
-    my ($self, $function_name) = @_;
-    $self->{function_name} = $function_name;
-    return $self;
-}
+        $self->set_function_name($function_name);
+        return $self;
+    }
 
-sub generate_function_signature {
-    my $self = shift;
-    croak "Missing function name e.g. ->function('name')" unless $self->function_name;
-    my $signature = $self->function_name . '(';
-    $signature .= sprintf("%s,", $_->_signature) for $self->_instances->@*;
-    chop $signature;
-    return $signature . ')';
-}
+    method generate_function_signature {
 
-sub encode_function_signature {
-    my ($self, $signature) = @_;
-    return sprintf("0x%.8s", keccak_256_hex($signature // $self->generate_function_signature));
-}
+        croak "Missing function name e.g. ->function('name')" unless $self->_function_name;
+        my $signature = $self->_function_name . '(';
+        $signature .= sprintf("%s,", $_->signature) for $self->_instances->@*;
+        chop $signature;
+        return $signature . ')';
+    }
 
-sub encode {
-    my $self = shift;
+    method encode_function_signature ($signature = undef) {
 
-    my $tuple = Blockchain::Ethereum::ABI::Type::Tuple->new;
-    $tuple->{instances} = $self->_instances;
-    my @data = $tuple->encode->@*;
-    unshift @data, $self->encode_function_signature if $self->function_name;
+        return sprintf("0x%.8s", keccak_256_hex($signature // $self->generate_function_signature));
+    }
 
-    $self->_clean;
+    method encode {
 
-    return join('', @data);
-}
+        my $tuple = Blockchain::Ethereum::ABI::Type::Tuple->new;
+        $tuple->set_instances($self->_instances);
+        my @data = $tuple->encode->@*;
+        unshift @data, $self->encode_function_signature if $self->_function_name;
 
-sub _clean {
-    my $self = shift;
-    delete $self->{instances};
-    undef $self->{function_name};
-}
+        $self->_clean;
+
+        return join('', @data);
+    }
+
+    method _clean {
+
+        $self->set_instances([]);
+        $self->set_function_name(undef);
+    }
+
+};
 
 =pod
 

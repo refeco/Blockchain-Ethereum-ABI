@@ -1,4 +1,7 @@
 Revision history for Blockchain-Ethereum-ABI
+0.010
+    [Improvements]
+    - Major refactoring
 0.009
     - fix minor documentation bugs
     - tuple signature check

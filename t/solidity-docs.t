@@ -54,4 +54,3 @@ subtest "example g" => sub {
 };
 
 done_testing;
-

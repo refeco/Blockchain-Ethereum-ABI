@@ -1,54 +1,42 @@
-package Blockchain::Ethereum::ABI::Decoder;
-
 use v5.26;
-use strict;
-use warnings;
+use Object::Pad ':experimental(init_expr)';
 
-use Carp;
+class Blockchain::Ethereum::ABI::Decoder {
+    use Carp;
+    use Blockchain::Ethereum::ABI::Type;
+    use Blockchain::Ethereum::ABI::Type::Tuple;
 
-use Blockchain::Ethereum::ABI::Type;
-use Blockchain::Ethereum::ABI::Type::Tuple;
+    field $_instances :reader(_instances) :writer(set_instances) = [];
 
-sub new {
-    return bless {}, shift;
-}
+    method append ($param) {
 
-sub _instances {
-    my $self = shift;
-    return $self->{instances} //= [];
-}
+        push $self->_instances->@*, Blockchain::Ethereum::ABI::Type->new(signature => $param);
+        return $self;
+    }
 
-sub append {
-    my ($self, $param) = @_;
+    method decode ($hex_data) {
 
-    state $type = Blockchain::Ethereum::ABI::Type->new;
+        croak 'Invalid hexadecimal value ' . $hex_data // 'undef'
+            unless $hex_data =~ /^(?:0x|0X)?([a-fA-F0-9]+)$/;
 
-    push $self->_instances->@*, $type->new_type(signature => $param);
-    return $self;
-}
+        my $hex  = $1;
+        my @data = unpack("(A64)*", $hex);
 
-sub decode {
-    my ($self, $hex_data) = @_;
+        my $tuple = Blockchain::Ethereum::ABI::Type::Tuple->new;
+        $tuple->set_instances($self->_instances);
+        $tuple->set_data(\@data);
+        my $data = $tuple->decode;
 
-    croak 'Invalid hexadecimal value ' . $hex_data // 'undef'
-        unless $hex_data =~ /^(?:0x|0X)?([a-fA-F0-9]+)$/;
+        $self->_clean;
+        return $data;
+    }
 
-    my $hex  = $1;
-    my @data = unpack("(A64)*", $hex);
+    method _clean {
 
-    my $tuple = Blockchain::Ethereum::ABI::Type::Tuple->new;
-    $tuple->{instances} = $self->_instances;
-    $tuple->{data}      = \@data;
-    my $data = $tuple->decode;
+        $self->set_instances([]);
+    }
 
-    $self->_clean;
-    return $data;
-}
-
-sub _clean {
-    my $self = shift;
-    delete $self->{instances};
-}
+};
 
 =pod
 

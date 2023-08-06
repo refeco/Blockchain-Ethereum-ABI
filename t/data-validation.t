@@ -51,4 +51,3 @@ subtest "Numeric" => sub {
 };
 
 done_testing;
-
