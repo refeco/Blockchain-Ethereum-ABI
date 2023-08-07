@@ -1,6 +1,7 @@
 use v5.26;
 use Object::Pad ':experimental(init_expr)';
 
+package Blockchain::Ethereum::ABI::Encoder 0.010;
 class Blockchain::Ethereum::ABI::Encoder {
     use Carp;
     use Digest::Keccak qw(keccak_256_hex);

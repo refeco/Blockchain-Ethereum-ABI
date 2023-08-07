@@ -1,6 +1,7 @@
 use v5.26;
 use Object::Pad ':experimental(init_expr)';
 
+package Blockchain::Ethereum::ABI::Type 0.010;
 class Blockchain::Ethereum::ABI::Type {
     use Carp;
     use Module::Load;

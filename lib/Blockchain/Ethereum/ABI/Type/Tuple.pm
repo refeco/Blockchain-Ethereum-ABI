@@ -1,9 +1,7 @@
 use v5.26;
 use Object::Pad;
 
-use Blockchain::Ethereum::ABI::Type;
-use Blockchain::Ethereum::ABI::TypeRole;
-
+package Blockchain::Ethereum::ABI::Type::Tuple 0.010;
 class Blockchain::Ethereum::ABI::Type::Tuple :isa(Blockchain::Ethereum::ABI::Type) :does(Blockchain::Ethereum::ABI::TypeRole) {
     use Carp;
 

@@ -1,6 +1,7 @@
 use v5.26;
 use Object::Pad;
 
+package Blockchain::Ethereum::ABI::Type::Bytes 0.010;
 class Blockchain::Ethereum::ABI::Type::Bytes :isa(Blockchain::Ethereum::ABI::Type) :does(Blockchain::Ethereum::ABI::TypeRole) {
     use Carp;
 
