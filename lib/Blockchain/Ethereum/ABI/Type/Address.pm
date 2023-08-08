@@ -1,28 +1,15 @@
 use v5.26;
 use Object::Pad;
 
-package Blockchain::Ethereum::ABI::Type::Address 0.010;
-class Blockchain::Ethereum::ABI::Type::Address :isa(Blockchain::Ethereum::ABI::Type) :does(Blockchain::Ethereum::ABI::TypeRole) {
+use Blockchain::Ethereum::ABI::Type;
+use Blockchain::Ethereum::ABI::TypeRole;
 
-    method _configure { return }
+package Blockchain::Ethereum::ABI::Type::Address 0.011;
+class Blockchain::Ethereum::ABI::Type::Address
+    :isa(Blockchain::Ethereum::ABI::Type)
+    :does(Blockchain::Ethereum::ABI::TypeRole);
 
-    method encode {
-
-        return $self->_encoded if $self->_encoded;
-        $self->_push_static($self->pad_left(substr($self->data, 2)));
-
-        return $self->_encoded;
-    }
-
-    method decode {
-
-        return '0x' . substr $self->data->[0], -40;
-    }
-};
-
-=pod
-
-=encoding UTF-8
+=encoding utf8
 
 =head1 NAME
 
@@ -38,7 +25,6 @@ Allows you to define and instantiate a solidity address type:
     );
 
     $type->encode();
-    ...
 
 In most cases you don't want to use this directly, use instead:
 
@@ -50,7 +36,9 @@ In most cases you don't want to use this directly, use instead:
 
 =back
 
-=head1 METHODS
+=cut
+
+method _configure { return }
 
 =head2 encode
 
@@ -63,6 +51,18 @@ Usage:
 =over 4
 
 =back
+
+ABI encoded hex string
+
+=cut
+
+method encode {
+
+    return $self->_encoded if $self->_encoded;
+    $self->_push_static($self->pad_left(substr($self->data, 2)));
+
+    return $self->_encoded;
+}
 
 =head2 decode
 
@@ -78,6 +78,17 @@ Usage:
 
 String 0x prefixed address
 
+=cut
+
+method decode {
+
+    return '0x' . substr $self->data->[0], -40;
+}
+
+1;
+
+__END__
+
 =head1 AUTHOR
 
 Reginaldo Costa, C<< <refeco at cpan.org> >>
@@ -85,12 +96,6 @@ Reginaldo Costa, C<< <refeco at cpan.org> >>
 =head1 BUGS
 
 Please report any bugs or feature requests to L<https://github.com/refeco/perl-ABI>
-
-=head1 SUPPORT
-
-You can find documentation for this module with the perldoc command.
-
-    perldoc Blockchain::Ethereum::ABI::Address
 
 =head1 LICENSE AND COPYRIGHT
 
@@ -101,5 +106,3 @@ This is free software, licensed under:
   The MIT License
 
 =cut
-
-1;

@@ -1,41 +1,12 @@
 use v5.26;
 use Object::Pad;
 
-package Blockchain::Ethereum::ABI::Type::String 0.010;
-class Blockchain::Ethereum::ABI::Type::String :isa(Blockchain::Ethereum::ABI::Type) :does(Blockchain::Ethereum::ABI::TypeRole) {
+package Blockchain::Ethereum::ABI::Type::String 0.011;
+class Blockchain::Ethereum::ABI::Type::String
+    :isa(Blockchain::Ethereum::ABI::Type)
+    :does(Blockchain::Ethereum::ABI::TypeRole);
 
-    method _configure { return }
-
-    method encode {
-
-        return $self->_encoded if $self->_encoded;
-
-        my $hex = unpack("H*", $self->data);
-
-        # for dynamic length basic types the length must be included
-        $self->_push_dynamic($self->_encode_length(length(pack("H*", $hex))));
-        $self->_push_dynamic($self->pad_right($hex));
-
-        return $self->_encoded;
-    }
-
-    method decode {
-
-        my @data = $self->data->@*;
-
-        my $size          = hex shift @data;
-        my $string_data   = join('', @data);
-        my $packed_string = pack("H*", $string_data);
-        return substr($packed_string, 0, $size);
-    }
-
-};
-
-1;
-
-=pod
-
-=encoding UTF-8
+=encoding utf8
 
 =head1 NAME
 
@@ -63,7 +34,9 @@ In most cases you don't want to use this directly, use instead:
 
 =back
 
-=head1 METHODS
+=cut
+
+method _configure { return }
 
 =head2 encode
 
@@ -76,6 +49,23 @@ Usage:
 =over 4
 
 =back
+
+ABI encoded hex string
+
+=cut
+
+method encode {
+
+    return $self->_encoded if $self->_encoded;
+
+    my $hex = unpack("H*", $self->data);
+
+    # for dynamic length basic types the length must be included
+    $self->_push_dynamic($self->_encode_length(length(pack("H*", $hex))));
+    $self->_push_dynamic($self->pad_right($hex));
+
+    return $self->_encoded;
+}
 
 =head2 decode
 
@@ -91,6 +81,22 @@ Usage:
 
 String
 
+=cut
+
+method decode {
+
+    my @data = $self->data->@*;
+
+    my $size          = hex shift @data;
+    my $string_data   = join('', @data);
+    my $packed_string = pack("H*", $string_data);
+    return substr($packed_string, 0, $size);
+}
+
+1;
+
+__END__
+
 =head1 AUTHOR
 
 Reginaldo Costa, C<< <refeco at cpan.org> >>
@@ -98,12 +104,6 @@ Reginaldo Costa, C<< <refeco at cpan.org> >>
 =head1 BUGS
 
 Please report any bugs or feature requests to L<https://github.com/refeco/perl-ABI>
-
-=head1 SUPPORT
-
-You can find documentation for this module with the perldoc command.
-
-    perldoc Blockchain::Ethereum::ABI::String
 
 =head1 LICENSE AND COPYRIGHT
 

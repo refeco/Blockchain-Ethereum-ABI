@@ -1,73 +1,10 @@
 use v5.26;
 use Object::Pad ':experimental(init_expr)';
 
-package Blockchain::Ethereum::ABI::Encoder 0.010;
-class Blockchain::Ethereum::ABI::Encoder {
-    use Carp;
-    use Digest::Keccak qw(keccak_256_hex);
+package Blockchain::Ethereum::ABI::Encoder 0.011;
+class Blockchain::Ethereum::ABI::Encoder;
 
-    use Blockchain::Ethereum::ABI::Type;
-    use Blockchain::Ethereum::ABI::Type::Tuple;
-
-    field $_instances :reader(_instances) :writer(set_instances) = [];
-    field $_function_name :reader(_function_name) :writer(set_function_name);
-
-    method append (%param) {
-
-        for my $type_signature (keys %param) {
-            push(
-                $self->_instances->@*,
-                Blockchain::Ethereum::ABI::Type->new(
-                    signature => $type_signature,
-                    data      => $param{$type_signature}));
-        }
-
-        return $self;
-    }
-
-    method function ($function_name) {
-
-        $self->set_function_name($function_name);
-        return $self;
-    }
-
-    method generate_function_signature {
-
-        croak "Missing function name e.g. ->function('name')" unless $self->_function_name;
-        my $signature = $self->_function_name . '(';
-        $signature .= sprintf("%s,", $_->signature) for $self->_instances->@*;
-        chop $signature;
-        return $signature . ')';
-    }
-
-    method encode_function_signature ($signature = undef) {
-
-        return sprintf("0x%.8s", keccak_256_hex($signature // $self->generate_function_signature));
-    }
-
-    method encode {
-
-        my $tuple = Blockchain::Ethereum::ABI::Type::Tuple->new;
-        $tuple->set_instances($self->_instances);
-        my @data = $tuple->encode->@*;
-        unshift @data, $self->encode_function_signature if $self->_function_name;
-
-        $self->_clean;
-
-        return join('', @data);
-    }
-
-    method _clean {
-
-        $self->set_instances([]);
-        $self->set_function_name(undef);
-    }
-
-};
-
-=pod
-
-=encoding UTF-8
+=encoding utf8
 
 =head1 NAME
 
@@ -91,9 +28,17 @@ Allows you to encode contract ABI arguments
         ->append('uint256[][][2]', [[[1]], [[2]]])
         # tuples arrays and tuples inside tuples
         ->append('((int256)[2])' => [[[1], [2]]])->encode();
-    ...
 
-=head1 METHODS
+=cut
+
+use Carp;
+use Digest::Keccak qw(keccak_256_hex);
+
+use Blockchain::Ethereum::ABI::Type;
+use Blockchain::Ethereum::ABI::Type::Tuple;
+
+field $_instances :reader(_instances) :writer(set_instances) = [];
+field $_function_name :reader(_function_name) :writer(set_function_name);
 
 =head2 append
 
@@ -110,6 +55,21 @@ Usage:
 =back
 
 Returns C<$self>
+
+=cut
+
+method append (%param) {
+
+    for my $type_signature (keys %param) {
+        push(
+            $self->_instances->@*,
+            Blockchain::Ethereum::ABI::Type->new(
+                signature => $type_signature,
+                data      => $param{$type_signature}));
+    }
+
+    return $self;
+}
 
 =head2 function
 
@@ -128,6 +88,14 @@ Usage:
 
 Returns C<$self>
 
+=cut
+
+method function ($function_name) {
+
+    $self->set_function_name($function_name);
+    return $self;
+}
+
 =head2 generate_function_signature
 
 Based on the given function name and type signatures create the complete function
@@ -142,6 +110,17 @@ Usage:
 =back
 
 Returns the function signature string
+
+=cut
+
+method generate_function_signature {
+
+    croak "Missing function name e.g. ->function('name')" unless $self->_function_name;
+    my $signature = $self->_function_name . '(';
+    $signature .= sprintf("%s,", $_->signature) for $self->_instances->@*;
+    chop $signature;
+    return $signature . ')';
+}
 
 =head2 encode_function_signature
 
@@ -159,6 +138,13 @@ Usage:
 
 Returns the encoded string 0x prefixed
 
+=cut
+
+method encode_function_signature ($signature = undef) {
+
+    return sprintf("0x%.8s", keccak_256_hex($signature // $self->generate_function_signature));
+}
+
 =head2 encode
 
 Encodes appended signatures and the function name (when given)
@@ -173,6 +159,30 @@ Usage:
 
 Returns the encoded string, if function name was given will be 0x prefixed
 
+=cut
+
+method encode {
+
+    my $tuple = Blockchain::Ethereum::ABI::Type::Tuple->new;
+    $tuple->set_instances($self->_instances);
+    my @data = $tuple->encode->@*;
+    unshift @data, $self->encode_function_signature if $self->_function_name;
+
+    $self->_clean;
+
+    return join('', @data);
+}
+
+method _clean {
+
+    $self->set_instances([]);
+    $self->set_function_name(undef);
+}
+
+1;
+
+__END__
+
 =head1 AUTHOR
 
 Reginaldo Costa, C<< <refeco at cpan.org> >>
@@ -180,12 +190,6 @@ Reginaldo Costa, C<< <refeco at cpan.org> >>
 =head1 BUGS
 
 Please report any bugs or feature requests to L<https://github.com/refeco/perl-ABI>
-
-=head1 SUPPORT
-
-You can find documentation for this module with the perldoc command.
-
-    perldoc Blockchain::Ethereum::ABI::Encoder
 
 =head1 LICENSE AND COPYRIGHT
 
@@ -196,5 +200,3 @@ This is free software, licensed under:
   The MIT License
 
 =cut
-
-1;
