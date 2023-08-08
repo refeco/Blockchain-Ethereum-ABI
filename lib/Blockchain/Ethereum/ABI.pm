@@ -1,20 +1,12 @@
 use v5.26;
 use Object::Pad;
 
-package Blockchain::Ethereum::ABI 0.010;
+package Blockchain::Ethereum::ABI 0.011;
 class Blockchain::Ethereum::ABI;
 
 =head1 NAME
 
 Blockchain::Ethereum::ABI - Contract ABI utilities
-
-=head1 VERSION
-
-Version 0.010
-
-=cut
-
-our $VERSION = '0.010';
 
 =head1 SYNOPSIS
 
@@ -37,12 +29,6 @@ Reginaldo Costa, C<< <refeco at cpan.org> >>
 =head1 BUGS
 
 Please report any bugs or feature requests to L<https://github.com/refeco/perl-ABI>
-
-=head1 SUPPORT
-
-You can find documentation for this module with the perldoc command.
-
-    perldoc Blockchain::Ethereum::ABI
 
 =head1 LICENSE AND COPYRIGHT
 

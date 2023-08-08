@@ -1,47 +1,10 @@
 use v5.26;
 use Object::Pad ':experimental(init_expr)';
 
-package Blockchain::Ethereum::ABI::Decoder 0.010;
-class Blockchain::Ethereum::ABI::Decoder {
-    use Carp;
-    use Blockchain::Ethereum::ABI::Type;
-    use Blockchain::Ethereum::ABI::Type::Tuple;
+package Blockchain::Ethereum::ABI::Decoder 0.011;
+class Blockchain::Ethereum::ABI::Decoder;
 
-    field $_instances :reader(_instances) :writer(set_instances) = [];
-
-    method append ($param) {
-
-        push $self->_instances->@*, Blockchain::Ethereum::ABI::Type->new(signature => $param);
-        return $self;
-    }
-
-    method decode ($hex_data) {
-
-        croak 'Invalid hexadecimal value ' . $hex_data // 'undef'
-            unless $hex_data =~ /^(?:0x|0X)?([a-fA-F0-9]+)$/;
-
-        my $hex  = $1;
-        my @data = unpack("(A64)*", $hex);
-
-        my $tuple = Blockchain::Ethereum::ABI::Type::Tuple->new;
-        $tuple->set_instances($self->_instances);
-        $tuple->set_data(\@data);
-        my $data = $tuple->decode;
-
-        $self->_clean;
-        return $data;
-    }
-
-    method _clean {
-
-        $self->set_instances([]);
-    }
-
-};
-
-=pod
-
-=encoding UTF-8
+=encoding utf8
 
 =head1 NAME
 
@@ -56,9 +19,15 @@ Allows you to decode contract ABI response
         ->append('uint256')
         ->append('bytes[]')
         ->decode('0x...');
-    ...
 
-=head1 METHODS
+=cut
+
+use Carp;
+
+use Blockchain::Ethereum::ABI::Type;
+use Blockchain::Ethereum::ABI::Type::Tuple;
+
+field $_instances :reader(_instances) :writer(set_instances) = [];
 
 =head2 append
 
@@ -76,6 +45,14 @@ Usage:
 
 Returns C<$self>
 
+=cut
+
+method append ($param) {
+
+    push $self->_instances->@*, Blockchain::Ethereum::ABI::Type->new(signature => $param);
+    return $self;
+}
+
 =head2 decode
 
 Decodes appended signatures
@@ -90,6 +67,34 @@ Usage:
 
 Returns an array reference containing all decoded values
 
+=cut
+
+method decode ($hex_data) {
+
+    croak 'Invalid hexadecimal value ' . $hex_data // 'undef'
+        unless $hex_data =~ /^(?:0x|0X)?([a-fA-F0-9]+)$/;
+
+    my $hex  = $1;
+    my @data = unpack("(A64)*", $hex);
+
+    my $tuple = Blockchain::Ethereum::ABI::Type::Tuple->new;
+    $tuple->set_instances($self->_instances);
+    $tuple->set_data(\@data);
+    my $data = $tuple->decode;
+
+    $self->_clean;
+    return $data;
+}
+
+method _clean {
+
+    $self->set_instances([]);
+}
+
+1;
+
+__END__
+
 =head1 AUTHOR
 
 Reginaldo Costa, C<< <refeco at cpan.org> >>
@@ -97,12 +102,6 @@ Reginaldo Costa, C<< <refeco at cpan.org> >>
 =head1 BUGS
 
 Please report any bugs or feature requests to L<https://github.com/refeco/perl-ABI>
-
-=head1 SUPPORT
-
-You can find documentation for this module with the perldoc command.
-
-    perldoc Blockchain::Ethereum::ABI::Encoder
 
 =head1 LICENSE AND COPYRIGHT
 
@@ -113,5 +112,3 @@ This is free software, licensed under:
   The MIT License
 
 =cut
-
-1;

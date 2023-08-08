@@ -1,57 +1,12 @@
 use v5.26;
 use Object::Pad;
 
-package Blockchain::Ethereum::ABI::Type::Bytes 0.010;
-class Blockchain::Ethereum::ABI::Type::Bytes :isa(Blockchain::Ethereum::ABI::Type) :does(Blockchain::Ethereum::ABI::TypeRole) {
-    use Carp;
+package Blockchain::Ethereum::ABI::Type::Bytes 0.011;
+class Blockchain::Ethereum::ABI::Type::Bytes
+    :isa(Blockchain::Ethereum::ABI::Type)
+    :does(Blockchain::Ethereum::ABI::TypeRole);
 
-    method _configure { return }
-
-    method encode {
-
-        return $self->_encoded if $self->_encoded;
-        # remove 0x and validates the hexadecimal value
-        croak 'Invalid hexadecimal value ' . $self->data // 'undef'
-            unless $self->data =~ /^(?:0x|0X)?([a-fA-F0-9]+)$/;
-        my $hex = $1;
-
-        my $data_length = length(pack("H*", $hex));
-        unless ($self->fixed_length) {
-            # for dynamic length basic types the length must be included
-            $self->_push_dynamic($self->_encode_length($data_length));
-            $self->_push_dynamic($self->pad_right($hex));
-        } else {
-            croak "Invalid data length, signature: @{[$self->fixed_length]}, data length: $data_length"
-                if $self->fixed_length && $data_length != $self->fixed_length;
-            $self->_push_static($self->pad_right($hex));
-        }
-
-        return $self->_encoded;
-    }
-
-    method decode {
-
-        my @data = $self->data->@*;
-
-        my $hex_data;
-        my $size = $self->fixed_length;
-        unless ($self->fixed_length) {
-            $size = hex shift @data;
-
-            $hex_data = join('', @data);
-        } else {
-            $hex_data = $data[0];
-        }
-
-        my $bytes = substr(pack("H*", $hex_data), 0, $size);
-        return sprintf "0x%s", unpack("H*", $bytes);
-    }
-
-};
-
-=pod
-
-=encoding UTF-8
+=encoding utf8
 
 =head1 NAME
 
@@ -67,7 +22,6 @@ Allows you to define and instantiate a solidity bytes type:
     );
 
     $type->encode();
-    ...
 
 In most cases you don't want to use this directly, use instead:
 
@@ -79,7 +33,11 @@ In most cases you don't want to use this directly, use instead:
 
 =back
 
-=head1 METHODS
+=cut
+
+use Carp;
+
+method _configure { return }
 
 =head2 encode
 
@@ -92,6 +50,32 @@ Usage:
 =over 4
 
 =back
+
+ABI encoded hex string
+
+=cut
+
+method encode {
+
+    return $self->_encoded if $self->_encoded;
+    # remove 0x and validates the hexadecimal value
+    croak 'Invalid hexadecimal value ' . $self->data // 'undef'
+        unless $self->data =~ /^(?:0x|0X)?([a-fA-F0-9]+)$/;
+    my $hex = $1;
+
+    my $data_length = length(pack("H*", $hex));
+    unless ($self->fixed_length) {
+        # for dynamic length basic types the length must be included
+        $self->_push_dynamic($self->_encode_length($data_length));
+        $self->_push_dynamic($self->pad_right($hex));
+    } else {
+        croak "Invalid data length, signature: @{[$self->fixed_length]}, data length: $data_length"
+            if $self->fixed_length && $data_length != $self->fixed_length;
+        $self->_push_static($self->pad_right($hex));
+    }
+
+    return $self->_encoded;
+}
 
 =head2 decode
 
@@ -107,6 +91,30 @@ Usage:
 
 hexadecimal encoded bytes string
 
+=cut
+
+method decode {
+
+    my @data = $self->data->@*;
+
+    my $hex_data;
+    my $size = $self->fixed_length;
+    unless ($self->fixed_length) {
+        $size = hex shift @data;
+
+        $hex_data = join('', @data);
+    } else {
+        $hex_data = $data[0];
+    }
+
+    my $bytes = substr(pack("H*", $hex_data), 0, $size);
+    return sprintf "0x%s", unpack("H*", $bytes);
+}
+
+1;
+
+__END__
+
 =head1 AUTHOR
 
 Reginaldo Costa, C<< <refeco at cpan.org> >>
@@ -114,12 +122,6 @@ Reginaldo Costa, C<< <refeco at cpan.org> >>
 =head1 BUGS
 
 Please report any bugs or feature requests to L<https://github.com/refeco/perl-ABI>
-
-=head1 SUPPORT
-
-You can find documentation for this module with the perldoc command.
-
-    perldoc Blockchain::Ethereum::ABI::Bytes
 
 =head1 LICENSE AND COPYRIGHT
 
@@ -130,5 +132,3 @@ This is free software, licensed under:
   The MIT License
 
 =cut
-
-1;
