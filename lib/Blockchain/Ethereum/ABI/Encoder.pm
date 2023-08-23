@@ -1,7 +1,7 @@
 use v5.26;
 use Object::Pad ':experimental(init_expr)';
 
-package Blockchain::Ethereum::ABI::Encoder 0.011;
+package Blockchain::Ethereum::ABI::Encoder 0.012;
 class Blockchain::Ethereum::ABI::Encoder;
 
 =encoding utf8
