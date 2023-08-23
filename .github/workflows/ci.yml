@@ -16,6 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         perl-version:
+          - '5.38'
           - '5.36'
           - '5.34'
           - '5.32'
@@ -32,4 +33,4 @@ jobs:
       - run: cpanm --notest --installdeps --verbose .
       - run: perl Makefile.PL
       - run: make
-      - run: prove -wlvmb t
+      - run: prove -wlvmb t xt
