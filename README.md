@@ -21,7 +21,7 @@ Supports:
 - **string**
 - **tuple**
 
-Also arrays \`((\\\[(\\d+)?\\\])+)?\` for the above mentioned types.
+Also arrays `((\[(\d+)?\])+)?` for the above mentioned types.
 
 Encoding:
 
@@ -58,7 +58,7 @@ Reginaldo Costa <refeco@cpan.org>
 
 # COPYRIGHT AND LICENSE
 
-This software is Copyright (c) 2023 by REFECO.
+This software is Copyright (c) 2022 by REFECO.
 
 This is free software, licensed under:
 

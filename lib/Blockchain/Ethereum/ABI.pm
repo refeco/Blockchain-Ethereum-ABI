@@ -32,7 +32,7 @@ Supports:
 
 =back
 
-Also arrays `((\[(\d+)?\])+)?` for the above mentioned types.
+Also arrays C<((\[(\d+)?\])+)?> for the above mentioned types.
 
 Encoding:
 
