@@ -1,14 +1,14 @@
 use v5.26;
 use Object::Pad;
+# ABSTRACT: ABI utility for encoding/decoding ethereum contract arguments
 
-package Blockchain::Ethereum::ABI 0.012;
+package Blockchain::Ethereum::ABI;
 class Blockchain::Ethereum::ABI;
 
-=head1 NAME
+# AUTHORITY
+# VERSION
 
-Blockchain::Ethereum::ABI - Contract ABI utilities
-
-=head1 SYNOPSIS
+=head1 OVERVIEW
 
 The Contract Application Binary Interface (ABI) is the standard way to interact
 with contracts (Ethereum), this module aims to be an utility to encode/decode the given
@@ -21,22 +21,6 @@ data according ABI type specification.
 =item * B<Decoder>: L<Blockchain::Ethereum::ABI::Decoder>
 
 =back
-
-=head1 AUTHOR
-
-Reginaldo Costa, C<< <refeco at cpan.org> >>
-
-=head1 BUGS
-
-Please report any bugs or feature requests to L<https://github.com/refeco/perl-ABI>
-
-=head1 LICENSE AND COPYRIGHT
-
-This software is Copyright (c) 2022 by REFECO.
-
-This is free software, licensed under:
-
-  The MIT License
 
 =cut
 

@@ -1,14 +1,12 @@
 use v5.26;
 use Object::Pad ':experimental(init_expr)';
+# ABSTRACT: ABI utility for decoding ethereum contract arguments
 
-package Blockchain::Ethereum::ABI::Decoder 0.012;
+package Blockchain::Ethereum::ABI::Decoder;
 class Blockchain::Ethereum::ABI::Decoder;
 
-=encoding utf8
-
-=head1 NAME
-
-Blockchain::Ethereum::ABI::Decoder - Contract ABI response decoder
+# AUTHORITY
+# VERSION
 
 =head1 SYNOPSIS
 
@@ -29,7 +27,7 @@ use Blockchain::Ethereum::ABI::Type::Tuple;
 
 field $_instances :reader(_instances) :writer(set_instances) = [];
 
-=head2 append
+=method append
 
 Appends type signature to the decoder.
 
@@ -53,7 +51,7 @@ method append ($param) {
     return $self;
 }
 
-=head2 decode
+=method decode
 
 Decodes appended signatures
 
@@ -92,23 +90,3 @@ method _clean {
 }
 
 1;
-
-__END__
-
-=head1 AUTHOR
-
-Reginaldo Costa, C<< <refeco at cpan.org> >>
-
-=head1 BUGS
-
-Please report any bugs or feature requests to L<https://github.com/refeco/perl-ABI>
-
-=head1 LICENSE AND COPYRIGHT
-
-This software is Copyright (c) 2022 by REFECO.
-
-This is free software, licensed under:
-
-  The MIT License
-
-=cut

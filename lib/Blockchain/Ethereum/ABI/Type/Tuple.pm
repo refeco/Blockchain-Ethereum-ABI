@@ -1,16 +1,14 @@
 use v5.26;
 use Object::Pad;
+# ABSTRACT: Solidity uint/int/bool type interface
 
-package Blockchain::Ethereum::ABI::Type::Tuple 0.012;
+package Blockchain::Ethereum::ABI::Type::Tuple;
 class Blockchain::Ethereum::ABI::Type::Tuple
     :isa(Blockchain::Ethereum::ABI::Type)
     :does(Blockchain::Ethereum::ABI::TypeRole);
 
-=encoding utf8
-
-=head1 NAME
-
-Blockchain::Ethereum::ABI::Tuple - Interface for solidity tuple type
+# AUTHORITY
+# VERSION
 
 =head1 SYNOPSIS
 
@@ -67,13 +65,9 @@ method _split_tuple_signature {
     return \@types;
 }
 
-=head2 encode
+=method encode
 
 Encodes the given data to the type of the signature
-
-Usage:
-
-    encode() -> encoded string
 
 =over 4
 
@@ -104,13 +98,9 @@ method encode {
     return $self->_encoded;
 }
 
-=head2 decode
+=method decode
 
 Decodes the given data to the type of the signature
-
-Usage:
-
-    decoded() -> array reference
 
 =over 4
 
@@ -144,23 +134,3 @@ method _static_size :override {
 }
 
 1;
-
-__END__
-
-=head1 AUTHOR
-
-Reginaldo Costa, C<< <refeco at cpan.org> >>
-
-=head1 BUGS
-
-Please report any bugs or feature requests to L<https://github.com/refeco/perl-ABI>
-
-=head1 LICENSE AND COPYRIGHT
-
-This software is Copyright (c) 2022 by REFECO.
-
-This is free software, licensed under:
-
-  The MIT License
-
-=cut

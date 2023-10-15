@@ -1,4 +1,6 @@
-Revision history for Blockchain-Ethereum-ABI
+{{$NEXT}}
+    [Improvements]
+    - Dist::Zilla
 0.012
     [Bug fixes]
     - Fix test for all supported perl versions
