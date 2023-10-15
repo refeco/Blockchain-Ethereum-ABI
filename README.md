@@ -8,6 +8,23 @@ version 0.013
 
 # SYNOPSIS
 
+The Contract Application Binary Interface (ABI) is the standard way to interact
+with contracts (Ethereum), this module aims to be an utility to encode/decode the given
+data according ABI type specification.
+
+Supports:
+
+- **address**
+- **bool**
+- **bytes(\\d+)?**
+- **(u)?int(\\d+)?**
+- **string**
+- **tuple**
+
+Also arrays \`((\\\[(\\d+)?\\\])+)?\` for the above mentioned types.
+
+Encoding:
+
 ```perl
 my $encoder = Blockchain::Ethereum::ABI::Encoder->new();
 $encoder->function('test')
@@ -23,30 +40,17 @@ $encoder->function('test')
     ->append('uint256[][][2]', [[[1]], [[2]]])
     # tuples arrays and tuples inside tuples
     ->append('((int256)[2])' => [[[1], [2]]])->encode;
+```
 
+Decoding
+
+```perl
 my $decoder = Blockchain::Ethereum::ABI::Decoder->new();
 $decoder
     ->append('uint256')
     ->append('bytes[]')
     ->decode('0x...');
 ```
-
-# OVERVIEW
-
-The Contract Application Binary Interface (ABI) is the standard way to interact
-with contracts (Ethereum), this module aims to be an utility to encode/decode the given
-data according ABI type specification.
-
-Supports:
-
-\- address
-\- bool
-\- bytes(\\d+)?
-\- (u)?int(\\d+)?
-\- string
-\- tuple
-
-Also arrays \`((\\\[(\\d+)?\\\])+)?\` for the above mentioned types.
 
 # AUTHOR
 

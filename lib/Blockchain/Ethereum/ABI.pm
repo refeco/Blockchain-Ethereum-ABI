@@ -8,7 +8,7 @@ class Blockchain::Ethereum::ABI;
 # AUTHORITY
 # VERSION
 
-=head1 OVERVIEW
+=head1 SYNOPSIS
 
 The Contract Application Binary Interface (ABI) is the standard way to interact
 with contracts (Ethereum), this module aims to be an utility to encode/decode the given
@@ -16,16 +16,25 @@ data according ABI type specification.
 
 Supports:
 
-- address
-- bool
-- bytes(\d+)?
-- (u)?int(\d+)?
-- string
-- tuple
+=over 4
+
+=item * B<address>
+
+=item * B<bool>
+
+=item * B<bytes(\d+)?>
+
+=item * B<(u)?int(\d+)?>
+
+=item * B<string>
+
+=item * B<tuple>
+
+=back
 
 Also arrays `((\[(\d+)?\])+)?` for the above mentioned types.
 
-=head1 SYNOPSIS
+Encoding:
 
     my $encoder = Blockchain::Ethereum::ABI::Encoder->new();
     $encoder->function('test')
@@ -41,6 +50,8 @@ Also arrays `((\[(\d+)?\])+)?` for the above mentioned types.
         ->append('uint256[][][2]', [[[1]], [[2]]])
         # tuples arrays and tuples inside tuples
         ->append('((int256)[2])' => [[[1], [2]]])->encode;
+
+Decoding
 
     my $decoder = Blockchain::Ethereum::ABI::Decoder->new();
     $decoder
