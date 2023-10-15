@@ -6,14 +6,47 @@ Blockchain::Ethereum::ABI - ABI utility for encoding/decoding ethereum contract 
 
 version 0.013
 
+# SYNOPSIS
+
+```perl
+my $encoder = Blockchain::Ethereum::ABI::Encoder->new();
+$encoder->function('test')
+    # string
+    ->append(string => 'Hello, World!')
+    # bytes
+    ->append(bytes => unpack("H*", 'Hello, World!'))
+    # tuple
+    ->append('(uint256,address)' => [75000000000000, '0x0000000000000000000000000000000000000000'])
+    # arrays
+    ->append('bool[]', [1, 0, 1, 0])
+    # multidimensional arrays
+    ->append('uint256[][][2]', [[[1]], [[2]]])
+    # tuples arrays and tuples inside tuples
+    ->append('((int256)[2])' => [[[1], [2]]])->encode;
+
+my $decoder = Blockchain::Ethereum::ABI::Decoder->new();
+$decoder
+    ->append('uint256')
+    ->append('bytes[]')
+    ->decode('0x...');
+```
+
 # OVERVIEW
 
 The Contract Application Binary Interface (ABI) is the standard way to interact
 with contracts (Ethereum), this module aims to be an utility to encode/decode the given
 data according ABI type specification.
 
-- **Encoder**: [Blockchain::Ethereum::ABI::Encoder](https://metacpan.org/pod/Blockchain%3A%3AEthereum%3A%3AABI%3A%3AEncoder)
-- **Decoder**: [Blockchain::Ethereum::ABI::Decoder](https://metacpan.org/pod/Blockchain%3A%3AEthereum%3A%3AABI%3A%3ADecoder)
+Supports:
+
+\- address
+\- bool
+\- bytes(\\d+)?
+\- (u)?int(\\d+)?
+\- string
+\- tuple
+
+Also arrays \`((\\\[(\\d+)?\\\])+)?\` for the above mentioned types.
 
 # AUTHOR
 
