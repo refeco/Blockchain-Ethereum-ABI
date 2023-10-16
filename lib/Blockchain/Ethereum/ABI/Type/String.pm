@@ -1,16 +1,14 @@
 use v5.26;
 use Object::Pad;
+# ABSTRACT: Solidity string type interface
 
-package Blockchain::Ethereum::ABI::Type::String 0.012;
+package Blockchain::Ethereum::ABI::Type::String;
 class Blockchain::Ethereum::ABI::Type::String
     :isa(Blockchain::Ethereum::ABI::Type)
     :does(Blockchain::Ethereum::ABI::TypeRole);
 
-=encoding utf8
-
-=head1 NAME
-
-Blockchain::Ethereum::ABI::String - Interface for solidity string type
+# AUTHORITY
+# VERSION
 
 =head1 SYNOPSIS
 
@@ -38,13 +36,9 @@ In most cases you don't want to use this directly, use instead:
 
 method _configure { return }
 
-=head2 encode
+=method encode
 
 Encodes the given data to the type of the signature
-
-Usage:
-
-    encode() -> encoded string
 
 =over 4
 
@@ -67,13 +61,9 @@ method encode {
     return $self->_encoded;
 }
 
-=head2 decode
+=method decode
 
 Decodes the given data to the type of the signature
-
-Usage:
-
-    decoded() -> string
 
 =over 4
 
@@ -94,23 +84,3 @@ method decode {
 }
 
 1;
-
-__END__
-
-=head1 AUTHOR
-
-Reginaldo Costa, C<< <refeco at cpan.org> >>
-
-=head1 BUGS
-
-Please report any bugs or feature requests to L<https://github.com/refeco/perl-ABI>
-
-=head1 LICENSE AND COPYRIGHT
-
-This software is Copyright (c) 2022 by REFECO.
-
-This is free software, licensed under:
-
-  The MIT License
-
-=cut

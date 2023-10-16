@@ -1,12 +1,12 @@
 use v5.26;
 use Object::Pad;
+# ABSTRACT: ABI utility for encoding/decoding ethereum contract arguments
 
-package Blockchain::Ethereum::ABI 0.012;
+package Blockchain::Ethereum::ABI;
 class Blockchain::Ethereum::ABI;
 
-=head1 NAME
-
-Blockchain::Ethereum::ABI - Contract ABI utilities
+# AUTHORITY
+# VERSION
 
 =head1 SYNOPSIS
 
@@ -14,29 +14,50 @@ The Contract Application Binary Interface (ABI) is the standard way to interact
 with contracts (Ethereum), this module aims to be an utility to encode/decode the given
 data according ABI type specification.
 
+Supports:
+
 =over 4
 
-=item * B<Encoder>: L<Blockchain::Ethereum::ABI::Encoder>
+=item * B<address>
 
-=item * B<Decoder>: L<Blockchain::Ethereum::ABI::Decoder>
+=item * B<bool>
+
+=item * B<bytes(\d+)?>
+
+=item * B<(u)?int(\d+)?>
+
+=item * B<string>
+
+=item * B<tuple>
 
 =back
 
-=head1 AUTHOR
+Also arrays C<((\[(\d+)?\])+)?> for the above mentioned types.
 
-Reginaldo Costa, C<< <refeco at cpan.org> >>
+Encoding:
 
-=head1 BUGS
+    my $encoder = Blockchain::Ethereum::ABI::Encoder->new();
+    $encoder->function('test')
+        # string
+        ->append(string => 'Hello, World!')
+        # bytes
+        ->append(bytes => unpack("H*", 'Hello, World!'))
+        # tuple
+        ->append('(uint256,address)' => [75000000000000, '0x0000000000000000000000000000000000000000'])
+        # arrays
+        ->append('bool[]', [1, 0, 1, 0])
+        # multidimensional arrays
+        ->append('uint256[][][2]', [[[1]], [[2]]])
+        # tuples arrays and tuples inside tuples
+        ->append('((int256)[2])' => [[[1], [2]]])->encode;
 
-Please report any bugs or feature requests to L<https://github.com/refeco/perl-ABI>
+Decoding
 
-=head1 LICENSE AND COPYRIGHT
-
-This software is Copyright (c) 2022 by REFECO.
-
-This is free software, licensed under:
-
-  The MIT License
+    my $decoder = Blockchain::Ethereum::ABI::Decoder->new();
+    $decoder
+        ->append('uint256')
+        ->append('bytes[]')
+        ->decode('0x...');
 
 =cut
 

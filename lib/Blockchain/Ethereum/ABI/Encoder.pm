@@ -1,14 +1,12 @@
 use v5.26;
 use Object::Pad ':experimental(init_expr)';
+# ABSTRACT: ABI utility for encoding ethereum contract arguments
 
-package Blockchain::Ethereum::ABI::Encoder 0.012;
+package Blockchain::Ethereum::ABI::Encoder;
 class Blockchain::Ethereum::ABI::Encoder;
 
-=encoding utf8
-
-=head1 NAME
-
-Blockchain::Ethereum::ABI::Encoder - Contract ABI argument encoder
+# AUTHORITY
+# VERSION
 
 =head1 SYNOPSIS
 
@@ -40,13 +38,9 @@ use Blockchain::Ethereum::ABI::Type::Tuple;
 field $_instances :reader(_instances) :writer(set_instances) = [];
 field $_function_name :reader(_function_name) :writer(set_function_name);
 
-=head2 append
+=method append
 
 Appends type signature and the respective values to the encoder.
-
-Usage:
-
-    append(signature => value) -> L<Blockchain::Ethereum::ABI::Encoder>
 
 =over 4
 
@@ -71,14 +65,10 @@ method append (%param) {
     return $self;
 }
 
-=head2 function
+=method function
 
 Appends the function name to the encoder, this is optional for when you want the
 function signature added to the encoded string or only the function name encoded.
-
-Usage:
-
-    function(string) -> L<Blockchain::Ethereum::ABI::Encoder>
 
 =over 4
 
@@ -96,14 +86,10 @@ method function ($function_name) {
     return $self;
 }
 
-=head2 generate_function_signature
+=method generate_function_signature
 
 Based on the given function name and type signatures create the complete function
 signature.
-
-Usage:
-
-    generate_function_signature() -> string
 
 =over 4
 
@@ -122,13 +108,9 @@ method generate_function_signature {
     return $signature . ')';
 }
 
-=head2 encode_function_signature
+=method encode_function_signature
 
 Encode function signature keccak_256/sha3
-
-Usage:
-
-    encode_function_signature('transfer(address,uint)') -> encoded string
 
 =over 4
 
@@ -145,7 +127,7 @@ method encode_function_signature ($signature = undef) {
     return sprintf("0x%.8s", keccak256_hex($signature // $self->generate_function_signature));
 }
 
-=head2 encode
+=method encode
 
 Encodes appended signatures and the function name (when given)
 
@@ -180,23 +162,3 @@ method _clean {
 }
 
 1;
-
-__END__
-
-=head1 AUTHOR
-
-Reginaldo Costa, C<< <refeco at cpan.org> >>
-
-=head1 BUGS
-
-Please report any bugs or feature requests to L<https://github.com/refeco/perl-ABI>
-
-=head1 LICENSE AND COPYRIGHT
-
-This software is Copyright (c) 2022 by REFECO.
-
-This is free software, licensed under:
-
-  The MIT License
-
-=cut

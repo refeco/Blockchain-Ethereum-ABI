@@ -1,27 +1,29 @@
-# perl ABI
+# NAME
 
-Application Binary Interface (ABI) utility for encoding and decoding solidity smart contract arguments
+Blockchain::Ethereum::ABI - ABI utility for encoding/decoding ethereum contract arguments
 
-# Table of contents
+# VERSION
 
-- [Supported types](#supports)
-- [Usage](#usage)
-- [Installation](#installation)
-- [Support and Documentation](#support-and-documentation)
-- [License and Copyright](#license-and-copyright)
+version 0.013
 
-# Supports
+# SYNOPSIS
 
-- address
-- bool
-- bytes(\d+)?
-- (u)?int(\d+)?
-- string
-- tuple
+The Contract Application Binary Interface (ABI) is the standard way to interact
+with contracts (Ethereum), this module aims to be an utility to encode/decode the given
+data according ABI type specification.
+
+Supports:
+
+- **address**
+- **bool**
+- **bytes(\\d+)?**
+- **(u)?int(\\d+)?**
+- **string**
+- **tuple**
 
 Also arrays `((\[(\d+)?\])+)?` for the above mentioned types.
 
-# Usage
+Encoding:
 
 ```perl
 my $encoder = Blockchain::Ethereum::ABI::Encoder->new();
@@ -38,7 +40,11 @@ $encoder->function('test')
     ->append('uint256[][][2]', [[[1]], [[2]]])
     # tuples arrays and tuples inside tuples
     ->append('((int256)[2])' => [[[1], [2]]])->encode;
+```
 
+Decoding
+
+```perl
 my $decoder = Blockchain::Ethereum::ABI::Decoder->new();
 $decoder
     ->append('uint256')
@@ -46,41 +52,16 @@ $decoder
     ->decode('0x...');
 ```
 
-# Installation
+# AUTHOR
 
-## cpanminus
+Reginaldo Costa <refeco@cpan.org>
 
-```
-cpanm Blockchain::Ethereum::ABI
-```
-
-## make
-
-```
-perl Makefile.PL
-make
-make test
-make install
-```
-
-# Support and Documentation
-
-After installing, you can find documentation for this module with the
-perldoc command.
-
-```
-perldoc Blockchain::Ethereum::ABI
-```
-
-You can also look for information at:
-
-- [Search CPAN](https://metacpan.org/release/Blockchain-Ethereum-ABI)
-
-# License and Copyright
+# COPYRIGHT AND LICENSE
 
 This software is Copyright (c) 2022 by REFECO.
 
 This is free software, licensed under:
 
-  [The MIT License](./LICENSE)
-
+```
+The MIT (X11) License
+```
