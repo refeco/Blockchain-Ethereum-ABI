@@ -20,7 +20,7 @@ my %WriteMakefileArgs = (
     "Crypt::Digest::Keccak256" => "0.078",
     "Math::BigInt" => "1.999811",
     "Module::Load" => "0.36",
-    "Object::Pad" => "0.79",
+    "Object::Pad" => "0.805",
     "Scalar::Util" => "1.63"
   },
   "TEST_REQUIRES" => {
@@ -30,7 +30,7 @@ my %WriteMakefileArgs = (
     "Test::CheckDeps" => "0.010",
     "Test::More" => "0.94"
   },
-  "VERSION" => "0.013",
+  "VERSION" => "0.014",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -44,7 +44,7 @@ my %FallbackPrereqs = (
   "IPC::Open3" => 0,
   "Math::BigInt" => "1.999811",
   "Module::Load" => "0.36",
-  "Object::Pad" => "0.79",
+  "Object::Pad" => "0.805",
   "Scalar::Util" => "1.63",
   "Test::CheckDeps" => "0.010",
   "Test::More" => "0.94"
