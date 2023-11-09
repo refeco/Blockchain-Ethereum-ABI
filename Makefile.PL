@@ -21,16 +21,18 @@ my %WriteMakefileArgs = (
     "Math::BigInt" => "1.999811",
     "Module::Load" => "0.36",
     "Object::Pad" => "0.805",
-    "Scalar::Util" => "1.63"
+    "Scalar::Util" => "1.63",
+    "indirect" => "0.39"
   },
   "TEST_REQUIRES" => {
     "File::Spec" => 0,
     "IO::Handle" => 0,
     "IPC::Open3" => 0,
     "Test::CheckDeps" => "0.010",
+    "Test::Fatal" => "0.017",
     "Test::More" => "0.94"
   },
-  "VERSION" => "0.014",
+  "VERSION" => "0.015",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -47,7 +49,9 @@ my %FallbackPrereqs = (
   "Object::Pad" => "0.805",
   "Scalar::Util" => "1.63",
   "Test::CheckDeps" => "0.010",
-  "Test::More" => "0.94"
+  "Test::Fatal" => "0.017",
+  "Test::More" => "0.94",
+  "indirect" => "0.39"
 );
 
 
