@@ -1,4 +1,6 @@
 {{$NEXT}}
+
+0.015     2023-11-09 01:45:19-03:00 America/Sao_Paulo
     [Bug Fixes]
     - Fix missing Test::Fatal and indirect prereqs
 0.014     2023-11-06 02:41:17-03:00 America/Sao_Paulo
