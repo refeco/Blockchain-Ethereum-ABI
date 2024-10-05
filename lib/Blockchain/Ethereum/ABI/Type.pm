@@ -6,6 +6,7 @@ no indirect;
 use feature 'signatures';
 
 use Object::Pad ':experimental(init_expr)';
+# ABSTRACT: Type interface
 
 package Blockchain::Ethereum::ABI::Type;
 class Blockchain::Ethereum::ABI::Type;

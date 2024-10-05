@@ -6,6 +6,7 @@ no indirect;
 use feature 'signatures';
 
 use Object::Pad;
+# ABSTRACT: Type interface roles
 
 package Blockchain::Ethereum::ABI::TypeRole;
 role Blockchain::Ethereum::ABI::TypeRole;
