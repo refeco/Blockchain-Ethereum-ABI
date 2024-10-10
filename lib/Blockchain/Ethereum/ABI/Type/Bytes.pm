@@ -1,18 +1,11 @@
-use v5.26;
+package Blockchain::Ethereum::ABI::Type::Bytes;
 
+use v5.26;
 use strict;
 use warnings;
 no indirect;
-use feature 'signatures';
 
-use Object::Pad;
 # ABSTRACT: Solidity bytes type interface
-
-package Blockchain::Ethereum::ABI::Type::Bytes;
-class Blockchain::Ethereum::ABI::Type::Bytes
-    :isa(Blockchain::Ethereum::ABI::Type)
-    :does(Blockchain::Ethereum::ABI::TypeRole);
-
 # AUTHORITY
 # VERSION
 
@@ -39,9 +32,11 @@ In most cases you don't want to use this directly, use instead:
 
 =cut
 
+use parent 'Blockchain::Ethereum::ABI::Type';
+
 use Carp;
 
-method _configure { return }
+sub _configure { return }
 
 =method encode
 
@@ -55,12 +50,13 @@ ABI encoded hex string
 
 =cut
 
-method encode {
+sub encode {
+    my $self = shift;
 
     return $self->_encoded if $self->_encoded;
     # remove 0x and validates the hexadecimal value
-    croak 'Invalid hexadecimal value ' . $self->data // 'undef'
-        unless $self->data =~ /^(?:0x|0X)?([a-fA-F0-9]+)$/;
+    croak 'Invalid hexadecimal value ' . $self->{data} // 'undef'
+        unless $self->{data} =~ /^(?:0x|0X)?([a-fA-F0-9]+)$/;
     my $hex = $1;
 
     my $data_length = length(pack("H*", $hex));
@@ -89,9 +85,10 @@ hexadecimal encoded bytes string
 
 =cut
 
-method decode {
+sub decode {
+    my $self = shift;
 
-    my @data = $self->data->@*;
+    my @data = $self->{data}->@*;
 
     my $hex_data;
     my $size = $self->fixed_length;

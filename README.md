@@ -4,7 +4,7 @@ Blockchain::Ethereum::ABI - ABI utility for encoding/decoding ethereum contract 
 
 # VERSION
 
-version 0.016
+version 0.017
 
 # SYNOPSIS
 

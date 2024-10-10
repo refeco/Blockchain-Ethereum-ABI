@@ -1,16 +1,11 @@
-use v5.26;
+package Blockchain::Ethereum::ABI::Encoder;
 
+use v5.26;
 use strict;
 use warnings;
 no indirect;
-use feature 'signatures';
 
-use Object::Pad ':experimental(init_expr)';
 # ABSTRACT: ABI utility for encoding ethereum contract arguments
-
-package Blockchain::Ethereum::ABI::Encoder;
-class Blockchain::Ethereum::ABI::Encoder;
-
 # AUTHORITY
 # VERSION
 
@@ -41,8 +36,15 @@ use Crypt::Digest::Keccak256 qw(keccak256_hex);
 use Blockchain::Ethereum::ABI::Type;
 use Blockchain::Ethereum::ABI::Type::Tuple;
 
-field $_instances :reader(_instances) :writer(set_instances) = [];
-field $_function_name :reader(_function_name) :writer(set_function_name);
+sub new {
+    my $class = shift;
+    my $self  = {
+        instances     => [],
+        function_name => undef,
+    };
+
+    return bless $self, $class;
+}
 
 =method append
 
@@ -58,11 +60,12 @@ Returns C<$self>
 
 =cut
 
-method append (%param) {
+sub append {
+    my ($self, %param) = @_;
 
     for my $type_signature (keys %param) {
         push(
-            $self->_instances->@*,
+            $self->{instances}->@*,
             Blockchain::Ethereum::ABI::Type->new(
                 signature => $type_signature,
                 data      => $param{$type_signature}));
@@ -86,9 +89,10 @@ Returns C<$self>
 
 =cut
 
-method function ($function_name) {
+sub function {
+    my ($self, $function_name) = @_;
 
-    $self->set_function_name($function_name);
+    $self->{function_name} = $function_name;
     return $self;
 }
 
@@ -105,11 +109,12 @@ Returns the function signature string
 
 =cut
 
-method generate_function_signature {
+sub generate_function_signature {
+    my $self = shift;
 
-    croak "Missing function name e.g. ->function('name')" unless $self->_function_name;
-    my $signature = $self->_function_name . '(';
-    $signature .= sprintf("%s,", $_->signature) for $self->_instances->@*;
+    croak "Missing function name e.g. ->function('name')" unless $self->{function_name};
+    my $signature = $self->{function_name} . '(';
+    $signature .= sprintf("%s,", $_->{signature}) for $self->{instances}->@*;
     chop $signature;
     return $signature . ')';
 }
@@ -128,7 +133,8 @@ Returns the encoded string 0x prefixed
 
 =cut
 
-method encode_function_signature ($signature = undef) {
+sub encode_function_signature {
+    my ($self, $signature) = @_;
 
     return sprintf("0x%.8s", keccak256_hex($signature // $self->generate_function_signature));
 }
@@ -149,22 +155,39 @@ Returns the encoded string, if function name was given will be 0x prefixed
 
 =cut
 
-method encode {
+sub encode {
+    my $self = shift;
 
     my $tuple = Blockchain::Ethereum::ABI::Type::Tuple->new;
-    $tuple->set_instances($self->_instances);
+    $tuple->{instances} = $self->{instances};
     my @data = $tuple->encode->@*;
-    unshift @data, $self->encode_function_signature if $self->_function_name;
+    unshift @data, $self->encode_function_signature if $self->{function_name};
 
     $self->_clean;
 
     return join('', @data);
 }
 
-method _clean {
+=method clean
 
-    $self->set_instances([]);
-    $self->set_function_name(undef);
+Clean up all the appended items and function name, this is called automatically after encode
+
+Usage:
+
+    clean() -> undef
+
+=over 4
+
+=back
+
+undef
+
+=cut
+
+sub _clean {
+    my $self = shift;
+    $self->{instances}     = [];
+    $self->{function_name} = undef;
 }
 
 1;

@@ -1,18 +1,11 @@
-use v5.26;
+package Blockchain::Ethereum::ABI::Type::Address;
 
+use v5.26;
 use strict;
 use warnings;
 no indirect;
-use feature 'signatures';
 
-use Object::Pad;
 # ABSTRACT: Solidity address type interface
-
-package Blockchain::Ethereum::ABI::Type::Address;
-class Blockchain::Ethereum::ABI::Type::Address
-    :isa(Blockchain::Ethereum::ABI::Type)
-    :does(Blockchain::Ethereum::ABI::TypeRole);
-
 # AUTHORITY
 # VERSION
 
@@ -39,7 +32,9 @@ In most cases you don't want to use this directly, use instead:
 
 =cut
 
-method _configure { return }
+use parent 'Blockchain::Ethereum::ABI::Type';
+
+sub _configure { return }
 
 =method encode
 
@@ -53,10 +48,11 @@ ABI encoded hex string
 
 =cut
 
-method encode {
+sub encode {
+    my $self = shift;
 
     return $self->_encoded if $self->_encoded;
-    $self->_push_static($self->pad_left(substr($self->data, 2)));
+    $self->_push_static($self->pad_left(substr($self->{data}, 2)));
 
     return $self->_encoded;
 }
@@ -73,9 +69,10 @@ String 0x prefixed address
 
 =cut
 
-method decode {
+sub decode {
+    my $self = shift;
 
-    return '0x' . substr $self->data->[0], -40;
+    return '0x' . substr $self->{data}->[0], -40;
 }
 
 1;

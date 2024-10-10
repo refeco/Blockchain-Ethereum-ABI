@@ -1,18 +1,11 @@
-use v5.26;
+package Blockchain::Ethereum::ABI::Type::Array;
 
+use v5.26;
 use strict;
 use warnings;
 no indirect;
-use feature 'signatures';
 
-use Object::Pad;
 # ABSTRACT: Solidity array type interface
-
-package Blockchain::Ethereum::ABI::Type::Array;
-class Blockchain::Ethereum::ABI::Type::Array
-    :isa(Blockchain::Ethereum::ABI::Type)
-    :does(Blockchain::Ethereum::ABI::TypeRole);
-
 # AUTHORITY
 # VERSION
 
@@ -39,14 +32,17 @@ In most cases you don't want to use this directly, use instead:
 
 =cut
 
+use parent 'Blockchain::Ethereum::ABI::Type';
+
 use Carp;
 
-method _configure {
+sub _configure {
+    my $self = shift;
 
-    return unless $self->data;
+    return unless $self->{data};
 
-    for my $item ($self->data->@*) {
-        push $self->_instances->@*,
+    for my $item ($self->{data}->@*) {
+        push $self->{instances}->@*,
             Blockchain::Ethereum::ABI::Type->new(
             signature => $self->_remove_parent,
             data      => $item
@@ -66,11 +62,12 @@ ABI encoded hex string
 
 =cut
 
-method encode {
+sub encode {
+    my $self = shift;
 
     return $self->_encoded if $self->_encoded;
 
-    my $length = scalar $self->data->@*;
+    my $length = scalar $self->{data}->@*;
     # for dynamic length arrays the length must be included
     $self->_push_static($self->_encode_length($length))
         unless $self->fixed_length;
@@ -80,7 +77,7 @@ method encode {
 
     my $offset = $self->_get_initial_offset;
 
-    for my $instance ($self->_instances->@*) {
+    for my $instance ($self->{instances}->@*) {
         $self->_push_static($self->_encode_offset($offset))
             if $instance->is_dynamic;
 
@@ -103,38 +100,42 @@ Array reference
 
 =cut
 
-method decode {
+sub decode {
+    my $self = shift;
 
-    my @data = $self->data->@*;
+    my @data = $self->{data}->@*;
 
-    my $size = $self->fixed_length // hex shift $self->data->@*;
-    push $self->_instances->@*, Blockchain::Ethereum::ABI::Type->new(signature => $self->_remove_parent) for 0 .. $size - 1;
+    my $size = $self->fixed_length // hex shift $self->{data}->@*;
+    push $self->{instances}->@*, Blockchain::Ethereum::ABI::Type->new(signature => $self->_remove_parent) for 0 .. $size - 1;
 
     return $self->_read_stack_set_data;
 }
 
-method _remove_parent {
+sub _remove_parent {
+    my $self = shift;
 
-    $self->signature =~ /(\[(\d+)?\]$)/;
-    return substr $self->signature, 0, length($self->signature) - length($1 // '');
+    $self->{signature} =~ /(\[(\d+)?\]$)/;
+    return substr $self->{signature}, 0, length($self->{signature}) - length($1 // '');
 }
 
-method fixed_length :override {
+sub fixed_length {
+    my $self = shift;
 
-    if ($self->signature =~ /\[(\d+)?\]$/) {
+    if ($self->{signature} =~ /\[(\d+)?\]$/) {
         return $1;
     }
     return undef;
 }
 
-method _static_size :override {
+sub _static_size {
+    my $self = shift;
 
     return 1 if $self->is_dynamic;
 
     my $size = $self->fixed_length;
 
     my $instance_size = 1;
-    for my $instance ($self->_instances->@*) {
+    for my $instance ($self->{instances}->@*) {
         $instance_size += $instance->_static_size;
     }
 
