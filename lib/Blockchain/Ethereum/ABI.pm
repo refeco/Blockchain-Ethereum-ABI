@@ -4,7 +4,6 @@ use v5.26;
 use strict;
 use warnings;
 no indirect;
-use feature 'signatures';
 
 # ABSTRACT: ABI utility for encoding/decoding ethereum contract arguments
 # AUTHORITY
