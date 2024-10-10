@@ -1,16 +1,12 @@
-use v5.26;
+package Blockchain::Ethereum::ABI;
 
+use v5.26;
 use strict;
 use warnings;
 no indirect;
 use feature 'signatures';
 
-use Object::Pad;
 # ABSTRACT: ABI utility for encoding/decoding ethereum contract arguments
-
-package Blockchain::Ethereum::ABI;
-class Blockchain::Ethereum::ABI;
-
 # AUTHORITY
 # VERSION
 
