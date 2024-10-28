@@ -15,5 +15,3 @@ subtest "No params function" => sub {
 };
 
 done_testing;
-
-
