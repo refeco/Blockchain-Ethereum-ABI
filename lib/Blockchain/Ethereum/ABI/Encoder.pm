@@ -3,7 +3,6 @@ package Blockchain::Ethereum::ABI::Encoder;
 use v5.26;
 use strict;
 use warnings;
-no indirect;
 
 # ABSTRACT: ABI utility for encoding ethereum contract arguments
 # AUTHORITY
@@ -113,9 +112,12 @@ sub generate_function_signature {
     my $self = shift;
 
     croak "Missing function name e.g. ->function('name')" unless $self->{function_name};
+
+    my @instances = $self->{instances}->@*;
+
     my $signature = $self->{function_name} . '(';
-    $signature .= sprintf("%s,", $_->{signature}) for $self->{instances}->@*;
-    chop $signature;
+    $signature .= sprintf("%s,", $_->{signature}) for @instances;
+    chop $signature if scalar @instances;
     return $signature . ')';
 }
 
@@ -160,7 +162,10 @@ sub encode {
 
     my $tuple = Blockchain::Ethereum::ABI::Type::Tuple->new;
     $tuple->{instances} = $self->{instances};
-    my @data = $tuple->encode->@*;
+
+    my $encoded = $tuple->encode;
+    my @data;
+    push @data, $tuple->encode->@* if $encoded;
     unshift @data, $self->encode_function_signature if $self->{function_name};
 
     $self->_clean;
