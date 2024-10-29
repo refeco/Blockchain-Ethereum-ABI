@@ -3,7 +3,6 @@ package Blockchain::Ethereum::ABI::Type::String;
 use v5.26;
 use strict;
 use warnings;
-no indirect;
 
 # ABSTRACT: Solidity string type interface
 # AUTHORITY

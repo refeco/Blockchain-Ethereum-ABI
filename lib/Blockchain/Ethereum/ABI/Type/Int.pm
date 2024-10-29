@@ -3,7 +3,6 @@ package Blockchain::Ethereum::ABI::Type::Int;
 use v5.26;
 use strict;
 use warnings;
-no indirect;
 
 # ABSTRACT: Solidity uint/int/bool type interface
 # AUTHORITY

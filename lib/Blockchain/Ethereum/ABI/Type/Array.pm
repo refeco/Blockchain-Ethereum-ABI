@@ -3,7 +3,6 @@ package Blockchain::Ethereum::ABI::Type::Array;
 use v5.26;
 use strict;
 use warnings;
-no indirect;
 
 # ABSTRACT: Solidity array type interface
 # AUTHORITY

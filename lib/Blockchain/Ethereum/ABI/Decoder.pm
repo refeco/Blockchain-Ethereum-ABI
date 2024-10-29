@@ -3,7 +3,6 @@ package Blockchain::Ethereum::ABI::Decoder;
 use v5.26;
 use strict;
 use warnings;
-no indirect;
 
 # ABSTRACT: ABI utility for decoding ethereum contract arguments
 # AUTHORITY
